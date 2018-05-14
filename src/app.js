@@ -26,9 +26,8 @@ firebase.auth().onAuthStateChanged((user) => {
         // if(localStorage.getItem('user')==null){
         //     window.location.reload();
         // }
-            
         store.dispatch(login(user));
-        store.dispatch(startSetUser()).then(() => {
+        store.dispatch(startSetUser(user.providerData[0].providerId)).then(() => {
             const json = JSON.stringify(user);
             localStorage.setItem('user', json);
             history.push('/locador');

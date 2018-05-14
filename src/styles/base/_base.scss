@@ -2529,7 +2529,13 @@ margin-top: 10px;
 }
 
 .aceite {
-margin-top: 150px;
+
+margin: 20px 20px 20px 25%;
+}
+.aceite input[type="checkbox"] {
+    margin: 0px 10px 0px 0px;
+    letter-spacing: 2px;
+    border : 1px;
 }
 
 /* Box */

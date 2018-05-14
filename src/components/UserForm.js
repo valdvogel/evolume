@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { history } from '../routes/AppRouter'
+import database from '../firebase/firebase';
 import { startAddUser } from '../actions/user';
 import { Encrypt } from './Cryptografy';
 
@@ -13,6 +14,8 @@ class UserForm extends React.Component {
             lastName: '',
             email: '',
             password: '',
+            terms: false,
+            data: [],
             error: ''
         }
     };
@@ -32,9 +35,26 @@ class UserForm extends React.Component {
         const lastName = e.target.value;
         this.setState(() => ({ lastName }))
     };
+    onTermsChange = (e) => {
+        const terms = !this.state.terms;
+        this.setState(() => ({ terms }))
+    };
+    getUser = (email) => {
+        const e = email;
+        let bln = true;
+        const data = this.state.data;
+
+        // verifica se existe algum usuário com mesmo email.
+        data.forEach((user) => {
+            if (user.email.toUpperCase() === e.toUpperCase()) {
+                this.setState(() => ({ error: "Esse email já está cadastrado!" }));
+                bln = false;
+            }
+        });
+        return bln;
+    };
     onSubmitForm = (e) => {
         e.preventDefault();
-
         if (!this.state.firstName) {
             this.setState(() => ({ error: "Por favor, informar o campo nome!" }));
             return false;
@@ -52,21 +72,56 @@ class UserForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo email corretamente!" }));
             return false;
         }
-
+        else if (!this.state.password) {
+            this.setState(() => ({ error: "Por favor, informar o campo senha!" }));
+            return false;
+        }
+        else if (!this.state.terms) {
+            this.setState(() => ({ error: "Por favor, acertar os termos de uso!" }));
+            return false;
+        }
 
         const pass = Encrypt(this.state.password);
 
-        this.props.dispatch(startAddUser({
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            password: pass
+        if(this.getUser(this.state.email)){
+            this.props.dispatch(startAddUser({
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: pass,
+                terms: this.state.terms,
+                active: false
+            },'evolume.com.br'
+            ));
+    
+            history.push('/sucess');
         }
-        ));
 
-        history.push('/sucess');
+        
+
+    };
 
 
+    componentDidMount = () => {
+        var data = [];
+        database.ref(`users`)
+            .once('value')
+            .then((snapshot) => {
+                snapshot.forEach((child) => {
+                    database.ref(`users/${child.key}/data`)
+                        .once('value')
+                        .then((snap) => {
+                            snap.forEach((user) => {
+                                data.push({
+                                    _id: user.key,
+                                    ...user.val()
+                                });
+
+                            });
+                        });
+                });
+            });
+        this.setState({ data: data });
     };
     render() {
         return (
@@ -78,61 +133,29 @@ class UserForm extends React.Component {
                     <div className="w3l-num">
                         <label className="head">Nome<span className="w3l-star"> * </span></label>
                         <input onChange={this.onFirstNameChange}
-                        value={this.state.firstName} type="text" placeholder="Nome" autoFocus  required=""/>
+                            value={this.state.firstName} type="text" placeholder="Nome" autoFocus required="" />
 
                     </div>
                     <div className="w3l-sym">
-                        <label className="head">Sobenome<span className="w3l-star"> * </span></label>
+                        <label className="head">Sobrenome<span className="w3l-star"> * </span></label>
                         <input onChange={this.onLastNameChange}
-                        value={this.state.lastName} type="text" placeholder="Sobrenome" required="" />
+                            value={this.state.lastName} type="text" placeholder="Sobrenome" required="" />
                     </div>
                     <div className="w3l-mail">
                         <label className="head">Email<span className="w3l-star"> * </span></label>
                         <input onChange={this.onEmailChange}
-                        value={this.state.Email} type="email" placeholder="Email" required="" />
+                            value={this.state.Email} type="email" placeholder="Email" required="" />
 
                     </div>
                     <div className="w3l-user">
                         <label className="head">Senha<span className="w3l-star"> * </span></label>
                         <input onChange={this.onPasswordChange}
-                        value={this.state.Email} type="password" placeholder="Senha" required="" />
-                    </div>
-                    <div className="w3l-num">
-                        <label className="head">RG<span className="w3l-star"> * </span></label>
-                        <input type="text" name="RG" placeholder="" required="" />
-                    </div>
-                    <div className="w3l-sym">
-                        <label className="head">CPF<span className="w3l-star"> * </span></label>
-                        <input type="text" name="CPF" placeholder="" required="" />
-                    </div>
-                    <div className="btn">
-                        <input type="file" name="anexo" defaultValue="Submit" />
-                    </div>
-                    <div className="clear"></div>
-                    <div className="w3l-user">
-                        <label className="head">Endereço<span className="w3l-star"> * </span></label>
-                        <input type="text" name="Endereço" placeholder="" required="" />
-                    </div>
-                    <div className="w3l-num">
-                        <label className="head">Cidade<span className="w3l-star"> * </span></label>
-                        <input type="text" name="Cidade" placeholder="" required="" />
-                    </div>
-                    <div className="w3l-sym">
-                        <label className="head">Estado<span className="w3l-star"> * </span></label>
-                        <input type="text" name="Estado" placeholder="" required="" />
-                    </div>
-                    <div className="clear"></div>
-                    <div className="w3l-num">
-                        <label className="head">CEP<span className="w3l-star"> * </span></label>
-                        <input type="text" name="CEP" placeholder="" required="" />
-                    </div>
-                    <div className="w3l-sym">
-                        <label className="head">Complemento<span className="w3l-star"></span></label>
-                        <input type="text" name="Complemento" placeholder="" />
+                            value={this.state.Email} type="password" placeholder="Senha" required="" />
                     </div>
                     <div className="aceite">
-                        <input type="checkbox" id="human" name="human" unchecked="true" />
-                        <label htmlFor="human">Estou de acordo com os termos de aceite</label>
+                        <input type="checkbox" id="human" name="human" checked={this.state.terms} onChange={this.onTermsChange}
+                        value={this.state.terms} />
+                        <label htmlFor="human">Estou de acordo com os <a href="https://s3.us-east-2.amazonaws.com/evolumebr/TermoUso_2018.pdf" target="_blank">termos de uso.</a></label>
                     </div>
                     <div className="clear"></div>
                     <div className="btn">
