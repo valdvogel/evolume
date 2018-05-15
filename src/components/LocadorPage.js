@@ -23,6 +23,9 @@ class LocadorPage extends React.Component {
     onSubmit = () => {
         console.log('submit');
     }
+    componentDidMount=()=>{
+        
+    };
 
     render() {
         const id = 12;

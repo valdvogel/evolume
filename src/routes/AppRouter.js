@@ -20,8 +20,10 @@ import RentPage from '../components/RentPage';
 import PaymentPage from '../components/PaymentPage';
 import ContractPage from '../components/ContractPage';
 import AboutUsPage from '../components/AboutUsPage';
+import AuthPage from '../components/AuthPage';
 import SucessPage from '../components/SucessPage';
 import ErrorPage from '../components/ErrorPage';
+AuthPage
 
 
 export const history = createHistory();
@@ -35,6 +37,7 @@ const AppRouter = () => (
                 <Route path="/cadastro" component={UserPage} />
                 <Route path="/sobrenos" component={AboutUsPage} />
                 <Route path="/login" component={LoginPage} />
+                <Route path="/autenticado" component={AuthPage} />
                 <Route path="/locatario" component={LocatarioPage} />
                 <Route path="/locador" component={LocadorPage} />
                 <Route path="/rent/:id" component={RentPage} />

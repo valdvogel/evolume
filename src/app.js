@@ -23,15 +23,18 @@ ReactDOM.render(jsx, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-        // if(localStorage.getItem('user')==null){
-        //     window.location.reload();
-        // }
-        store.dispatch(login(user));
-        store.dispatch(startSetUser(user.providerData[0].providerId)).then(() => {
+        
+        if(localStorage.getItem('user')==null){
             const json = JSON.stringify(user);
             localStorage.setItem('user', json);
+            window.location.reload();
+        }
+        store.dispatch(login(user));
+        store.dispatch(startSetUser(user.providerData[0].providerId)).then(() => {
+            // const json = JSON.stringify(user);
+            // localStorage.setItem('user', json);
             history.push('/locador');
-            //window.location.reload();
+
             
         });
     }
