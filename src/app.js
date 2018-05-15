@@ -31,11 +31,7 @@ firebase.auth().onAuthStateChanged((user) => {
         }
         store.dispatch(login(user));
         store.dispatch(startSetUser(user.providerData[0].providerId)).then(() => {
-            // const json = JSON.stringify(user);
-            // localStorage.setItem('user', json);
-            history.push('/locador');
-
-            
+            history.push('/locador');  
         });
     }
 });
