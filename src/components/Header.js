@@ -17,8 +17,9 @@ class Header extends React.Component {
     onClick = () => {
         localStorage.removeItem('user');
         this.props.startLogout();
-        window.location.reload();
         history.push('/');
+        window.location.reload();
+        
 
     }
     componentDidMount = () => {
