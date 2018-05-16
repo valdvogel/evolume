@@ -1,165 +1,103 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { history } from '../routes/AppRouter'
-import { Link } from 'react-router-dom';
-import { DateRangePicker } from 'react-dates';
-import { SingleDatePicker } from 'react-dates';
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
+import React, { Component } from 'react';
+import { ReactiveBase, DataSearch, NumberBox, DateRange, RangeSlider, ResultCard } from '@appbaseio/reactivesearch';
 
+export default () => (
+    <div className="container">
+        <ReactiveBase
+            app="housing"
+            credentials="0aL1X5Vts:1ee67be1-9195-4f4b-bd4f-a91cd1b5e4b5"
+            type="listing"
+            theme={{
+                primaryColor: '#FF3A4E',
+            }}
+        >
+            <nav className="nav">
+                <div className="title">Airbeds</div>
+            </nav>
+            <div className="left-col">
+            <DataSearch
+                    componentId="SearchSensor"
+                    dataField="name"
+                    title="Equipamento"
+                    autosuggest={false}
+                    placeholder="Equipamento"
+                    iconPosition="left"
+                    className="search"
+                    highlight={true}
+                />
+                <DateRange
+                    dataField="date_from"
+                    componentId="DateRangeSensor"
+                    title="Quando"
+                    numberOfMonths={2}
+                    queryFormat="basic_date"
+                    initialMonth={new Date('04-01-2018')}
+                    lang='de'
+                />
 
+                <NumberBox
+                    componentId="GuestSensor"
+                    dataField="accommodates"
+                    title="Quantidade"
+                    defaultSelected={2}
+                    labelPosition="right"
+                    data={{
+                        start: 1,
+                        end: 16,
+                    }}
+                />
 
-class LocadorPage extends React.Component {
-    state = {
-        calendarFocused: null
-    };
-    onDatesChange = ({ startDate, endDate }) => {
-        this.props.dispatch(setStartDate(startDate));
-        this.props.dispatch(setEndDate(endDate));
-    };
-    onFocusChange = (calendarFocused) => {
-        this.setState(() => { calendarFocused });
-    };
-    onSubmit = () => {
-        console.log('submit');
-    }
-    componentDidMount=()=>{
-        
-    };
-
-    render() {
-        const id = 12;
-        return (
-            <div>
-                <form onSubmit={this.onSubmitForm}>
-                    <input type="text" placeholder="Cidade de aluguel" autoFocus />
-                    <br />
-                    <select>
-                        <option>Escolha um fabricante</option>
-                        <option>Audi</option>
-                        <option>BMW</option>
-                        <option>Chery</option>
-                        <option>Chevrolet</option>
-                        <option>Chrysler</option>
-                        <option>Citroen</option>
-                        <option>Dodge</option>
-                        <option>Fiat</option>
-                        <option>Ford</option>
-                        <option>Honda</option>
-                        <option>Hyundai</option>
-                        <option>Infiniti</option>
-                        <option>JAC</option>
-                        <option>Jeep</option>
-                        <option>KIA</option>
-                        <option>Land Rover</option>
-                    </select>
-                    <br />
-                    <select>
-                        <option>Escolha modelo</option>
-                        <option>A1, 3-p Hatch, 10-></option>
-                        <option>A1, 5-p Hatch, 12-></option>
-                        <option>A3, 5-p Hatch, 96-06</option>
-                        <option>A3, 5-p Sedan, 13-></option>
-                        <option>A3, 5-p Sportback, 07-12</option>
-                        <option>A3, 5-p Sportback, 07-12</option>
-                        <option>A3, 5-p Sportback, 07-12</option>
-                        <option>A3, 5-p Sportback, 13-></option>
-                        <option>A3, 5-p Sportback, 12-></option>
-                        <option>A3, 5-p Sportback, 12-></option>
-                        <option>A4 Allroad, 5-p Estate, 08-12, 13-></option>
-                        <option>A4 Allroad, 5-p Estate, 08-12, 13-></option>
-                        <option>A4 Allroad, 5-p Estate, 08-12, 13-></option>
-                        <option>A4 Avant, 5-p Wagon, 08-15, 16-></option>
-                        <option>A4 Avant, 5-p Wagon, 08-15, 16-></option>
-                        <option>A4 Avant, 5-p Wagon, 96-07</option>
-                        <option>A4 Avant, 5-p Wagon, 96-07</option>
-                        <option>A4 Avant, 5-p Wagon, 96-07</option>
-                        <option>A4, 4-p Sedan, 08-15</option>
-                        <option>A4, 4-p Sedan, 16-></option>
-                        <option>A5, 3-dr Coupé, 07-></option>
-                        <option>A5, 5-dr Sportback, 09-></option>
-                        <option>A6 Allroad, 5-p Estate, 06-></option>
-                        <option>A6 Allroad, 5-p Estate, 06-></option>
-                        <option>A6 Avant, 5-p Wagon,  05-10, 11-></option>
-                        <option>A6 Avant, 5-p Wagon,  05-10, 11-></option>
-                        <option>A6 Avant, 5-p Wagon, 94-97, 98-04</option>
-                        <option>A6 Avant, 5-p Wagon, 94-97, 98-04</option>
-                        <option>A6 Avant, 5-p Wagon, 94-97, 98-04</option>
-                        <option>A6, 4-p Sedan, 04-10</option>
-                        <option>A6, 4-p Sedan, 11-></option>
-                        <option>A6, 4-p Sedan, 97-00, 01-03</option>
-                        <option>A7, 4-p Sportback, 11-></option>
-                        <option>A8, 4-p Sedan, 14-></option>
-                        <option>Q3, 5-p SUV, 12-></option>
-                        <option>Q3, 5-p SUV, 12-></option>
-                        <option>Q5, 5-p SUV, 10-16</option>
-                        <option>Q5, 5-p SUV, 10-16</option>
-                        <option>Q5, 5-p SUV, 17-></option>
-                        <option>Q5, 5-p SUV, 17-></option>
-                        <option>Q7, 5-p SUV, 06-15</option>
-                        <option>Q7, 5-p SUV, 06-15</option>
-                        <option>Q7, 5-p SUV, 15-></option>
-                        <option>Q7, 5-p SUV, 15-></option>
-                        <option>TT, 2-p Coupe, 06-></option>
-                    </select>
-                    <br />
-                    <select>
-                        <option>Escolha ano</option>
-                        <option>2010</option>
-                        <option>2011</option>
-                        <option>2012</option>
-                        <option>2013</option>
-                        <option>2014</option>
-                        <option>2015</option>
-                        <option>2016</option>
-                        <option>2017</option>
-                        <option>2018</option>
-                    </select>
-                    <br />
-                    <select>
-                        <option>Escolha equipamento</option>
-                        <option>Sem recomendacao</option>
-                        <option>WingBar Edge</option>
-                        <option>Suporte Barra</option>
-                        <option>Barra Retangular</option>
-                        <option>Barra Aluminio</option>
-                        <option>Slide Bar</option>
-                        <option>Smart Rack SquareBar</option>
-                        <option>Smart Rack AeroBar</option>
-                        <option>Adaptador</option>
-                    </select>
-                    <br />
-                    <DateRangePicker
-                        startDate={this.state.startDate} 
-                        startDateId="your_unique_start_date_id" 
-                        endDate={this.state.endDate}
-                        endDateId="your_unique_end_date_id"
-                        //onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} // PropTypes.func.isRequired,
-                        onDatesChange={this.onDatesChange}
-                        focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                        //focusedInput={this.state.calendarFocused}
-                        onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
-                        numberOfMonths={1}
-                        isOutsideRange={() => false}
-                        showClearDates={true}
-                        
-                    />
-                    <br />
-
-                    <Link to={`/rent/${id}`}>
-                        Alugar
-                    </Link>
-                </form>
+                <RangeSlider
+                    componentId="PriceSensor"
+                    dataField="price"
+                    title="Valores"
+                    range={{
+                        start: 10,
+                        end: 250,
+                    }}
+                    rangeLabels={{
+                        start: '$10',
+                        end: '$250',
+                    }}
+                    defaultSelected={{
+                        start: 10,
+                        end: 50,
+                    }}
+                    stepValue={10}
+                    interval={20}
+                    react={{
+                        and: ['DateRangeSensor'],
+                    }}
+                />
             </div>
-        );
-    }
 
-};
-
-
-
-const mapStateToProps = (state) => {
-
-};
-
-export default connect()(LocadorPage);
+            <ResultCard
+                className="right-col"
+                componentId="SearchResult"
+                dataField="name"
+                size={12}
+                onData={data => ({
+                    image: data.image,
+                    title: data.name,
+                    description: (
+                        <div>
+                            <div className="price">${data.price}</div>
+                            <p className="info">{data.room_type} · {data.accommodates} guests</p>
+                        </div>
+                    ),
+                    url: data.listing_url,
+                })}
+                pagination
+                react={{
+                    and: ['SearchSensor', 'GuestSensor', 'PriceSensor', 'DateRangeSensor', 'search'],
+                }}
+                innerClass={{
+                    resultStats: 'result-stats',
+                    list: 'list',
+                    listItem: 'list-item',
+                    image: 'image',
+                }}
+            />
+        </ReactiveBase>
+    </div>
+);
