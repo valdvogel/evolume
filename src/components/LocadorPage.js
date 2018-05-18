@@ -32,7 +32,6 @@ export default () => (
                     numberOfMonths={2}
                     queryFormat="basic_date"
                     initialMonth={new Date('04-01-2018')}
-                    lang='de'
                 />
 
                 <NumberBox
