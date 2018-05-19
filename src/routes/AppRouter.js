@@ -23,7 +23,7 @@ import AboutUsPage from '../components/AboutUsPage';
 import AuthPage from '../components/AuthPage';
 import SucessPage from '../components/SucessPage';
 import ErrorPage from '../components/ErrorPage';
-AuthPage
+import MainSearch from '../components/MainSearch';
 
 
 export const history = createHistory();
@@ -39,6 +39,7 @@ const AppRouter = () => (
                 <Route path="/login" component={LoginPage} />
                 <Route path="/autenticado" component={AuthPage} />
                 <Route path="/locatario" component={LocatarioPage} />
+                <Route path="/locatario/equimento/:value" component={LocatarioPage} />
                 <Route path="/locador" component={LocadorPage} />
                 <Route path="/rent/:id" component={RentPage} />
                 <Route path="/payment" component={PaymentPage} />

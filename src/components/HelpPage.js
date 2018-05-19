@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const HelpPage = () => (
     <div>
-        <section id="main" className="wrapper">
+        <section id="main" className="cadastro-wrapper">
             <div className="inner">
                 <header className="align-center">
                     <h2>Ajuda</h2>
@@ -20,8 +20,6 @@ const HelpPage = () => (
                 </header>
                 <p align="justify">
                     O atendimento compreende serviços de guincho para ocasiões especiais, para levar e trazer o veículo da revisão ou de um ponto a outro determinado pelo cliente. Há também serviços de chaveiro e de envio de técnico para socorro em caso de quebra do automóvel.</p>
-
-
 
             </div>
         </section>

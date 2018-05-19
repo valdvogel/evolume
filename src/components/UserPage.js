@@ -41,18 +41,20 @@ export default class UserFormPage extends React.Component {
 
   render() {
     return (
-      <section id="main" className="wrapper">
-        <header className="align-center">
-          <h2>Cadastro</h2>
-        </header>
-        <div className="inner">
-          <div className="w3l-main">
-            <div className="w3l-from">
-              <UserForm/>
+      <div>
+        <section id="main" className="cadastro-wrapper">
+          <div className="inner">
+            <header className="align-center">
+              <h2>Cadastro</h2>
+            </header>
+              <div className="w3l-main">
+                <div className="w3l-from">
+                  <UserForm />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     );
   }
 }

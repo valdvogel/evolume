@@ -7,6 +7,7 @@ import { startLogout } from '../actions/auth';
 import configureStore from '../store/configureStore'
 
 
+
 class Header extends React.Component {
     constructor(props) {
         super(props)
@@ -19,13 +20,14 @@ class Header extends React.Component {
         this.props.startLogout();
         history.push('/');
         window.location.reload();
-        
+
 
     }
     componentDidMount = () => {
         //console.log(this.state);
     }
     render() {
+
         const login = localStorage.getItem('user') != null ? true : false;
 
         if (!login) {
@@ -35,12 +37,16 @@ class Header extends React.Component {
                         <NavLink to="/" className="logo">
                             <img src="../images/logo_cut_white.png" width="100px" height="57px" />
                         </NavLink>
-                        <NavLink to="/sobrenos" activeClassName="is-active">Sobre Nós</NavLink>
-                        <NavLink to="/cadastro" activeClassName="is-active" exact={true}>Cadastrar</NavLink>
-                        <NavLink to="/login" activeClassName="is-active">Entrar</NavLink>
-                        <NavLink to="/help" activeClassName="is-active">Ajuda</NavLink>
+                        <nav id="nav">
+                            <NavLink to="/sobrenos" activeClassName="is-active">Sobre Nós</NavLink>
+                            <NavLink to="/cadastro" activeClassName="is-active" exact={true}>Cadastrar</NavLink>
+                            <NavLink to="/login" activeClassName="is-active">Entrar</NavLink>
+                            <NavLink to="/help" activeClassName="is-active">Ajuda</NavLink>
+                        </nav>
+                        <a href="#navPanel" className="navPanelToggle"><span className="fa fa-bars"></span></a>
                     </div>
                 </header>
+                
             )
         } else {
             return (

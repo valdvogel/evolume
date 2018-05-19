@@ -5,11 +5,11 @@ import LoginForm from './LoginForm';
 
 export const LoginPage = ({ startLoginGoogle, startLoginFacebook }) => (
     <div>
-        <section id="main" className="wrapper">
-            <header className="align-center">
-                <h2>Login</h2>
-            </header>
+        <section id="main" className="cadastro-wrapper">
             <div className="inner">
+                <header className="align-center">
+                    <h2>Login</h2>
+                </header>
                 <div className="w3l-main">
                     <div className="w3l-from">
                         <button onClick={startLoginGoogle} className="loginBtn loginBtn--google">Entrar com Google</button>

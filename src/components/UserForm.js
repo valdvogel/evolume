@@ -83,7 +83,7 @@ class UserForm extends React.Component {
 
         const pass = Encrypt(this.state.password);
 
-        if(this.getUser(this.state.email)){
+        if (this.getUser(this.state.email)) {
             this.props.dispatch(startAddUser({
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
@@ -91,13 +91,13 @@ class UserForm extends React.Component {
                 password: pass,
                 terms: this.state.terms,
                 active: false
-            },'evolume.com.br'
+            }, 'evolume.com.br'
             ));
-    
+
             history.push('/sucess');
         }
 
-        
+
 
     };
 
@@ -153,9 +153,12 @@ class UserForm extends React.Component {
                             value={this.state.Email} type="password" placeholder="Senha" required="" />
                     </div>
                     <div className="aceite">
-                        <input type="checkbox" id="human" name="human" checked={this.state.terms} onChange={this.onTermsChange}
-                        value={this.state.terms} />
+                        <div className="botaoaceite" >
+                            <input type="checkbox" id="human" name="human" checked={this.state.terms} onChange={this.onTermsChange}
+                                value={this.state.terms} />
+                        </div>
                         <label htmlFor="human">Estou de acordo com os <a href="https://s3.us-east-2.amazonaws.com/evolumebr/TermoUso_2018.pdf" target="_blank">termos de uso.</a></label>
+
                     </div>
                     <div className="clear"></div>
                     <div className="btn">
