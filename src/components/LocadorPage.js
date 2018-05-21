@@ -14,9 +14,9 @@ class LocadorPage extends React.Component {
         return (
             <div className="container">
                 <ReactiveBase
-                    app="housing"
-                    credentials="0aL1X5Vts:1ee67be1-9195-4f4b-bd4f-a91cd1b5e4b5"
-                    type="listing"
+                    app="evolumebr"
+                    credentials="xYM80w0w7:bb421d67-1ea4-43de-b213-91c81bc24514"
+                    type="equipment"
                     theme={{
                         primaryColor: '#FF3A4E',
                     }}
@@ -24,8 +24,8 @@ class LocadorPage extends React.Component {
                     <div className="left-col">
                         <DataSearch
                             componentId="SearchSensor"
-                            dataField="name"
-                            title="Equipamento"
+                            dataField="category"
+                            title="Equipamento :"
                             autosuggest={false}
                             placeholder="Equipamento"
                             iconPosition="left"
@@ -35,39 +35,26 @@ class LocadorPage extends React.Component {
                         <DateRange
                             dataField="date_from"
                             componentId="DateRangeSensor"
-                            title="Quando"
+                            title="Quando :"
                             numberOfMonths={2}
                             queryFormat="basic_date"
                             initialMonth={new Date('04-01-2018')}
                         />
-
-                        <NumberBox
-                            componentId="GuestSensor"
-                            dataField="accommodates"
-                            title="Quantidade"
-                            defaultSelected={2}
-                            labelPosition="right"
-                            data={{
-                                start: 1,
-                                end: 16,
-                            }}
-                        />
-
                         <RangeSlider
                             componentId="PriceSensor"
                             dataField="price"
-                            title="Valores"
+                            title="Valores :"
                             range={{
-                                start: 10,
-                                end: 250,
+                                start: 100,
+                                end: 150,
                             }}
                             rangeLabels={{
-                                start: '$10',
-                                end: '$250',
+                                start: '$100',
+                                end: '$150',
                             }}
                             defaultSelected={{
-                                start: 10,
-                                end: 50,
+                                start: 100,
+                                end: 150,
                             }}
                             stepValue={10}
                             interval={20}
@@ -80,18 +67,19 @@ class LocadorPage extends React.Component {
                     <ResultCard
                         className="right-col"
                         componentId="SearchResult"
-                        dataField="name"
+                        dataField="category"
                         size={12}
                         onData={data => ({
                             image: data.image,
-                            title: data.name,
+                            title: data.category,
                             description: (
                                 <div>
                                     <div className="price">${data.price}</div>
-                                    <p className="info">{data.room_type} · {data.accommodates} guests</p>
+                                    <p className="info">Contato : {data.contact}</p>
+                                    <p className="info">Rating : 5 estrelas</p>
                                 </div>
                             ),
-                            url: data.listing_url,
+                            url: data.url,
                         })}
                         pagination
                         react={{

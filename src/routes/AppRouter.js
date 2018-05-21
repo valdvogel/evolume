@@ -24,6 +24,7 @@ import AuthPage from '../components/AuthPage';
 import SucessPage from '../components/SucessPage';
 import ErrorPage from '../components/ErrorPage';
 import MainSearch from '../components/MainSearch';
+import AppBase from '../components/appbase';
 
 
 export const history = createHistory();
@@ -45,6 +46,7 @@ const AppRouter = () => (
                 <Route path="/payment" component={PaymentPage} />
                 <Route path="/contract" component={ContractPage} />
                 <Route path="/help" component={HelpPage} />
+                <Route path="/appbase" component={AppBase} />
                 <Route path="/sucess" component={SucessPage} />
                 <Route path="/error" component={ErrorPage} />
                 <Route component={NotFoundPage} />
