@@ -1897,14 +1897,27 @@ body, input, select, textarea {
 
     }
 
-a {
-    color: #5385c1;
-    text-decoration: underline;
+// a {
+//     //color: #5385c1;
+//     color: red;
+//     text-decoration: underline;
+// }
+
+//     a:hover {
+//         text-decoration: none;
+//     }
+
+a:link, a:visited {
+    color: #000000;
+    text-decoration: none;
+
 }
 
-    a:hover {
-        text-decoration: none;
-    }
+a:link:active, a:visited:active {
+    color: #000000;
+    text-decoration: none;
+
+}
 
 strong, b {
     color: #000000;
@@ -2046,7 +2059,8 @@ section.special, article.special {
 }
 
     section.special article, article.special article {
-        text-align: left;
+        text-align: justify;
+
     }
 /*
 section.wrapper, article.wrapper {

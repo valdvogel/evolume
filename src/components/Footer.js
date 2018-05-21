@@ -10,15 +10,15 @@ const Footer = () => (
             <div className="col-sm-3">
                 <h5><img src="./images/car-luggage.png" width="23" height="20" /> Acessórios</h5>
                 <ul>
-                    <li><Link to={`/locador/suporte bicicleta`}>Suportes Para Bicicletas</Link></li>
-                    <li><Link to={`/locador/rack teto`}>Racks Para Tetos</Link></li>
-                    <li><Link to={`/locador/rack para caminhao e van`}>Rack para caminhão</Link></li>
                     <li><Link to={`/locador/bagageiros`}>Bagageiros</Link></li>
-                    <li><Link to={`/locador/esportes aquaticos`}>Esportes Aquáticos</Link></li>
-                    <li><Link to={`/locador/esporte de inverno`}>Esportes de Inverno</Link></li>
-                    <li><Link to={`/locador/malas bicicletas`}>Malas Para Bicicletas</Link></li>
-                    <li><Link to={`/locador/cadeiras infantis`}>Cadeiras Infantis</Link></li>
                     <li><Link to={`/locador/bolsas`}>Bolsas</Link></li>
+                    <li><Link to={`/locador/cadeiras infantis`}>Cadeiras Infantis</Link></li>
+                    <li><Link to={`/locador/esportes aquaticos`}>Esportes Aquáticos</Link></li>
+                    <li><Link to={`/locador/esporte inverno`}>Esportes de Inverno</Link></li>
+                    <li><Link to={`/locador/malas bicicletas`}>Malas Para Bicicletas</Link></li>
+                    <li><Link to={`/locador/rack teto`}>Racks Para Tetos</Link></li>
+                    <li><Link to={`/locador/rack caminhao van`}>Racks Para Caminhão</Link></li>
+                    <li><Link to={`/locador/suporte bicicleta`}>Suportes Para Bicicletas</Link></li>
                     <li><Link to={`/locador`}>Ver Mais</Link></li>
                 </ul>
             </div>
@@ -27,7 +27,7 @@ const Footer = () => (
                 <ul>
                     <li><a href="#">Acompanhe nossas novidades, assine nossa newsletter!</a></li>
                     <li>
-                        <form method="post" action="#">
+                        <form>
                             <div className="cadbusca0">
                                 <div className="cadbusca1">
                                     <input type="text" name="query" id="query" value="" placeholder="Insira seu e-mail" />
@@ -41,18 +41,18 @@ const Footer = () => (
                 </ul>
                 <div className="copyright">
                     Copyright © {moment().format('YYYY')} Evolume - Todos os direitos reservados
-                        </div>
+                </div>
             </div>
             <div className="col-sm-3">
                 <h5><img src="./images/telephone.png" width="20" height="20" /> Contato</h5>
                 <ul>
-                    <li><a href="#">e-mail: contato@evolume.com.br</a></li>
+                    <li><a href="mailto:contato@evolume.com.br">e-mail: contato@evolume.com.br</a></li>
                     <li><a href="#">Tel.: (11) 3224-7890</a></li>
                 </ul>
                 <div className="social-icons">
-                    <a href="#" className="facebook"><img src="./images/facebook-logo.png" width="25" height="25" /></a>
-                    <a href="#" className="instagram"><img src="./images/instagram-logo.png" width="25" height="25" /></a>
-                    <a href="#" className="twitter"><img src="./images/twitter-logo.png" width="25" height="25" /></a>
+                    <a href="https://www.facebook.com/evolumebr" target="_blank" className="facebook"><img src="./images/facebook-logo.png" width="25" height="25" /></a>
+                    <a href="https://www.instagram.com/evolumebr" target="_blank" className="instagram"><img src="./images/instagram-logo.png" width="25" height="25" /></a>
+                    <a href="https://www.twitter.com/evolumebr" target="_blank" className="twitter"><img src="./images/twitter-logo.png" width="25" height="25" /></a>
                 </div>
             </div>
         </div>

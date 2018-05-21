@@ -72,17 +72,17 @@ const EquipmentMain = () => (
                     </div>
                     <div className="4u">
                         <div className="articleheader">
-                            <Link to={`/locador/esporte de inverno`}>
+                            <Link to={`/locador/esporte inverno`}>
                                 Suportes Para Equipamentos de Esportes de Inverno
                             </Link>
                         </div>
                         <p className="rowarticle1">
-                            <Link to={`/locador/esporte de inverno`}>
+                            <Link to={`/locador/esporte inverno`}>
                                 <img src="./images/icone_esportes_inverno_2.png" width="77" height="80" />
                             </Link>
                         </p>
                         <p className="rowarticle2">
-                            Oferemos uma variedade de racks para esqui e snowboard para parte traseira e teto do seu carro. Venha ver o nossas opções, sempre com os melhores preços online.
+                            Oferemos uma variedade de racks para esqui e snowboard para parte traseira e teto do seu carro. Venha ver as nossas opções, sempre com os melhores preços online.
                         </p>
                     </div>
                     <div className="4u">

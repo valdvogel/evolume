@@ -86,7 +86,7 @@ class LocadorPage extends React.Component {
                             title: data.category,
                             description: (
                                 <div>
-                                    <div className="price">${data.price}</div>
+                                    <div className="price">R$ {data.price}</div>
                                     <p className="info">Contato : {data.contact}</p>
                                     <p className="info">Estrela : 5 estrelas</p>
                                 </div>
