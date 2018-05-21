@@ -1,17 +1,25 @@
 import React from 'react';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
+
+
 
 const Footer = () => (
     <footer id="myFooter">
         <div className="row">
             <div className="col-sm-3">
-                <h5><img src="./images/car-luggage.png" width="23" height="20" /> Produtos</h5>
+                <h5><img src="./images/car-luggage.png" width="23" height="20" /> Acessórios</h5>
                 <ul>
-                    <li><a href="#">Racks</a></li>
-                    <li><a href="#">Suporte para Bicicletas</a></li>
-                    <li><a href="#">Bagageiros</a></li>
-                    <li><a href="#">Cadeiras Infantis</a></li>
-                    <li><a href="#">Bolsas</a></li>
-                    <li><a href="#">Ver Mais</a></li>
+                    <li><Link to={`/locador/suporte bicicleta`}>Suportes Para Bicicletas</Link></li>
+                    <li><Link to={`/locador/rack teto`}>Racks Para Tetos</Link></li>
+                    <li><Link to={`/locador/rack para caminhao e van`}>Rack para caminhão</Link></li>
+                    <li><Link to={`/locador/bagageiros`}>Bagageiros</Link></li>
+                    <li><Link to={`/locador/esportes aquaticos`}>Esportes Aquáticos</Link></li>
+                    <li><Link to={`/locador/esporte de inverno`}>Esportes de Inverno</Link></li>
+                    <li><Link to={`/locador/malas bicicletas`}>Malas Para Bicicletas</Link></li>
+                    <li><Link to={`/locador/cadeiras infantis`}>Cadeiras Infantis</Link></li>
+                    <li><Link to={`/locador/bolsas`}>Bolsas</Link></li>
+                    <li><Link to={`/locador`}>Ver Mais</Link></li>
                 </ul>
             </div>
             <div className="col-sm-3">
@@ -32,7 +40,7 @@ const Footer = () => (
                     </li>
                 </ul>
                 <div className="copyright">
-                    Copyright © 2018 Evolume - Todos os direitos reservados
+                    Copyright © {moment().format('YYYY')} Evolume - Todos os direitos reservados
                         </div>
             </div>
             <div className="col-sm-3">

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import ProcessMain from './ProcessMain';
 import { ReactiveBase, DataSearch, NumberBox, DateRange, RangeSlider, ResultCard } from '@appbaseio/reactivesearch';
+import moment from 'moment';
+
+
+
 
 class LocadorPage extends React.Component {
     componentDidMount=()=>{
@@ -9,7 +13,7 @@ class LocadorPage extends React.Component {
     constructor(props) {
         super(props);
         const param = this.props.location.pathname.substring(this.props.location.pathname.lastIndexOf('/')+1);
-        const value = param == ''? 'bike' : param;
+        const value = param == 'locador'? '' : param;
         this.state = {
             search: value,
             error: ''
@@ -41,7 +45,12 @@ class LocadorPage extends React.Component {
                             title="Quando :"
                             numberOfMonths={2}
                             queryFormat="basic_date"
-                            initialMonth={new Date('04-01-2018')}
+                            initialMonth={new Date(moment().format('MM-DD-YYYY'))}
+                            placeholder={{
+                                start: 'Data Inicial',
+                                end: 'Data Final'
+                            }}
+                            
                         />
                         <RangeSlider
                             componentId="PriceSensor"

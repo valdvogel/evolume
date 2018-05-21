@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const EquipmentMain = () => (
     <section id="two" className="wrapper style1 special">
@@ -9,58 +10,95 @@ const EquipmentMain = () => (
             <div className="box alt">
                 <div className="flex flex 2">
                     <div className="4u">
-                        <div className="articleheader">Suportes Para Bicicletas</div>
+                        <div className="articleheader">
+                            <Link to={`/locador/suporte bicicleta`}>
+                            Suportes Para Bicicletas
+                            </Link>
+                        </div>
                         <p className="rowarticle1">
-                            <img src="./images/icone_suporte_bicicleta.png" width="77" height="80" />
+                            <Link to={`/locador/suporte bicicleta`}>
+                                <img src="./images/icone_suporte_bicicleta.png" width="77" height="80" />
+                            </Link>
                         </p>
                         <p className="rowarticle2">
-                            Encontre o acessório mais próximo a sua localização de acordo com seu carro e necessidade.
+                            Encontre o melhor suporte de bicicleta para atender às suas necessidades. Aqui está uma seleção completa dos melhores suporte de bicicleta do mundo para o seu carro.
                         </p>
                     </div>
                     <div className="4u">
-                        <div className="articleheader">Racks Para Tetos</div>
+                        <div className="articleheader">
+                            <Link to={`/locador/rack teto`}>
+                                Racks Para Tetos
+                            </Link>
+                        </div>
                         <p className="rowarticle1">
-                            <img src="./images/icone_rack_teto.png" width="77" height="80" />
+                            <Link to={`/locador/rack teto`}>
+                                <img src="./images/icone_rack_teto.png" width="77" height="80" />
+                            </Link>
                         </p>
                         <p className="rowarticle2">
-                            Encontre o acessório mais próximo a sua localização de acordo com seu carro e necessidade.
-                    </p>
+                            Possuimos uma grande variedade de racks para tetos de carro. Caixas de carga, cestas e bolsas; encontre o melhor rack de carga para suas necessidades.
+                        </p>
                     </div>
                     <div className="4u">
-                        <div className="articleheader">Bagageiros</div>
+                        <div className="articleheader">
+                            <Link to={`/locador/bagageiro`}>
+                                Bagageiros
+                            </Link>
+                        </div>
                         <p className="rowarticle1">
-                            <img src="./images/icone_bagageiro_2.png" width="77" height="80" />
+                            <Link to={`/locador/bagageiro`}>
+                                <img src="./images/icone_bagageiro_2.png" width="77" height="80" />
+                            </Link>
                         </p>
                         <p className="rowarticle2">
-                            Encontre o acessório mais próximo a sua localização de acordo com seu carro e necessidade.
-                    </p>
+                            Encontre o melhor bagageiro que se adequa ao seu carro. As melhores marcas do mundo. Venha e veja porque somos os melhores.
+                        </p>
                     </div>
                     <div className="4u">
-                        <div className="articleheader">Suportes Para Equipamentos de Esportes Aquaticos</div>
+                        <div className="articleheader">
+                            <Link to={`/locador/esportes aquaticos`}>
+                                Suportes Para Equipamentos de Esportes Aquáticos
+                            </Link>
+                        </div>
                         <p className="rowarticle1">
-                            <img src="./images/icone_esportes_aquatico_2.png" width="77" height="80" />
+                            <Link to={`/locador/esportes aquaticos`}>
+                                <img src="./images/icone_esportes_aquatico_2.png" width="77" height="80" />
+                            </Link>
                         </p>
                         <p className="rowarticle2">
-                            Encontre o acessório mais próximo a sua localização de acordo com seu carro e necessidade.
-                    </p>
+                            Racks para Prancha de surf e Stand-Up-Paddle são a melhor maneira de levar suas pranchas à água sem ter que se preocupar.
+                            Dê uma olhada nos nossos racks de pranchas de surf e faça seu bate-volta sem dor de cabeça.    
+                        </p>
                     </div>
                     <div className="4u">
-                        <div className="articleheader">Suportes Para Equipamentos de Esportes de Inverno</div>
+                        <div className="articleheader">
+                            <Link to={`/locador/esporte de inverno`}>
+                                Suportes Para Equipamentos de Esportes de Inverno
+                            </Link>
+                        </div>
                         <p className="rowarticle1">
-                            <img src="./images/icone_esportes_inverno_2.png" width="77" height="80" />
+                            <Link to={`/locador/esporte de inverno`}>
+                                <img src="./images/icone_esportes_inverno_2.png" width="77" height="80" />
+                            </Link>
                         </p>
                         <p className="rowarticle2">
-                            Encontre o acessório mais próximo a sua localização de acordo com seu carro e necessidade.
-                    </p>
+                            Oferemos uma variedade de racks para esqui e snowboard para parte traseira e teto do seu carro. Venha ver o nossas opções, sempre com os melhores preços online.
+                        </p>
                     </div>
                     <div className="4u">
-                        <div className="articleheader2">Malas Para Bicicletas</div>
+                        <div className="articleheader2">
+                            <Link to={`/locador/malas bicicletas`}>
+                                Malas Para Bicicletas
+                            </Link>
+                        </div>
                         <p className="rowarticle1">
-                            <img src="./images/icone_malas_bicicletas.png" width="77" height="80" />
+                            <Link to={`/locador/malas bicicletas`}>
+                                <img src="./images/icone_malas_bicicletas.png" width="77" height="80" />
+                            </Link>
                         </p>
                         <p className="rowarticle2">
-                            Encontre o acessório mais próximo a sua localização de acordo com seu carro e necessidade.
-                    </p>
+                            Um case de viagem de bicicleta transporta sua bicicleta com segurança, cuidado e sem complicações. Cada mala de bicicleta é resistente por fora e inteligente por dentro. Escolha já a sua.
+                        </p>
                     </div>
                 </div>
             </div>
