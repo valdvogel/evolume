@@ -17,13 +17,12 @@ class MainSearch extends React.Component {
     };
     onSubmitForm = (e) => {
         e.preventDefault();
-        if(this.state.search == '')
+        if (this.state.search == '')
             return false;
-        else{
-            console.log(this.state.search);
-            history.push(`/locador/equipamento/${this.state.search.toLowerCase()}`);
+        else {
+            history.push(`/locador/equipamento?q=${this.state.search.toLowerCase()}`);
         }
-        
+
     };
     render() {
         const data = [
@@ -57,15 +56,15 @@ class MainSearch extends React.Component {
                         <div className="busca0">
                             <div className="busca1">
                                 <ReactiveBase
-                                    app="housing"
-                                    credentials="0aL1X5Vts:1ee67be1-9195-4f4b-bd4f-a91cd1b5e4b5"
-                                    type="listing"
+                                    app="evolumebr"
+                                    credentials="xYM80w0w7:bb421d67-1ea4-43de-b213-91c81bc24514"
+                                    type="equipment"
                                 >
                                     <DataSearch
                                         componentId="search"
-                                        dataField="name"
-                                        style={{"paddingBottom": "350px"}}
-                                        onValueChange = {this.onSearch}
+                                        dataField="category"
+                                        style={{ "paddingBottom": "350px" }}
+                                        onValueChange={this.onSearch}
                                         defaultSuggestions={data}
                                         //icon= "../images/favicon.png"
                                         placeholder="Ex.: Suporte para bicicletas"
@@ -86,5 +85,5 @@ class MainSearch extends React.Component {
     }
 }
 
- export default MainSearch;
+export default MainSearch;
 

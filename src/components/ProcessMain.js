@@ -34,7 +34,7 @@ const ProcessMain = () => (
                         <p>Use o acessório para o que deseja. Passear, viajar, pedalar... Agora é pé na estrada!</p>
                     </div>
                     <div className="icone_use">
-                        <a href="home.html" ><img src="images/jeep.png" width="64px" height="40px"/></a>
+                        <a href="home.html" ><img src="./images/jeep.png" width="55px" height="40px"/></a>
                     </div>
 
                 </article>

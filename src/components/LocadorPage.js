@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import ProcessMain from './ProcessMain';
+import queryString from 'query-string'
 import { ReactiveBase, DataSearch, NumberBox, DateRange, RangeSlider, ResultCard } from '@appbaseio/reactivesearch';
 
 class LocadorPage extends React.Component {
+    componentDidMount=()=>{
+        
+    };
     constructor(props) {
         super(props);
+        const param = queryString.parse(this.props.location.search);
+        const value = param.q == ''? 'bike' : param.q;
         this.state = {
-            search: '',
+            search: value,
             error: ''
         }
-        //console.log(props.match.params.value);
     };
     render() {
         return (
@@ -17,9 +23,6 @@ class LocadorPage extends React.Component {
                     app="evolumebr"
                     credentials="xYM80w0w7:bb421d67-1ea4-43de-b213-91c81bc24514"
                     type="equipment"
-                    theme={{
-                        primaryColor: '#FF3A4E',
-                    }}
                 >
                     <div className="left-col">
                         <DataSearch
@@ -31,6 +34,7 @@ class LocadorPage extends React.Component {
                             iconPosition="left"
                             className="search"
                             highlight={true}
+                            defaultSelected= {this.state.search}
                         />
                         <DateRange
                             dataField="date_from"
@@ -45,15 +49,15 @@ class LocadorPage extends React.Component {
                             dataField="price"
                             title="Valores :"
                             range={{
-                                start: 100,
-                                end: 150,
+                                start: 10,
+                                end: 250,
                             }}
                             rangeLabels={{
-                                start: '$100',
-                                end: '$150',
+                                start: 'R$10',
+                                end: 'R$250',
                             }}
                             defaultSelected={{
-                                start: 100,
+                                start: 50,
                                 end: 150,
                             }}
                             stepValue={10}
@@ -76,7 +80,7 @@ class LocadorPage extends React.Component {
                                 <div>
                                     <div className="price">${data.price}</div>
                                     <p className="info">Contato : {data.contact}</p>
-                                    <p className="info">Rating : 5 estrelas</p>
+                                    <p className="info">Estrela : 5 estrelas</p>
                                 </div>
                             ),
                             url: data.url,
@@ -94,6 +98,7 @@ class LocadorPage extends React.Component {
                     />
                 </ReactiveBase>
             </div>
+
         )
 
     }
