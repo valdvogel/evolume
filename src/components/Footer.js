@@ -42,6 +42,10 @@ const Footer = () => (
                 <div className="copyright">
                     Copyright © {moment().format('YYYY')} Evolume - Todos os direitos reservados
                 </div>
+                <div className="politicas">
+                    <a href="https://s3.us-east-2.amazonaws.com/evolumebr/TermoUso_2018.pdf" target="_blank">Termos de uso</a> - 
+                    <a href="https://s3.us-east-2.amazonaws.com/evolumebr/PoliticaPrivacidade_2018.pdf" target="_blank">Política de privacidade</a>
+                </div>
             </div>
             <div className="col-sm-3">
                 <h5><img src="./images/telephone.png" width="20" height="20" /> Contato</h5>
