@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ProcessMain from './ProcessMain';
-import queryString from 'query-string'
 import { ReactiveBase, DataSearch, NumberBox, DateRange, RangeSlider, ResultCard } from '@appbaseio/reactivesearch';
 
 class LocadorPage extends React.Component {
@@ -9,8 +8,8 @@ class LocadorPage extends React.Component {
     };
     constructor(props) {
         super(props);
-        const param = queryString.parse(this.props.location.search);
-        const value = param.q == ''? 'bike' : param.q;
+        const param = this.props.location.pathname.substring(this.props.location.pathname.lastIndexOf('/')+1);
+        const value = param == ''? 'bike' : param;
         this.state = {
             search: value,
             error: ''

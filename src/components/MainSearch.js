@@ -20,7 +20,7 @@ class MainSearch extends React.Component {
         if (this.state.search == '')
             return false;
         else {
-            history.push(`/locador/equipamento?q=${this.state.search.toLowerCase()}`);
+            history.push(`/locador/equipamento/${this.state.search.toLowerCase()}`);
         }
 
     };
