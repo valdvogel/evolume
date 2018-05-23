@@ -91,7 +91,7 @@ class LocadorPage extends React.Component {
                                     <p className="info">Estrela : 5 estrelas</p>
                                 </div>
                             ),
-                            url: data.url,
+                            url: "/rent/123",
                         })}
                         pagination
                         react={{
