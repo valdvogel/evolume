@@ -10,15 +10,12 @@ const Footer = () => (
             <div className="col-sm-3">
                 <h5><img src="./images/car-luggage.png" width="23" height="20" /> Acessórios</h5>
                 <ul>
+                    <li><Link to={`/locador/suporte bicicleta`}>Suportes Para Bicicletas</Link></li>
+                    <li><Link to={`/locador/rack teto`}>Racks Para Tetos</Link></li>
                     <li><Link to={`/locador/bagageiros`}>Bagageiros</Link></li>
-                    <li><Link to={`/locador/bolsas`}>Bolsas</Link></li>
-                    <li><Link to={`/locador/cadeiras infantis`}>Cadeiras Infantis</Link></li>
                     <li><Link to={`/locador/esportes aquaticos`}>Esportes Aquáticos</Link></li>
                     <li><Link to={`/locador/esporte inverno`}>Esportes de Inverno</Link></li>
                     <li><Link to={`/locador/malas bicicletas`}>Malas Para Bicicletas</Link></li>
-                    <li><Link to={`/locador/rack teto`}>Racks Para Tetos</Link></li>
-                    <li><Link to={`/locador/rack caminhao van`}>Racks Para Caminhão</Link></li>
-                    <li><Link to={`/locador/suporte bicicleta`}>Suportes Para Bicicletas</Link></li>
                     <li><Link to={`/locador`}>Ver Mais</Link></li>
                 </ul>
             </div>

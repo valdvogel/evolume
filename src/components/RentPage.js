@@ -3,16 +3,17 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
 
-const RentPage =(props)=>{
+const RentPage = (props) => {
 
-    //console.log(props);
 
-    return(
+    return (
         <div>
+
             Produto para aluguel {props.match.params.id}
-            <br/>
+            <br />
+            
             <Link to={`/payment`}>
-                Pagamento   
+                Pagamento
             </Link>
         </div>
     );

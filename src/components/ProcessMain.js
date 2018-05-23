@@ -12,7 +12,7 @@ const ProcessMain = () => (
                         <p>Encontre o acessório mais próximo a sua localização de acordo com seu carro e necessidade.</p>
                     </div>
                     <div className="icone_encontre">
-                        <a href="home.html" ><img src="./images/magnifier.png" width="40px" height="40px"/></a>
+                        <img src="./images/magnifier.png" width="40px" height="40px"/>
                     </div>
                 </article>
                 <article>
@@ -23,7 +23,7 @@ const ProcessMain = () => (
                         <p>Contrate o acessório escolhido com segurança e conforto.</p>
                     </div>
                     <div className="icone_contrate">
-                        <a href="home.html" ><img src="./images/hand_shake.png" width="49px" height="40px"/></a>
+                        <img src="./images/hand_shake.png" width="49px" height="40px"/>
                     </div>
                 </article>
                 <article>
@@ -34,7 +34,7 @@ const ProcessMain = () => (
                         <p>Use o acessório para o que deseja. Passear, viajar, pedalar... Agora é pé na estrada!</p>
                     </div>
                     <div className="icone_use">
-                        <a href="home.html" ><img src="./images/jeep.png" width="55px" height="40px"/></a>
+                        <img src="./images/jeep.png" width="55px" height="40px"/>
                     </div>
 
                 </article>
