@@ -80,6 +80,7 @@ class LocadorPage extends React.Component {
                         className="right-col"
                         componentId="SearchResult"
                         dataField="category"
+                        onNoResults = "Nenhum resultado encontrado!"
                         size={12}
                         onData={data => ({
                             image: data.image,
@@ -93,6 +94,7 @@ class LocadorPage extends React.Component {
                             ),
                             url: "/rent/123",
                         })}
+                        target
                         pagination
                         react={{
                             and: ['SearchSensor', 'GuestSensor', 'PriceSensor', 'DateRangeSensor', 'search'],
