@@ -30,10 +30,11 @@ firebase.auth().onAuthStateChanged((user) => {
             const json = JSON.stringify(user);
             localStorage.setItem('user', json);
             window.location.reload();
+            history.push('/locatario');  
+
         }
         store.dispatch(login(user));
         store.dispatch(startSetUser(user.providerData[0].providerId)).then(() => {
-            history.push('/locador');  
         });
     }
 });

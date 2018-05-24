@@ -11,12 +11,12 @@ const EquipmentMain = () => (
                 <div className="flex flex 2">
                     <div className="4u">
                         <div className="articleheader">
-                            <Link to={`/locador/suporte bicicleta`}>
+                            <Link to={`/locatario/suporte bicicleta`}>
                             Suportes Para Bicicletas
                             </Link>
                         </div>
                         <p className="rowarticle1">
-                            <Link to={`/locador/suporte bicicleta`}>
+                            <Link to={`/locatario/suporte bicicleta`}>
                                 <img src="./images/icone_suporte_bicicleta.png" width="77" height="80" />
                             </Link>
                         </p>
@@ -26,12 +26,12 @@ const EquipmentMain = () => (
                     </div>
                     <div className="4u">
                         <div className="articleheader">
-                            <Link to={`/locador/rack teto`}>
+                            <Link to={`/locatario/rack teto`}>
                                 Racks Para Tetos
                             </Link>
                         </div>
                         <p className="rowarticle1">
-                            <Link to={`/locador/rack teto`}>
+                            <Link to={`/locatario/rack teto`}>
                                 <img src="./images/icone_rack_teto.png" width="77" height="80" />
                             </Link>
                         </p>
@@ -41,12 +41,12 @@ const EquipmentMain = () => (
                     </div>
                     <div className="4u">
                         <div className="articleheader">
-                            <Link to={`/locador/bagageiro`}>
+                            <Link to={`/locatario/bagageiro`}>
                                 Bagageiros
                             </Link>
                         </div>
                         <p className="rowarticle1">
-                            <Link to={`/locador/bagageiro`}>
+                            <Link to={`/locatario/bagageiro`}>
                                 <img src="./images/icone_bagageiro_2.png" width="77" height="80" />
                             </Link>
                         </p>
@@ -56,12 +56,12 @@ const EquipmentMain = () => (
                     </div>
                     <div className="4u">
                         <div className="articleheader">
-                            <Link to={`/locador/esportes aquaticos`}>
+                            <Link to={`/locatario/esportes aquaticos`}>
                                 Suportes Para Equipamentos de Esportes Aquáticos
                             </Link>
                         </div>
                         <p className="rowarticle1">
-                            <Link to={`/locador/esportes aquaticos`}>
+                            <Link to={`/locatario/esportes aquaticos`}>
                                 <img src="./images/icone_esportes_aquatico_2.png" width="77" height="80" />
                             </Link>
                         </p>
@@ -72,12 +72,12 @@ const EquipmentMain = () => (
                     </div>
                     <div className="4u">
                         <div className="articleheader">
-                            <Link to={`/locador/esporte inverno`}>
+                            <Link to={`/locatario/esporte inverno`}>
                                 Suportes Para Equipamentos de Esportes de Inverno
                             </Link>
                         </div>
                         <p className="rowarticle1">
-                            <Link to={`/locador/esporte inverno`}>
+                            <Link to={`/locatario/esporte inverno`}>
                                 <img src="./images/icone_esportes_inverno_2.png" width="77" height="80" />
                             </Link>
                         </p>
@@ -87,12 +87,12 @@ const EquipmentMain = () => (
                     </div>
                     <div className="4u">
                         <div className="articleheader2">
-                            <Link to={`/locador/malas bicicletas`}>
+                            <Link to={`/locatario/malas bicicletas`}>
                                 Malas Para Bicicletas
                             </Link>
                         </div>
                         <p className="rowarticle1">
-                            <Link to={`/locador/malas bicicletas`}>
+                            <Link to={`/locatario/malas bicicletas`}>
                                 <img src="./images/icone_malas_bicicletas.png" width="77" height="80" />
                             </Link>
                         </p>

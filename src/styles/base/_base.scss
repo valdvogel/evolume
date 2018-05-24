@@ -2,15 +2,19 @@
 
 /*rent*/
 
-
 .featured-testimonials-section {
   background: #e6e6e6;
   padding: 2rem 1rem;
 }
 
+
 .featured-testimonials-section .featured-testimonials-container .orbit-previous {
   color: #0a0a0a;
   left: -1rem;
+}
+
+.checked {
+    color: orange;
 }
 
 .featured-testimonials-section .featured-testimonials-container .orbit-next {
@@ -3802,4 +3806,3 @@ float: right;
     text-align: center;
 }
 }
-

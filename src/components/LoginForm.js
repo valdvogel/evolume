@@ -41,7 +41,7 @@ class LoginForm extends React.Component {
                     const json = JSON.stringify(user);
                     localStorage.setItem('user', json);
 
-                    history.push('/locador');
+                    history.push('/locatario');
                     window.location.reload();
                 }
                 else {
