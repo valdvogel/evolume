@@ -1,8 +1,10 @@
 import React from 'react';
 import { history } from '../routes/AppRouter'
+import { Link } from 'react-router-dom'
 import appbaseRef from '../elasticsearch/elasticsearch';
 import moment from 'moment';
 import { DateRangePicker } from 'react-dates';
+import numeral from 'numeral';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -98,8 +100,8 @@ class ProductPage extends React.Component {
                                         <span className="fa fa-star checked"></span>
                                         <span className="fa fa-star checked"></span>
                                         <span className="fa fa-star checked"></span>
-                                        <span className="fa fa-star"></span>
-                                        <span className="fa fa-star"></span>
+                                        <span className="fa fa-star checked"></span>
+                                        <span className="fa fa-star checked"></span>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +111,6 @@ class ProductPage extends React.Component {
                                 <div className="product-details-add-to-cart">
                                     <p>
                                         <span className="in-stock">Período de aluguel</span>
-                                        <span className="dim-text"></span>
                                     </p>
                                     <DateRangePicker
                                         startDate={this.state.startDate} // momentPropTypes.momentObj or null,
@@ -121,10 +122,19 @@ class ProductPage extends React.Component {
                                         focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
                                         onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
                                         showClearDates={true}
+                                        displayFormat="DD/MM/YYYY"
+                                        startDatePlaceholderText = 'Data Inicial'
+                                        endDatePlaceholderText = 'Data Final'
                                     />
                                     <hr />
-                                    <p className="price">R$ {this.state.priceTotal}</p>
-                                    <p> <span>Dias : {this.state.days}</span> </p>
+                                    <div className="row">
+                                        <p className="qty">Diária :</p>
+                                        <p className="price">R$ {numeral(this.state.price).format('0.00')}</p> 
+                                    </div>
+                                    <div className="row">
+                                        <p className="qty">Dias Selecionados : {this.state.days}</p>
+                                        <p className="price">R$ {numeral(this.state.priceTotal).format('0.00')}</p> 
+                                    </div>
                                     <button className="buttonRent">Reservar agora!</button>
                                 </div>
                             </div>

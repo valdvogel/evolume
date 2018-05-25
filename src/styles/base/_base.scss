@@ -71,7 +71,7 @@
 
 .product-details {
     background-color: #fefefe;
-    padding: 2rem;
+    //padding: 2rem;
   }
   
   .product-option-selection input[type=radio] {
@@ -108,9 +108,15 @@
     padding: 5px;
   }
   
+  .product-details h2{
+    color: #000000;
+    font-weight: bold;   
+  }
+  
   .product-details-add-to-cart .in-stock {
     color: #1eac60;
     font-weight: 700;
+    font-size: 24px;
   }
   
   .product-details-add-to-cart .dim-text {
@@ -125,11 +131,9 @@
   }
   
   .product-details-add-to-cart .qty {
-    width: 60px;
-    display: inline-block;
-    text-align: center;
-    margin-left: 15px;
-    margin-bottom: 0;
+    float: left;
+    font-weight: 600;
+    font-size: 24px;
   }
   
   .product-details-add-to-cart .button {
@@ -3806,3 +3810,5 @@ float: right;
     text-align: center;
 }
 }
+
+
