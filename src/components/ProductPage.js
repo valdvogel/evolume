@@ -48,13 +48,17 @@ class ProductPage extends React.Component {
         this.setState({ priceTotal });
 
     };
+    onCLick = (e) => {
+        history.push('/checkout?startDate='+ this.state.startDate + '&endDate='+this.state.endDate);
+
+    };
     componentDidMount = () => {
         var data = {
             type: "equipment",
             id: this.props.match.params.id
         }
         appbaseRef.get(data).on('data', response => {
-            console.log("respo===>>>", response);
+            //console.log("respo===>>>", response);
 
             if (!response.found) {
                 this.setState({ error: 'Produto não encontrado' })
@@ -135,7 +139,7 @@ class ProductPage extends React.Component {
                                         <p className="qty">Dias Selecionados : {this.state.days}</p>
                                         <p className="price">R$ {numeral(this.state.priceTotal).format('0.00')}</p> 
                                     </div>
-                                    <button className="buttonRent">Reservar agora!</button>
+                                    <button onClick={this.onCLick} className="buttonRent">Reservar agora!</button>
                                 </div>
                             </div>
                         </div>

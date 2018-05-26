@@ -64,7 +64,7 @@ class LocatarioPage extends React.Component {
                                 end: 'R$250',
                             }}
                             defaultSelected={{
-                                start: 50,
+                                start: 10,
                                 end: 150,
                             }}
                             stepValue={10}
