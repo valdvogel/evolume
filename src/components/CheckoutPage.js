@@ -1,11 +1,17 @@
 import React from 'react';
-import moip from '../moip/moip';
+import  {getApp} from '../api/moip/moip';
+
 
 
 class CheckoutPage extends React.Component {
 
     componentDidMount = () => {
-        console.log(moip);
+
+        // getApp().then(function (response) {
+        //     console.log(response);
+        // }).catch(function (e) {
+        //     console.log('erro', e);
+        // });
     };
     render() {
         return (
