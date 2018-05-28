@@ -153,7 +153,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">Nome<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onFirstNameChange}
-                                        value={this.state.firstName} type="text" placeholder="Nome" autoFocus required="" />
+                                        value={this.state.firstName} type="text" placeholder="Nome" required="" />
 
                                 </div>
                                 <div className="w3l-sym">
@@ -164,7 +164,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">RG<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onRGChange}
-                                        value={this.state.RG} type="text" placeholder="RG" autoFocus required="" />
+                                        value={this.state.RG} type="text" placeholder="RG" required="" />
 
                                 </div>
                                 <div className="w3l-sym">
@@ -180,7 +180,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">Cidade<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCidadeChange}
-                                        value={this.state.Cidade} type="text" placeholder="Cidade" autoFocus required="" />
+                                        value={this.state.Cidade} type="text" placeholder="Cidade"  required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Estado<span className="w3l-star"> * </span></label>
@@ -190,7 +190,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">CEP<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCEPChange}
-                                        value={this.state.CEP} type="text" placeholder="CEP" autoFocus required="" />
+                                        value={this.state.CEP} type="text" placeholder="CEP"  required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Complemento<span className="w3l-star"> * </span></label>
@@ -212,7 +212,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">Cidade<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCidadeFaturamentoChange}
-                                        value={this.state.CidadeFaturamento} type="text" placeholder="Cidade" autoFocus required="" />
+                                        value={this.state.CidadeFaturamento} type="text" placeholder="Cidade"  required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Estado<span className="w3l-star"> * </span></label>
@@ -222,7 +222,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">CEPFaturamento<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCEPFaturamentoChange}
-                                        value={this.state.CEPFaturamento} type="text" placeholder="CEP" autoFocus required="" />
+                                        value={this.state.CEPFaturamento} type="text" placeholder="CEP"  required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Complemento<span className="w3l-star"> * </span></label>
