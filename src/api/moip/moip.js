@@ -1,5 +1,12 @@
 import axios from 'axios';
 
+const URL_ROOT = 'https://sandbox.moip.com.br/v2';
+const URL_CUSTOMER = URL_ROOT+'/customers/';
+const URL_CARD = URL_ROOT+'/fundinginstruments/';
+const URL_ACCOUNT = URL_ROOT+'/accounts';
+const URL_CHANNEL = URL_ROOT+ '/channels';
+
+
 var instance = axios.create({
     auth: {
         username: '9ARLQVOP1ZAXAWONYHPRBMVSVBJ6X1J1',
@@ -7,7 +14,156 @@ var instance = axios.create({
     }
 });
 
-export function getApp() {
+
+export function getAllCustomer() {
+    return instance.get(`https://sandbox.moip.com.br/v2/customers/`)
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            console.log(error);
+            throw new Error(error.message);
+        });
+}
+export function getCustomer(customerId) {
+    return instance.get(`https://sandbox.moip.com.br/v2/customers/${customerId}`)
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            console.log(error);
+            throw new Error(error.message);
+        });
+}
+
+
+export function deleteCreditCard(creditcard_id) {
+    return instance.delete(`https://sandbox.moip.com.br/v2/fundinginstruments/${creditcard_id}`)
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            console.log(error);
+            throw new Error(error.message);
+        });
+}
+
+export function addCreditCard(customerId) {
+    const data = {
+        'method': 'CREDIT_CARD',
+        'creditCard': {
+          'expirationMonth': '05',
+          'expirationYear': '22',
+          'number': '4012001037141112',
+          'cvc': '123',
+          'holder': {
+            'fullname': 'José V Almeida Jr',
+            'birthdate': '1984-11-14',
+            'taxDocument': {
+              'type': 'CPF',
+              'number': '33671487844'
+            },
+            'phone': {
+              'countryCode': '55',
+              'areaCode': '11',
+              'number': '993904792'
+            }
+          }
+        }
+      };
+    return instance.post(`https://sandbox.moip.com.br/v2/customers/${customerId}/fundinginstruments`, data)
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            console.log(error);
+            throw new Error(error.message);
+        });
+}
+export function createCustomer() {
+    const data = {
+        'ownId': '6cb04680-57bc-11e8-854a-1557bbe48476',
+        'fullname': 'JOSE VALDVOGEL',
+        'email': 'jose@evolume.com.br',
+        'birthDate': '1984-11-14',
+        'taxDocument': {
+          'type': 'CPF',
+          'number': '33671487844'
+        },
+        'phone': {
+          'countryCode': '55',
+          'areaCode': '11',
+          'number': '993904792'
+        },
+        'shippingAddress': {
+          'city': 'São Paulo',
+          'complement': '10',
+          'district': 'Itaim Bibi',
+          'street': 'Avenida Faria Lima',
+          'streetNumber': '500',
+          'zipCode': '01234000',
+          'state': 'SP',
+          'country': 'BRA'
+        }
+      };
+    return instance.post('https://sandbox.moip.com.br/v2/customers', data)
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            console.log(error);
+            throw new Error(error.message);
+        });
+}
+
+export function createAccount() {
+    const data = {
+        'email': {
+            'address': 'jose@evolume.com.br'
+        },
+        'person': {
+            'name': 'Jose',
+            'lastName': 'Valdvogel',
+            'taxDocument': {
+                'type': 'CPF',
+                'number': '336.714.878-44'
+            }, 
+              'identityDocument': {
+              'type' : 'RG',
+              'number': '348141257',
+              'issuer': 'SSP',
+              'issueDate': '2012-02-18' 
+              }, 
+            'birthDate': '1984-11-14',
+            'phone': {
+                'countryCode': '55',
+                'areaCode': '11',
+                'number': '993904792'
+            },
+            'address': {
+                'street': 'Av. Brigadeiro Faria Lima',
+                'streetNumber': '2927',
+                'district': 'Itaim',
+                'zipCode': '01234-000',
+                'city': 'São Paulo',
+                'state': 'SP',
+                'country': 'BRA'
+            }
+           },
+        'type': 'MERCHANT',
+        'transparentAccount': true
+    };
+    return instance.post('https://sandbox.moip.com.br/v2/accounts', data)
+        .then(function (response) {
+            return response;
+        })
+        .catch(function (error) {
+            console.log(error);
+            throw new Error(error.message);
+        });
+}
+
+export function createApp() {
     const data = {
         'name': 'evolumebr-dev',
         'description': 'evolume - aluguel de acessórios para carros',
@@ -22,8 +178,8 @@ export function getApp() {
             console.log(error);
             throw new Error(error.message);
         });
-}
 
+}
 export function createOrderAndCustomer() {
     const data = {
         'id': 'ORD-A2GRK4CHWOUS',

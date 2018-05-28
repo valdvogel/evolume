@@ -1,13 +1,13 @@
 import React from 'react';
-import  {getApp} from '../api/moip/moip';
-
+import { createAccount, createCustomer, addCreditCard, deleteCreditCard, getCustomer, getAllCustomer } from '../api/moip/moip';
+import CheckOutForm from './CheckOutForm';
 
 
 class CheckoutPage extends React.Component {
 
     componentDidMount = () => {
 
-        // getApp().then(function (response) {
+        // getAllCustomer().then(function (response) {
         //     console.log(response);
         // }).catch(function (e) {
         //     console.log('erro', e);
@@ -16,7 +16,9 @@ class CheckoutPage extends React.Component {
     render() {
         return (
             <div>
-                Service Page
+                <section id="main" className="cadastro-wrapper">
+                    <CheckOutForm/>
+                </section>
             </div>
 
         )
