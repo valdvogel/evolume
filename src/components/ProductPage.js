@@ -29,7 +29,7 @@ class ProductPage extends React.Component {
                 priceTotal: '',
                 contact: '',
                 image: '',
-                startDate: moment(),
+                startDate: moment().add(1, 'd'),
                 endDate: null,
                 days: 1,
                 focusedInput: null,
@@ -39,18 +39,19 @@ class ProductPage extends React.Component {
     }
     onDatesChange = ({ startDate, endDate }) => {
         this.setState({ startDate, endDate });
-        var end = endDate.format('YYYY-MM-DD');
-        var given = moment(end, "YYYY-MM-DD");
-        var current = moment().startOf('day');
-        var days = moment.duration(given.diff(current)).asDays() + 1;
-        var priceTotal = this.state.price * days;
-        this.setState({ days });
-        this.setState({ priceTotal });
+        if (startDate != null && endDate != null) {
+            var end = endDate;
+            var given = moment(end, "YYYY-MM-DD");
+            var current = this.state.startDate.startOf('day');
+            var days = parseInt(moment.duration(given.diff(current)).asDays() + 1);
+            var priceTotal = this.state.price * days;
+            this.setState({ days });
+            this.setState({ priceTotal });
+        }
 
     };
     onCLick = (e) => {
-        history.push('/checkout?startDate='+ this.state.startDate + '&endDate='+this.state.endDate);
-
+        history.push(`/checkout/${this.state.id}?startDate=${this.state.startDate.format('YYYY-MM-DD')}&endDate=${this.state.endDate.format('YYYY-MM-DD')}`);
     };
     componentDidMount = () => {
         var data = {
@@ -64,6 +65,7 @@ class ProductPage extends React.Component {
                 this.setState({ error: 'Produto não encontrado' })
             } else {
                 this.setState({
+                    id: response._id,
                     category: response._source.category,
                     subcategory: response._source.subcategory,
                     name: response._source.name,
@@ -78,7 +80,8 @@ class ProductPage extends React.Component {
                     priceTotal: response._source.price,
                     contact: response._source.contact,
                     image: response._source.image,
-                    data: response._source
+                    data: response._source,
+                    days: 1
                 });
             }
         }).on('error', error => {
@@ -127,17 +130,17 @@ class ProductPage extends React.Component {
                                         onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
                                         showClearDates={true}
                                         displayFormat="DD/MM/YYYY"
-                                        startDatePlaceholderText = 'Data Inicial'
-                                        endDatePlaceholderText = 'Data Final'
+                                        startDatePlaceholderText='Data Inicial'
+                                        endDatePlaceholderText='Data Final'
                                     />
                                     <hr />
                                     <div className="row">
                                         <p className="qty">Diária :</p>
-                                        <p className="price">R$ {numeral(this.state.price).format('0.00')}</p> 
+                                        <p className="price">R$ {numeral(this.state.price).format('0.00')}</p>
                                     </div>
                                     <div className="row">
                                         <p className="qty">Dias Selecionados : {this.state.days}</p>
-                                        <p className="price">R$ {numeral(this.state.priceTotal).format('0.00')}</p> 
+                                        <p className="price">R$ {numeral(this.state.priceTotal).format('0.00')}</p>
                                     </div>
                                     <button onClick={this.onCLick} className="buttonRent">Reservar agora!</button>
                                 </div>

@@ -3,15 +3,11 @@ import { createAccount, createCustomer, addCreditCard, deleteCreditCard, getCust
 import CheckOutForm from './CheckOutForm';
 
 
-class CheckoutPage extends React.Component {
+class CheckOutPage extends React.Component {
 
     componentDidMount = () => {
 
-        // getAllCustomer().then(function (response) {
-        //     console.log(response);
-        // }).catch(function (e) {
-        //     console.log('erro', e);
-        // });
+        console.log(this.props);
     };
     render() {
         return (
@@ -25,4 +21,4 @@ class CheckoutPage extends React.Component {
     }
 };
 
-export default CheckoutPage;
+export default CheckOutPage;

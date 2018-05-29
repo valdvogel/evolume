@@ -1,20 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 import { history } from '../routes/AppRouter'
 import database from '../firebase/firebase';
-import { startAddUser } from '../actions/user';
+//import { startAddUser } from '../actions/user';
 import { Encrypt } from './Cryptografy';
+import appbaseRef from '../elasticsearch/elasticsearch';
 
 class CheckOutForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             id: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            terms: false,
             data: [],
             error: ''
         }
@@ -83,45 +79,28 @@ class CheckOutForm extends React.Component {
 
         const pass = Encrypt(this.state.password);
 
-        if (this.getUser(this.state.email)) {
-            this.props.dispatch(startAddUser({
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                email: this.state.email,
-                password: pass,
-                terms: this.state.terms,
-                active: false
-            }, 'evolume.com.br'
-            ));
+        // if (this.getUser(this.state.email)) {
+        //     this.props.dispatch(startAddUser({
+        //         firstName: this.state.firstName,
+        //         lastName: this.state.lastName,
+        //         email: this.state.email,
+        //         password: pass,
+        //         terms: this.state.terms,
+        //         active: false
+        //     }, 'evolume.com.br'
+        //     ));
 
-            history.push('/sucess');
-        }
+        //     history.push('/sucess');
+        // }
 
 
 
     };
 
-
     componentDidMount = () => {
-        // var data = [];
-        // database.ref(`users`)
-        //     .once('value')
-        //     .then((snapshot) => {
-        //         snapshot.forEach((child) => {
-        //             database.ref(`users/${child.key}/data`)
-        //                 .once('value')
-        //                 .then((snap) => {
-        //                     snap.forEach((user) => {
-        //                         data.push({
-        //                             _id: user.key,
-        //                             ...user.val()
-        //                         });
-
-        //                     });
-        //                 });
-        //         });
-        //     });
-        // this.setState({ data: data });
+        
+        //console.log(this.props);
+        
     };
     render() {
         return (
@@ -130,7 +109,7 @@ class CheckOutForm extends React.Component {
                     <header className="align-center">
                         <h2>Dados de Pagamento</h2>
                     </header>
-                    <div class="card">
+                    <div className="card">
                         <img src="https://s3.us-east-2.amazonaws.com/evolumbreapp/Rafael1.jpeg" alt="Avatar" width="298px" height="298px" />
                         <div className="container-card">
                             <h4><b>Resumo do aluguel</b></h4>
@@ -291,5 +270,4 @@ class CheckOutForm extends React.Component {
         )
     }
 }
-
-export default connect()(CheckOutForm); 
+export default CheckOutForm; 
