@@ -25,7 +25,7 @@ import SucessPage from '../components/SucessPage';
 import ErrorPage from '../components/ErrorPage';
 import MainSearch from '../components/MainSearch';
 import ProductPage from '../components/ProductPage';
-import CheckOutPage from '../components/CheckOutPage';
+//import CheckOutPage from '../components/CheckOutPage';
 
 
 
@@ -47,7 +47,7 @@ const AppRouter = () => (
                 <Route path="/locador" component={LocadorPage} />
                 <Route path="/rent/:id" component={RentPage} />
                 <Route path="/payment" component={PaymentPage} />
-                <Route path="/checkout/:id" component={CheckOutPage} />
+                
                 <Route path="/contract" component={ContractPage} />
                 <Route path="/help" component={HelpPage} />
                 <Route path="/sucess" component={SucessPage} />
