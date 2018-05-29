@@ -51,7 +51,7 @@ class ProductPage extends React.Component {
 
     };
     onCLick = (e) => {
-        history.push(`/checkout/${this.state.id}?startDate=${this.state.startDate.format('YYYY-MM-DD')}&endDate=${this.state.endDate.format('YYYY-MM-DD')}`);
+        history.push(`/checkout/${this.state.id}?startDate=${this.state.startDate.format('DD-MM-YYYY')}&endDate=${this.state.endDate.format('DD-MM-YYYY')}`);
     };
     componentDidMount = () => {
         var data = {

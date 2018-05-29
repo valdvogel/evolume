@@ -3,6 +3,8 @@ import React from 'react';
 import { history } from '../routes/AppRouter'
 import database from '../firebase/firebase';
 //import { startAddUser } from '../actions/user';
+import numeral from 'numeral';
+import moment from 'moment';
 import { Encrypt } from './Cryptografy';
 import appbaseRef from '../elasticsearch/elasticsearch';
 
@@ -10,7 +12,59 @@ class CheckOutForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: '',
+            order: {
+                id: '',
+                category: '',
+                subcategory: '',
+                name: '',
+                description: '',
+                rate: '',
+                video: '',
+                resource: '',
+                date_from: '',
+                date_to: '',
+                url: '',
+                price: '',
+                priceTotal: '',
+                contact: '',
+                image: '',
+                startDate: null,
+                endDate: null,
+                days:'',
+                priceTotal: 0
+            },
+            user: {
+                id: '',
+                firstName: '',
+                lastName: '',
+                rg: '',
+                cpf: '',
+                email: '',
+                password: '',
+                address: {
+                    street: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                    obs: ''
+                },
+                billingAddress: {
+                    street: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                    obs: ''
+                },
+                terms: false
+            },
+            card: {
+                name: '',
+                number: '',
+                birthdayDate: '',
+                cpf: '',
+                cvv: '',
+                expirationDate: ''
+            },
             data: [],
             error: ''
         }
@@ -99,8 +153,62 @@ class CheckOutForm extends React.Component {
 
     componentDidMount = () => {
         
-        //console.log(this.props);
-        
+        const params = new URLSearchParams(this.props.props.location.search);
+        var data = {
+            type: "equipment",
+            id: this.props.props.match.params.id
+        }
+        appbaseRef.get(data).on('data', response => {
+            //console.log("respo===>>>", response);
+
+            var end = moment(params.get('endDate'),'DD-MM-YYYY');
+            var start = moment(params.get('startDate'),'DD-MM-YYYY');
+            var current = start.startOf('day');
+            var days = parseInt(moment.duration(end.diff(current)).asDays() + 1);
+            //var priceTotal = this.state.order.price * days;
+
+            if (!response.found) {
+                this.setState({ error: 'Produto não encontrado' })
+            } else {
+                this.setState({
+                    order: {
+                        id: response._id,
+                        category: response._source.category,
+                        subcategory: response._source.subcategory,
+                        name: response._source.name,
+                        description: response._source.description,
+                        rate: response._source.rate,
+                        video: response._source.video,
+                        resource: response._source.resource,
+                        date_from: response._source.date_from,
+                        date_to: response._source.date_to,
+                        url: response._source.url,
+                        price: response._source.price,
+                        //priceTotal: priceTotal, //response._source.price,
+                        contact: response._source.contact,
+                        image: response._source.image,
+                        data: response._source,
+                        startDate: params.get('startDate'),
+                        endDate: params.get('endDate'),
+                        days: days
+                    },
+                    user: {},
+                    card: {}
+                });
+            // var end = moment(this.state.order.endDate,'DD-MM-YYYY');
+            // var start = moment(this.state.order.startDate,'DD-MM-YYYY');
+            // var current = start.startOf('day');
+            // var days = parseInt(moment.duration(end.diff(current)).asDays() + 1);
+            // var priceTotal = this.state.order.price * days;
+            //console.log(moment.duration(days).asDays());
+            //console.log(priceTotal);
+            //this.setState({ order:{days: days}});
+            //this.setState({ order:{priceTotal: priceTotal, ...this.state}});
+
+            }
+        }).on('error', error => {
+            console.log("@get error:", error);
+        });
     };
     render() {
         return (
@@ -113,13 +221,14 @@ class CheckOutForm extends React.Component {
                         <img src="https://s3.us-east-2.amazonaws.com/evolumbreapp/Rafael1.jpeg" alt="Avatar" width="298px" height="298px" />
                         <div className="container-card">
                             <h4><b>Resumo do aluguel</b></h4>
-                            <p>Produto : </p>
-                            <p>Período :</p>
-                            <p>Valor Total :</p>
+                            <p><b>Produto :</b> {this.state.order.category} </p>
+                            <p><b>Período :</b> {this.state.order.startDate}   até  {this.state.order.endDate} ({this.state.order.days} dias)</p>
+                            <p><b>Valor Total :</b> R$ {numeral((this.state.order.price * this.state.order.days)).format('0.00')}</p>
                         </div>
                     </div>
                 </div>
                 <div className="inner">
+                    <hr />
                     <header className="align-center">
                         <h2>Dados Pessoais</h2>
                     </header>
@@ -159,7 +268,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">Cidade<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCidadeChange}
-                                        value={this.state.Cidade} type="text" placeholder="Cidade"  required="" />
+                                        value={this.state.Cidade} type="text" placeholder="Cidade" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Estado<span className="w3l-star"> * </span></label>
@@ -169,7 +278,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">CEP<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCEPChange}
-                                        value={this.state.CEP} type="text" placeholder="CEP"  required="" />
+                                        value={this.state.CEP} type="text" placeholder="CEP" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Complemento<span className="w3l-star"> * </span></label>
@@ -177,96 +286,107 @@ class CheckOutForm extends React.Component {
                                         value={this.state.Complemento} type="text" placeholder="Complemento" required="" />
                                 </div>
                                 <div className="clear"></div>
-                                <div className="headerCheckout">
-                                    <header className="headerCheckout">
-                                        <h2>Endereço de cobrança</h2>
-                                    </header>
-                                </div>
-                                <div className="w3l-mail">
-                                    <label className="head">Logradouro<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onLogradouroFaturamentoChange}
-                                        value={this.state.LogradouroFaturamento} type="text" placeholder="Logradouro" required="" />
-                                </div>
-
-                                <div className="w3l-num">
-                                    <label className="head">Cidade<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onCidadeFaturamentoChange}
-                                        value={this.state.CidadeFaturamento} type="text" placeholder="Cidade"  required="" />
-                                </div>
-                                <div className="w3l-sym">
-                                    <label className="head">Estado<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onEstadoFaturamentoChange}
-                                        value={this.state.EstadoFaturamento} type="text" placeholder="Estado" required="" />
-                                </div>
-                                <div className="w3l-num">
-                                    <label className="head">CEPFaturamento<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onCEPFaturamentoChange}
-                                        value={this.state.CEPFaturamento} type="text" placeholder="CEP"  required="" />
-                                </div>
-                                <div className="w3l-sym">
-                                    <label className="head">Complemento<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onComplementoFaturamentoChange}
-                                        value={this.state.ComplementoFaturamento} type="text" placeholder="Complemento" required="" />
-                                </div>
-
-                                <div className="botaoaceite" >
-                                    <input type="checkbox" id="human" name="human" checked={this.state.sameAddress} onChange={this.onBillingAddress}
-                                        value={this.state.terms} />
-                                </div>
-                                <label htmlFor="human">Mesmo endereco de moradia </label>
-                                <div className="headerCheckout">
-                                    <header className="">
-                                        <h2>Dados de Pagamento</h2>
-                                    </header>
-                                </div>
-                                <div className="w3l-mail">
-                                    <label className="head">Nome completo do titular<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onNameCardChange}
-                                        value={this.state.NameCard} type="text" placeholder="Idêntico ao do cartão" required="" />
-                                </div>
-
-                                <div className="w3l-mail">
-                                    <label className="head">Número do cartão de crédito<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onNumberCardChange}
-                                        value={this.state.NumberCard} type="text" placeholder="0000 0000 0000 0000" required="" />
-                                </div>
-                                <div className="w3l-num">
-                                    <label className="head">Data Nascimento<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onBirthdayCardChange}
-                                        value={this.state.BirthdayCard} type="text" placeholder="dia/mês/ano" required="" />
-                                </div>
-                                <div className="w3l-sym">
-                                    <label className="head">Documento<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onDocumentCardChange}
-                                        value={this.state.DocumentCard} type="text" placeholder="CPF/CNPJ" required="" />
-                                </div>
-                                <div className="w3l-num">
-                                    <label className="head">Cód. Segurança<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onCVVCardChange}
-                                        value={this.state.CVVCard} type="text" placeholder="CVV" required="" />
-                                </div>
-                                <div className="w3l-sym">
-                                    <label className="head">Data de validade<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onDateValidationCardChange}
-                                        value={this.state.DateValidationCard} type="text" placeholder="mês/ano" required="" />
-                                </div>
-                                <div className="clear"></div>
-                                <div className="botaoaceite" >
-                                    <input type="checkbox" id="human" name="human" checked={this.state.sameAddress} onChange={this.onBillingAddress}
-                                        value={this.state.terms} />
-                                </div>
-                                <label htmlFor="human">Salvar esse cartão para compras futuras</label>
-                                <div className="clear"></div>
-                                <div className="btn">
-                                    <input type="submit" name="enviar" value="Enviar" />
-                                </div>
-                                <div className="clear"></div>
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div className="inner">
+                    <div className="headerCheckout">
+                        <hr />
+                        <header className="headerCheckout">
+                            <h2>Endereço de cobrança</h2>
+                        </header>
+                    </div>
+                    <div className="w3l-main">
+                        <div className="w3l-from">
+                            <div className="w3l-mail">
+                                <label className="head">Logradouro<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onLogradouroFaturamentoChange}
+                                    value={this.state.LogradouroFaturamento} type="text" placeholder="Logradouro" required="" />
+                            </div>
+                            <div className="w3l-num">
+                                <label className="head">Cidade<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onCidadeFaturamentoChange}
+                                    value={this.state.CidadeFaturamento} type="text" placeholder="Cidade" required="" />
+                            </div>
+                            <div className="w3l-sym">
+                                <label className="head">Estado<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onEstadoFaturamentoChange}
+                                    value={this.state.EstadoFaturamento} type="text" placeholder="Estado" required="" />
+                            </div>
+                            <div className="w3l-num">
+                                <label className="head">CEPFaturamento<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onCEPFaturamentoChange}
+                                    value={this.state.CEPFaturamento} type="text" placeholder="CEP" required="" />
+                            </div>
+                            <div className="w3l-sym">
+                                <label className="head">Complemento<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onComplementoFaturamentoChange}
+                                    value={this.state.ComplementoFaturamento} type="text" placeholder="Complemento" required="" />
+                            </div>
+                            <div className="botaoaceite" >
+                                <input type="checkbox" id="human" name="human" checked={this.state.sameAddress} onChange={this.onBillingAddress}
+                                    value={this.state.terms} />
+                            </div>
+                            <label htmlFor="human">Mesmo endereco de moradia </label>
+                        </div>
+                    </div>
+                </div>
+                <div className="inner">
+                    <div className="headerCheckout">
+                        <hr />
+                        <header className="">
+                            <h2>Dados de Pagamento</h2>
+                        </header>
+                    </div>
+                    <div className="w3l-main">
+                        <div className="w3l-from">
+                            <div className="w3l-mail">
+                                <label className="head">Nome completo do titular<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onNameCardChange}
+                                    value={this.state.NameCard} type="text" placeholder="Idêntico ao do cartão" required="" />
+                            </div>
 
+                            <div className="w3l-mail">
+                                <label className="head">Número do cartão de crédito<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onNumberCardChange}
+                                    value={this.state.NumberCard} type="text" placeholder="0000 0000 0000 0000" required="" />
+                            </div>
+                            <div className="w3l-num">
+                                <label className="head">Data Nascimento<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onBirthdayCardChange}
+                                    value={this.state.BirthdayCard} type="text" placeholder="dia/mês/ano" required="" />
+                            </div>
+                            <div className="w3l-sym">
+                                <label className="head">Documento<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onDocumentCardChange}
+                                    value={this.state.DocumentCard} type="text" placeholder="CPF/CNPJ" required="" />
+                            </div>
+                            <div className="w3l-num">
+                                <label className="head">Cód. Segurança<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onCVVCardChange}
+                                    value={this.state.CVVCard} type="text" placeholder="CVV" required="" />
+                            </div>
+                            <div className="w3l-sym">
+                                <label className="head">Data de validade<span className="w3l-star"> * </span></label>
+                                <input onChange={this.onDateValidationCardChange}
+                                    value={this.state.DateValidationCard} type="text" placeholder="mês/ano" required="" />
+                            </div>
+                            <div className="clear"></div>
+                            <div className="botaoaceite" >
+                                <input type="checkbox" id="human" name="human" checked={this.state.sameAddress} onChange={this.onBillingAddress}
+                                    value={this.state.terms} />
+                            </div>
+                            <label htmlFor="human">Salvar esse cartão para compras futuras</label>
+                            <div className="clear"></div>
+                            <div className="btn">
+                                <input type="submit" name="enviar" value="Enviar" />
+                            </div>
+                            <div className="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         )
     }
 }
