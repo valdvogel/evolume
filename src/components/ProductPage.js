@@ -51,7 +51,27 @@ class ProductPage extends React.Component {
 
     };
     onCLick = (e) => {
-        history.push(`/checkout/${this.state.id}?startDate=${this.state.startDate.format('DD-MM-YYYY')}&endDate=${this.state.endDate.format('DD-MM-YYYY')}`);
+
+        e.preventDefault();
+
+        const login = localStorage.getItem('user') != null ? true : false;
+
+        if (!this.state.startDate) {
+            this.setState(() => ({ error: "Por favor, informar a data inicial!" }));
+            return false;
+
+        }
+        else if (!this.state.endDate) {
+            this.setState(() => ({ error: "Por favor, informar a data final!" }));
+            return false;
+        }
+        else if (!login){
+            this.setState(() => ({ error: "Para aluguel é necessário realizar o cadastro!" }));
+            return false;
+        }else{  
+            history.push(`/checkout/${this.state.id}?startDate=${this.state.startDate.format('DD-MM-YYYY')}&endDate=${this.state.endDate.format('DD-MM-YYYY')}`);
+        }
+        
     };
     componentDidMount = () => {
         var data = {
@@ -91,9 +111,6 @@ class ProductPage extends React.Component {
     render() {
         return (
             <div className="container">
-                <div>
-                    {this.state.error && <p>{this.state.error}</p>}
-                </div>
                 <div className="row">
                     <div className="about-the-author">
                         <div className="row align-center">
@@ -142,7 +159,12 @@ class ProductPage extends React.Component {
                                         <p className="qty">Dias Selecionados : {this.state.days}</p>
                                         <p className="price">R$ {numeral(this.state.priceTotal).format('0.00')}</p>
                                     </div>
-                                    <button onClick={this.onCLick} className="buttonRent">Reservar agora!</button>
+                                    <div className="buttonRent">
+                                        <input type="submit" name="enviar" onClick={this.onCLick} value="Reservar agora" alt="Reservar agora" />
+                                    </div>
+                                    <div>
+                                        {this.state.error && <p>{this.state.error}</p>}
+                                    </div>
                                 </div>
                             </div>
                         </div>
