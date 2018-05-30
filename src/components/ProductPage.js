@@ -66,7 +66,7 @@ class ProductPage extends React.Component {
             return false;
         }
         else if (!login){
-            this.setState(() => ({ error: "Para aluguel é necessário realizar o cadastro!" }));
+            this.setState(() => ({ error: "Para aluguel é necessário estar autênticado com seu perfil!" }));
             return false;
         }else{  
             history.push(`/checkout/${this.state.id}?startDate=${this.state.startDate.format('DD-MM-YYYY')}&endDate=${this.state.endDate.format('DD-MM-YYYY')}`);

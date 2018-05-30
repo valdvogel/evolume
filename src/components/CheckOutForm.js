@@ -7,6 +7,8 @@ import numeral from 'numeral';
 import moment from 'moment';
 import { Encrypt } from './Cryptografy';
 import appbaseRef from '../elasticsearch/elasticsearch';
+import { getCustomer } from './CheckOutConnect';
+
 
 class CheckOutForm extends React.Component {
     constructor(props) {
@@ -30,7 +32,7 @@ class CheckOutForm extends React.Component {
                 image: '',
                 startDate: null,
                 endDate: null,
-                days:'',
+                days: '',
                 priceTotal: 0
             },
             user: {
@@ -150,22 +152,33 @@ class CheckOutForm extends React.Component {
 
 
     };
+    
 
     componentDidMount = () => {
-        
+
         const params = new URLSearchParams(this.props.props.location.search);
         var data = {
             type: "equipment",
             id: this.props.props.match.params.id
         }
-        appbaseRef.get(data).on('data', response => {
-            //console.log("respo===>>>", response);
 
-            var end = moment(params.get('endDate'),'DD-MM-YYYY');
-            var start = moment(params.get('startDate'),'DD-MM-YYYY');
+        const login = JSON.parse(localStorage.getItem('user'));
+
+        var email = '';
+
+        if (login.providerData[0].providerId) {
+            email = login.email;
+        } else {
+            //todo
+        }
+        var fire = getCustomer(email);
+
+
+        appbaseRef.get(data).on('data', response => {
+            var end = moment(params.get('endDate'), 'DD-MM-YYYY');
+            var start = moment(params.get('startDate'), 'DD-MM-YYYY');
             var current = start.startOf('day');
             var days = parseInt(moment.duration(end.diff(current)).asDays() + 1);
-            //var priceTotal = this.state.order.price * days;
 
             if (!response.found) {
                 this.setState({ error: 'Produto não encontrado' })
@@ -192,23 +205,13 @@ class CheckOutForm extends React.Component {
                         endDate: params.get('endDate'),
                         days: days
                     },
-                    user: {},
-                    card: {}
+                    data: fire
                 });
-            // var end = moment(this.state.order.endDate,'DD-MM-YYYY');
-            // var start = moment(this.state.order.startDate,'DD-MM-YYYY');
-            // var current = start.startOf('day');
-            // var days = parseInt(moment.duration(end.diff(current)).asDays() + 1);
-            // var priceTotal = this.state.order.price * days;
-            //console.log(moment.duration(days).asDays());
-            //console.log(priceTotal);
-            //this.setState({ order:{days: days}});
-            //this.setState({ order:{priceTotal: priceTotal, ...this.state}});
-
             }
         }).on('error', error => {
             console.log("@get error:", error);
         });
+
     };
     render() {
         return (
@@ -218,7 +221,7 @@ class CheckOutForm extends React.Component {
                         <h2>Dados de Pagamento</h2>
                     </header>
                     <div className="card">
-                        <img src="https://s3.us-east-2.amazonaws.com/evolumbreapp/Rafael1.jpeg" alt="Avatar" width="298px" height="298px" />
+                        <img src={this.state.order.image} alt="Produto" width="298px" height="298px" />
                         <div className="container-card">
                             <h4><b>Resumo do aluguel</b></h4>
                             <p><b>Produto :</b> {this.state.order.category} </p>
@@ -241,7 +244,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">Nome<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onFirstNameChange}
-                                        value={this.state.firstName} type="text" placeholder="Nome" required="" />
+                                        value={this.state.user.email} type="text" placeholder="Nome" required="" />
 
                                 </div>
                                 <div className="w3l-sym">

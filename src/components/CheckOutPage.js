@@ -4,11 +4,6 @@ import CheckOutForm from './CheckOutForm';
 
 
 class CheckOutPage extends React.Component {
-
-    componentDidMount = () => {
-
-        //console.log(this.props);
-    };
     render() {
         return (
             <div>
