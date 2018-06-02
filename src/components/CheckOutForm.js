@@ -7,7 +7,7 @@ import numeral from 'numeral';
 import moment from 'moment';
 import { Encrypt } from './Cryptografy';
 import appbaseRef from '../elasticsearch/elasticsearch';
-import { getCustomer } from './CheckOutConnect';
+import {getCustomer, makePayment } from './CheckOutCore';
 
 
 class CheckOutForm extends React.Component {
@@ -189,7 +189,7 @@ class CheckOutForm extends React.Component {
         this.setState({ card_expirationDate: value });
 
     };
-    onDateValidationCardChange = (e) => {
+    onSaveCard = (e) => {
         const value = !this.state.card_saveCard;
         this.setState({ card_saveCard: value });
 
@@ -271,22 +271,16 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo Data de Validade!" }));
             return false;
         }
+        console.log('validado');
 
-        // const pass = Encrypt(this.state.password);
+        //LOCALIZAR DADOS NO BANCO
+        // ATUALIZAR DADOS NO BANCO
+        // REALIZAR INTEGRAÇAO COM MOIP
+        makePayment(this.state);
+        
 
-        // if (this.getUser(this.state.email)) {
-        //     this.props.dispatch(startAddUser({
-        //         firstName: this.state.firstName,
-        //         lastName: this.state.lastName,
-        //         email: this.state.email,
-        //         password: pass,
-        //         terms: this.state.terms,
-        //         active: false
-        //     }, 'evolume.com.br'
-        //     ));
 
-        //     history.push('/sucess');
-        // }
+
 
 
 
@@ -312,7 +306,7 @@ class CheckOutForm extends React.Component {
         } else {
             //todo
         }
-        var fire = getCustomer(email);
+        var fire = getCustomer();
 
 
         appbaseRef.get(data).on('data', response => {
@@ -344,16 +338,16 @@ class CheckOutForm extends React.Component {
                     order_days: days,
                     user_id: '',
                     user_firstName: firstName != '' ? firstName : '',
-                    user_lastName: '',
-                    user_rg: '',
-                    user_cpf: '',
-                    user_email: '',
+                    user_lastName: 'ALMEIDA',
+                    user_rg: '348141257',
+                    user_cpf: '33671487844',
+                    user_email: email != '' ? email : '',
                     user_password: '',
-                    user_address_street: '',
-                    user_address_city: '',
-                    user_address_state: '',
-                    user_address_zip: '',
-                    user_address_obs: '',
+                    user_address_street: 'RUA IDA,80',
+                    user_address_city: 'SAO PAULO',
+                    user_address_state: 'SP',
+                    user_address_zip: '01541070',
+                    user_address_obs: 'CASA LARANJA',
                     billingAddress_street: '',
                     billingAddress_city: '',
                     billingAddress_state: '',
@@ -375,7 +369,7 @@ class CheckOutForm extends React.Component {
             console.log("@get error:", error);
         });
 
-        //console.log(this.state);
+       // console.log(this.state);
 
     };
     render() {
@@ -417,12 +411,12 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">RG<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onRGChange}
-                                        value={this.state.user_RG} type="text" placeholder="RG" required="" />
+                                        value={this.state.user_rg} type="text" placeholder="RG" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">CPF<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCPFChange}
-                                        value={this.state.user_CPF} type="text" placeholder="CPF" required="" />
+                                        value={this.state.user_cpf} type="text" placeholder="CPF" required="" />
                                 </div>
                                 <div className="w3l-mail">
                                     <label className="head">Logradouro<span className="w3l-star"> * </span></label>
@@ -442,7 +436,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">CEP<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCEPChange}
-                                        value={this.state.user_address_cep} type="number" placeholder="CEP" required="" />
+                                        value={this.state.user_address_zip} type="number" placeholder="CEP" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Complemento<span className="w3l-star"> </span></label>
@@ -485,7 +479,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-sym">
                                     <label className="head">Complemento<span className="w3l-star"> </span></label>
                                     <input onChange={this.onComplementoFaturamentoChange}
-                                        value={this.state.billingAddress_obs} type="text" placeholder="Complemento"/>
+                                        value={this.state.billingAddress_obs} type="text" placeholder="Complemento" />
                                 </div>
                                 <div className="botaoaceite" >
                                     <input type="checkbox" id="human" name="human" checked={this.state.billingAddress_same} onChange={this.onBillingAddress}
@@ -513,37 +507,37 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-mail">
                                     <label className="head">Nome completo do titular<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onNameCardChange}
-                                        value={this.state.NameCard} type="text" placeholder="Idêntico ao do cartão" required="" />
+                                        value={this.state.card_name} type="text" placeholder="Idêntico ao do cartão" required="" />
                                 </div>
                                 <div className="w3l-mail">
                                     <label className="head">Número do cartão de crédito<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onNumberCardChange}
-                                        value={this.state.NumberCard} type="text" placeholder="0000 0000 0000 0000" required="" />
+                                        value={this.state.card_number} type="text" placeholder="0000 0000 0000 0000" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Data Nascimento<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onBirthdayCardChange}
-                                        value={this.state.BirthdayCard} type="text" placeholder="dia/mês/ano" required="" />
+                                        value={this.state.card_birthdayDate} type="text" placeholder="dia/mês/ano" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Documento do titular<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onDocumentCardChange}
-                                        value={this.state.DocumentCard} type="text" placeholder="CPF/CNPJ" required="" />
+                                        value={this.state.card_document} type="text" placeholder="CPF/CNPJ" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Cód. Segurança<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCVVCardChange}
-                                        value={this.state.CVVCard} type="text" placeholder="CVV" required="" />
+                                        value={this.state.card_cvv} type="text" placeholder="CVV" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Data de validade<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onDateValidationCardChange}
-                                        value={this.state.DateValidationCard} type="text" placeholder="mês/ano" required="" />
+                                        value={this.state.card_expirationDate} type="text" placeholder="mês/ano" required="" />
                                 </div>
                                 <div className="clear"></div>
                                 <div className="botaoaceite" >
-                                    <input type="checkbox" id="human" name="human" checked={this.state.sameAddress} onChange={this.onSaveCard}
-                                        value={this.state.terms} />
+                                    <input type="checkbox" id="human" name="human"  onChange={this.onSaveCard}
+                                        value={this.state.card_saveCard} />
                                 </div>
                                 <label htmlFor="human">Salvar esse cartão para compras futuras</label>
                                 <div className="clear"></div>

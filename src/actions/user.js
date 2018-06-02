@@ -81,24 +81,21 @@ export const startRemoveExpense = ({ id } = {}) => {
 
 
 //EDIT REDUCER
-export const editExpense = (id, updates) => ({
-    type: 'EDIT_EXPENSE',
+export const editUser = (id,updates) => ({
+    type: 'EDIT_USER',
     id,
     updates
 
 });
 
-export const startEditExpense = (id, updates) => {
-    return (dispatch, getState) => {
-        const uid = getState().auth.uid;
-
-        return database.ref(`users/${uid}/data/${id}`).update(updates)
+export const startEditUser = (updates) => {
+        const uid = updates.uid;
+        const id = updates.id;
+        
+         database.ref(`users/${uid}/data/${id}`).update(updates)
             .then(() => {
-                dispatch(editExpense(id, updates));
+                editUser(id, updates);
             });
-
-    };
-
 };
 
 

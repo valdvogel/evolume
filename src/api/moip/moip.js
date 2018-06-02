@@ -80,32 +80,8 @@ export function addCreditCard(customerId) {
             throw new Error(error.message);
         });
 }
-export function createCustomer() {
-    const data = {
-        'ownId': '6cb04680-57bc-11e8-854a-1557bbe48476',
-        'fullname': 'JOSE VALDVOGEL',
-        'email': 'jose@evolume.com.br',
-        'birthDate': '1984-11-14',
-        'taxDocument': {
-          'type': 'CPF',
-          'number': '33671487844'
-        },
-        'phone': {
-          'countryCode': '55',
-          'areaCode': '11',
-          'number': '993904792'
-        },
-        'shippingAddress': {
-          'city': 'São Paulo',
-          'complement': '10',
-          'district': 'Itaim Bibi',
-          'street': 'Avenida Faria Lima',
-          'streetNumber': '500',
-          'zipCode': '01234000',
-          'state': 'SP',
-          'country': 'BRA'
-        }
-      };
+export function createCustomer(data) {
+    
     return instance.post('https://sandbox.moip.com.br/v2/customers', data)
         .then(function (response) {
             return response;
