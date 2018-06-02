@@ -14,126 +14,265 @@ class CheckOutForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            order: {
-                id: '',
-                category: '',
-                subcategory: '',
-                name: '',
-                description: '',
-                rate: '',
-                video: '',
-                resource: '',
-                date_from: '',
-                date_to: '',
-                url: '',
-                price: '',
-                priceTotal: '',
-                contact: '',
-                image: '',
-                startDate: null,
-                endDate: null,
-                days: '',
-                priceTotal: 0
-            },
-            user: {
-                id: '',
-                firstName: '',
-                lastName: '',
-                rg: '',
-                cpf: '',
-                email: '',
-                password: '',
-                address: {
-                    street: '',
-                    city: '',
-                    state: '',
-                    zip: '',
-                    obs: ''
-                },
-                billingAddress: {
-                    street: '',
-                    city: '',
-                    state: '',
-                    zip: '',
-                    obs: ''
-                },
-                terms: false
-            },
-            card: {
-                name: '',
-                number: '',
-                birthdayDate: '',
-                cpf: '',
-                cvv: '',
-                expirationDate: ''
-            },
+            order_id: '',
+            order_category: '',
+            order_subcategory: '',
+            order_name: '',
+            order_description: '',
+            order_rate: '',
+            order_video: '',
+            order_resource: '',
+            order_date_from: '',
+            order_date_to: '',
+            order_url: '',
+            order_price: '',
+            order_priceTotal: '',
+            order_contact: '',
+            order_image: '',
+            order_startDate: null,
+            order_endDate: null,
+            order_days: '',
+            order_priceTotal: 0,
+            user_id: '',
+            user_firstName: '',
+            user_lastName: '',
+            user_rg: '',
+            user_cpf: '',
+            user_email: '',
+            user_password: '',
+            user_address_street: '',
+            user_address_city: '',
+            user_address_state: '',
+            user_address_zip: '',
+            user_address_obs: '',
+            billingAddress_street: '',
+            billingAddress_city: '',
+            billingAddress_state: '',
+            billingAddress_zip: '',
+            billingAddress_obs: '',
+            billingAddress_same: false,
+            card_name: '',
+            card_number: '',
+            card_birthdayDate: '',
+            card_document: '',
+            card_cvv: '',
+            card_expirationDate: '',
             data: [],
             error: ''
         }
     };
+
+    /*DADOS PESSOAIS*/
     onFirstNameChange = (e) => {
-        const firstName = e.target.value;
-        this.setState(() => ({ firstName }))
-    };
-    onEmailChange = (e) => {
-        const email = e.target.value;
-        this.setState(() => ({ email }))
-    };
-    onPasswordChange = (e) => {
-        const password = e.target.value;
-        this.setState(() => ({ password }))
+        const value = e.target.value;
+        this.setState({ user_firstName: value });
+
     };
     onLastNameChange = (e) => {
-        const lastName = e.target.value;
-        this.setState(() => ({ lastName }))
-    };
-    onTermsChange = (e) => {
-        const terms = !this.state.terms;
-        this.setState(() => ({ terms }))
-    };
-    getUser = (email) => {
-        const e = email;
-        let bln = true;
-        const data = this.state.data;
+        const value = e.target.value;
+        this.setState({ user_lastName: value });
 
-        // verifica se existe algum usuário com mesmo email.
-        data.forEach((user) => {
-            if (user.email.toUpperCase() === e.toUpperCase()) {
-                this.setState(() => ({ error: "Esse email já está cadastrado!" }));
-                bln = false;
-            }
-        });
-        return bln;
     };
+    onRGChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_rg: value });
+
+    };
+    onCPFChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_cpf: value });
+
+    };
+    onLogradouroChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_address_street: value });
+
+    };
+    onCidadeChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_address_city: value });
+
+    };
+    onEstadoChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_address_state: value });
+
+    };
+    onCEPChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_address_zip: value });
+
+    };
+    onComplementoChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_address_obs: value });
+
+    };
+    /*ENDERECO COBRANCA*/
+    onLogradouroFaturamentoChange = (e) => {
+        const value = e.target.value;
+        this.setState({ billingAddress_street: value });
+
+    };
+    onCidadeFaturamentoChange = (e) => {
+        const value = e.target.value;
+        this.setState({ billingAddress_city: value });
+
+    };
+    onEstadoFaturamentoChange = (e) => {
+        const value = e.target.value;
+        this.setState({ billingAddress_state: value });
+
+    };
+    onCEPFaturamentoChange = (e) => {
+        const value = e.target.value;
+        this.setState({ billingAddress_zip: value });
+
+    };
+    onComplementoFaturamentoChange = (e) => {
+        const value = e.target.value;
+        this.setState({ billingAddress_obs: value });
+
+    };
+    onBillingAddress = (e) => {
+        const value = !this.state.billingAddress_same;
+        this.setState({ billingAddress_same: value });
+
+        if (value) {
+            this.setState({
+                billingAddress_street: this.state.user_address_street,
+                billingAddress_city: this.state.user_address_city,
+                billingAddress_state: this.state.user_address_state,
+                billingAddress_zip: this.state.user_address_zip,
+                billingAddress_obs: this.state.user_address_obs
+            });
+        } else {
+            this.setState({
+                billingAddress_street: '',
+                billingAddress_city: '',
+                billingAddress_state: '',
+                billingAddress_zip: '',
+                billingAddress_obs: ''
+            });
+        }
+
+    };
+
+    /*DADOS CARTAO*/
+    onNameCardChange = (e) => {
+        const value = e.target.value;
+        this.setState({ card_name: value });
+
+    };
+    onNumberCardChange = (e) => {
+        const value = e.target.value;
+        this.setState({ card_number: value });
+
+    };
+    onBirthdayCardChange = (e) => {
+        const value = e.target.value;
+        this.setState({ card_birthdayDate: value });
+
+    };
+    onDocumentCardChange = (e) => {
+        const value = e.target.value;
+        this.setState({ card_document: value });
+
+    };
+    onCVVCardChange = (e) => {
+        const value = e.target.value;
+        this.setState({ card_cvv: value });
+
+    };
+    onDateValidationCardChange = (e) => {
+        const value = e.target.value;
+        this.setState({ card_expirationDate: value });
+
+    };
+    onDateValidationCardChange = (e) => {
+        const value = !this.state.card_saveCard;
+        this.setState({ card_saveCard: value });
+
+    };
+
     onSubmitForm = (e) => {
         e.preventDefault();
-        if (!this.state.firstName) {
-            this.setState(() => ({ error: "Por favor, informar o campo nome!" }));
-            return false;
 
-        }
-        else if (!this.state.lastName) {
-            this.setState(() => ({ error: "Por favor, informar o campo sobrenome!" }));
+
+        /*VALIDACAO DOS CAMPO OBRIGATORIOS*/
+        if (!this.state.user_firstName) {
+            this.setState(() => ({ error: "Por favor, informar o campo Nome!" }));
             return false;
         }
-        else if (!this.state.email) {
-            this.setState(() => ({ error: "Por favor, informar o campo email!" }));
+        else if (!this.state.user_lastName) {
+            this.setState(() => ({ error: "Por favor, informar o campo Sobrenome!" }));
             return false;
         }
-        else if (!this.state.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-            this.setState(() => ({ error: "Por favor, informar o campo email corretamente!" }));
+        else if (!this.state.user_rg) {
+            this.setState(() => ({ error: "Por favor, informar o campo RG!" }));
             return false;
         }
-        else if (!this.state.password) {
-            this.setState(() => ({ error: "Por favor, informar o campo senha!" }));
+        else if (!this.state.user_cpf) {
+            this.setState(() => ({ error: "Por favor, informar o campo CPF!" }));
             return false;
         }
-        else if (!this.state.terms) {
-            this.setState(() => ({ error: "Por favor, acertar os termos de uso!" }));
+        else if (!this.state.user_address_street) {
+            this.setState(() => ({ error: "Por favor, informar o campo logradouro!" }));
+            return false;
+        }
+        else if (!this.state.user_address_city) {
+            this.setState(() => ({ error: "Por favor, informar o campo cidade!" }));
+            return false;
+        } else if (!this.state.user_address_state) {
+            this.setState(() => ({ error: "Por favor, informar o campo estado!" }));
+            return false;
+        }
+        else if (!this.state.user_address_zip) {
+            this.setState(() => ({ error: "Por favor, informar o campo CEP!" }));
+            return false;
+        }
+        else if (!this.state.billingAddress_street) {
+            this.setState(() => ({ error: "Por favor, informar o campo logradouro dos dados de cobrança!" }));
+            return false;
+        }
+        else if (!this.state.billingAddress_city) {
+            this.setState(() => ({ error: "Por favor, informar o campo cidade dos dados de cobrança!" }));
+            return false;
+        }
+        else if (!this.state.billingAddress_state) {
+            this.setState(() => ({ error: "Por favor, informar o campo estado dos dados de cobrança!" }));
+            return false;
+        }
+        else if (!this.state.billingAddress_zip) {
+            this.setState(() => ({ error: "Por favor, informar o campo CEP dos dados de cobrança!" }));
+            return false;
+        }
+        else if (!this.state.card_name) {
+            this.setState(() => ({ error: "Por favor, informar o campo Nome Completo do Titular!" }));
+            return false;
+        }
+        else if (!this.state.card_number) {
+            this.setState(() => ({ error: "Por favor, informar o campo Número Do Cartão De Crédito!" }));
+            return false;
+        }
+        else if (!this.state.card_birthdayDate) {
+            this.setState(() => ({ error: "Por favor, informar o campo Data de Nascimento!" }));
+            return false;
+        }
+        else if (!this.state.card_document) {
+            this.setState(() => ({ error: "Por favor, informar o campo Documento do titular!" }));
+            return false;
+        }
+        else if (!this.state.card_cvv) {
+            this.setState(() => ({ error: "Por favor, informar o campo Cód. Segurança!" }));
+            return false;
+        }
+        else if (!this.state.card_expirationDate) {
+            this.setState(() => ({ error: "Por favor, informar o campo Data de Validade!" }));
             return false;
         }
 
-        const pass = Encrypt(this.state.password);
+        // const pass = Encrypt(this.state.password);
 
         // if (this.getUser(this.state.email)) {
         //     this.props.dispatch(startAddUser({
@@ -152,7 +291,7 @@ class CheckOutForm extends React.Component {
 
 
     };
-    
+
 
     componentDidMount = () => {
 
@@ -165,9 +304,11 @@ class CheckOutForm extends React.Component {
         const login = JSON.parse(localStorage.getItem('user'));
 
         var email = '';
+        var firstName = '';
 
         if (login.providerData[0].providerId) {
             email = login.email;
+            firstName = login.displayName;
         } else {
             //todo
         }
@@ -184,211 +325,239 @@ class CheckOutForm extends React.Component {
                 this.setState({ error: 'Produto não encontrado' })
             } else {
                 this.setState({
-                    order: {
-                        id: response._id,
-                        category: response._source.category,
-                        subcategory: response._source.subcategory,
-                        name: response._source.name,
-                        description: response._source.description,
-                        rate: response._source.rate,
-                        video: response._source.video,
-                        resource: response._source.resource,
-                        date_from: response._source.date_from,
-                        date_to: response._source.date_to,
-                        url: response._source.url,
-                        price: response._source.price,
-                        //priceTotal: priceTotal, //response._source.price,
-                        contact: response._source.contact,
-                        image: response._source.image,
-                        data: response._source,
-                        startDate: params.get('startDate'),
-                        endDate: params.get('endDate'),
-                        days: days
-                    },
-                    data: fire
+                    order_id: response._id,
+                    order_category: response._source.category,
+                    order_subcategory: response._source.subcategory,
+                    order_name: response._source.name,
+                    order_description: response._source.description,
+                    order_rate: response._source.rate,
+                    order_video: response._source.video,
+                    order_resource: response._source.resource,
+                    order_date_from: response._source.date_from,
+                    order_date_to: response._source.date_to,
+                    order_url: response._source.url,
+                    order_price: response._source.price,
+                    order_contact: response._source.contact,
+                    order_image: response._source.image,
+                    order_startDate: params.get('startDate'),
+                    order_endDate: params.get('endDate'),
+                    order_days: days,
+                    user_id: '',
+                    user_firstName: firstName != '' ? firstName : '',
+                    user_lastName: '',
+                    user_rg: '',
+                    user_cpf: '',
+                    user_email: '',
+                    user_password: '',
+                    user_address_street: '',
+                    user_address_city: '',
+                    user_address_state: '',
+                    user_address_zip: '',
+                    user_address_obs: '',
+                    billingAddress_street: '',
+                    billingAddress_city: '',
+                    billingAddress_state: '',
+                    billingAddress_zip: '',
+                    billingAddress_obs: '',
+                    billingAddress_same: false,
+                    card_name: '',
+                    card_number: '',
+                    card_birthdayDate: '',
+                    card_document: '',
+                    card_cvv: '',
+                    card_expirationDate: '',
+                    card_saveCard: false,
+                    data: fire,
+                    error: ''
                 });
             }
         }).on('error', error => {
             console.log("@get error:", error);
         });
 
+        //console.log(this.state);
+
     };
     render() {
         return (
             <div>
-                <div>
-                    <header className="align-center">
-                        <h2>Dados de Pagamento</h2>
-                    </header>
-                    <div className="card">
-                        <img src={this.state.order.image} alt="Produto" width="298px" height="298px" />
-                        <div className="container-card">
-                            <h4><b>Resumo do aluguel</b></h4>
-                            <p><b>Produto :</b> {this.state.order.category} </p>
-                            <p><b>Período :</b> {this.state.order.startDate}   até  {this.state.order.endDate} ({this.state.order.days} dias)</p>
-                            <p><b>Valor Total :</b> R$ {numeral((this.state.order.price * this.state.order.days)).format('0.00')}</p>
+                <form onSubmit={this.onSubmitForm}>
+                    <div>
+                        <header className="align-center">
+                            <h2>Dados de Pagamento</h2>
+                        </header>
+                        <div className="card">
+                            <img src={this.state.order_image} alt="Produto" width="298px" height="298px" />
+                            <div className="container-card">
+                                <h4><b>Resumo do aluguel</b></h4>
+                                <p><b>Produto :</b> {this.state.order_category} </p>
+                                <p><b>Período :</b> {this.state.order_startDate}   até  {this.state.order_endDate} ({this.state.order_days} dias)</p>
+                                <p><b>Valor Total :</b> R$ {numeral((this.state.order_price * this.state.order_days)).format('0.00')}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="inner">
-                    <hr />
-                    <header className="align-center">
-                        <h2>Dados Pessoais</h2>
-                    </header>
-                    <div className="w3l-main">
-                        <div className="w3l-from">
-                            <div>
-                                {this.state.error && <p>{this.state.error}</p>}
-                            </div>
-                            <form onSubmit={this.onSubmitForm}>
+                    <div className="inner">
+                        <hr />
+                        <header className="align-center">
+                            <h2>Dados Pessoais</h2>
+                        </header>
+                        <div className="w3l-main">
+                            <div className="w3l-from">
                                 <div className="w3l-num">
                                     <label className="head">Nome<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onFirstNameChange}
-                                        value={this.state.user.email} type="text" placeholder="Nome" required="" />
+                                        value={this.state.user_firstName} type="text" placeholder="Nome" required="" />
 
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Sobrenome<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onLastNameChange}
-                                        value={this.state.lastName} type="text" placeholder="Sobrenome" required="" />
+                                        value={this.state.user_lastName} type="text" placeholder="Sobrenome" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">RG<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onRGChange}
-                                        value={this.state.RG} type="text" placeholder="RG" required="" />
-
+                                        value={this.state.user_RG} type="text" placeholder="RG" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">CPF<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCPFChange}
-                                        value={this.state.CPF} type="text" placeholder="CPF" required="" />
+                                        value={this.state.user_CPF} type="text" placeholder="CPF" required="" />
                                 </div>
                                 <div className="w3l-mail">
                                     <label className="head">Logradouro<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onLogradouroChange}
-                                        value={this.state.Logradouro} type="text" placeholder="Logradouro" required="" />
+                                        value={this.state.user_address_street} type="text" placeholder="Logradouro" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Cidade<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCidadeChange}
-                                        value={this.state.Cidade} type="text" placeholder="Cidade" required="" />
+                                        value={this.state.user_address_city} type="text" placeholder="Cidade" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Estado<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onEstadoChange}
-                                        value={this.state.Estado} type="text" placeholder="Estado" required="" />
+                                        value={this.state.user_address_state} type="text" placeholder="Estado" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">CEP<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCEPChange}
-                                        value={this.state.CEP} type="text" placeholder="CEP" required="" />
+                                        value={this.state.user_address_cep} type="number" placeholder="CEP" required="" />
                                 </div>
                                 <div className="w3l-sym">
-                                    <label className="head">Complemento<span className="w3l-star"> * </span></label>
+                                    <label className="head">Complemento<span className="w3l-star"> </span></label>
                                     <input onChange={this.onComplementoChange}
-                                        value={this.state.Complemento} type="text" placeholder="Complemento" required="" />
+                                        value={this.state.user_address_obs} type="text" placeholder="Complemento" />
                                 </div>
                                 <div className="clear"></div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="inner">
-                    <div className="headerCheckout">
-                        <hr />
-                        <header className="headerCheckout">
-                            <h2>Endereço de cobrança</h2>
-                        </header>
-                    </div>
-                    <div className="w3l-main">
-                        <div className="w3l-from">
-                            <div className="w3l-mail">
-                                <label className="head">Logradouro<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onLogradouroFaturamentoChange}
-                                    value={this.state.LogradouroFaturamento} type="text" placeholder="Logradouro" required="" />
+                    <div className="inner">
+                        <div className="headerCheckout">
+                            <hr />
+                            <header className="headerCheckout">
+                                <h2>Endereço de cobrança</h2>
+                            </header>
+                        </div>
+                        <div className="w3l-main">
+                            <div className="w3l-from">
+                                <div className="w3l-mail">
+                                    <label className="head">Logradouro<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onLogradouroFaturamentoChange}
+                                        value={this.state.billingAddress_street} type="text" placeholder="Logradouro" required="" />
+                                </div>
+                                <div className="w3l-num">
+                                    <label className="head">Cidade<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onCidadeFaturamentoChange}
+                                        value={this.state.billingAddress_city} type="text" placeholder="Cidade" required="" />
+                                </div>
+                                <div className="w3l-sym">
+                                    <label className="head">Estado<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onEstadoFaturamentoChange}
+                                        value={this.state.billingAddress_state} type="text" placeholder="Estado" required="" />
+                                </div>
+                                <div className="w3l-num">
+                                    <label className="head">CEP<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onCEPFaturamentoChange}
+                                        value={this.state.billingAddress_zip} type="text" placeholder="CEP" required="" />
+                                </div>
+                                <div className="w3l-sym">
+                                    <label className="head">Complemento<span className="w3l-star"> </span></label>
+                                    <input onChange={this.onComplementoFaturamentoChange}
+                                        value={this.state.billingAddress_obs} type="text" placeholder="Complemento"/>
+                                </div>
+                                <div className="botaoaceite" >
+                                    <input type="checkbox" id="human" name="human" checked={this.state.billingAddress_same} onChange={this.onBillingAddress}
+                                        value={this.state.billingAddress_same} />
+                                </div>
+                                <label htmlFor="human">Mesmo endereço de moradia </label>
                             </div>
-                            <div className="w3l-num">
-                                <label className="head">Cidade<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onCidadeFaturamentoChange}
-                                    value={this.state.CidadeFaturamento} type="text" placeholder="Cidade" required="" />
-                            </div>
-                            <div className="w3l-sym">
-                                <label className="head">Estado<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onEstadoFaturamentoChange}
-                                    value={this.state.EstadoFaturamento} type="text" placeholder="Estado" required="" />
-                            </div>
-                            <div className="w3l-num">
-                                <label className="head">CEPFaturamento<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onCEPFaturamentoChange}
-                                    value={this.state.CEPFaturamento} type="text" placeholder="CEP" required="" />
-                            </div>
-                            <div className="w3l-sym">
-                                <label className="head">Complemento<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onComplementoFaturamentoChange}
-                                    value={this.state.ComplementoFaturamento} type="text" placeholder="Complemento" required="" />
-                            </div>
-                            <div className="botaoaceite" >
-                                <input type="checkbox" id="human" name="human" checked={this.state.sameAddress} onChange={this.onBillingAddress}
-                                    value={this.state.terms} />
-                            </div>
-                            <label htmlFor="human">Mesmo endereco de moradia </label>
                         </div>
                     </div>
-                </div>
-                <div className="inner">
-                    <div className="headerCheckout">
-                        <hr />
-                        <header className="">
-                            <h2>Dados de Pagamento</h2>
-                        </header>
-                    </div>
-                    <div className="w3l-main">
-                        <div className="w3l-from">
-                            <div className="w3l-mail">
-                                <label className="head">Nome completo do titular<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onNameCardChange}
-                                    value={this.state.NameCard} type="text" placeholder="Idêntico ao do cartão" required="" />
+                    <div className="inner">
+                        <div className="headerCheckout">
+                            <hr />
+                            <header className="">
+                                <h2>Dados de Pagamento</h2>
+                            </header>
+                            <div className="moip" >
+                                <img src="https://s3.us-east-2.amazonaws.com/evolumewebappimages/moip_rgb_positivo_pequeno.png" alt="moip" />
                             </div>
-
-                            <div className="w3l-mail">
-                                <label className="head">Número do cartão de crédito<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onNumberCardChange}
-                                    value={this.state.NumberCard} type="text" placeholder="0000 0000 0000 0000" required="" />
+                            <div className="cartao" >
+                                <img src="https://s3.us-east-2.amazonaws.com/evolumewebappimages/cartoes.png" alt="cartoes" />
                             </div>
-                            <div className="w3l-num">
-                                <label className="head">Data Nascimento<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onBirthdayCardChange}
-                                    value={this.state.BirthdayCard} type="text" placeholder="dia/mês/ano" required="" />
+                        </div>
+                        <div className="w3l-main">
+                            <div className="w3l-from">
+                                <div className="w3l-mail">
+                                    <label className="head">Nome completo do titular<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onNameCardChange}
+                                        value={this.state.NameCard} type="text" placeholder="Idêntico ao do cartão" required="" />
+                                </div>
+                                <div className="w3l-mail">
+                                    <label className="head">Número do cartão de crédito<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onNumberCardChange}
+                                        value={this.state.NumberCard} type="text" placeholder="0000 0000 0000 0000" required="" />
+                                </div>
+                                <div className="w3l-num">
+                                    <label className="head">Data Nascimento<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onBirthdayCardChange}
+                                        value={this.state.BirthdayCard} type="text" placeholder="dia/mês/ano" required="" />
+                                </div>
+                                <div className="w3l-sym">
+                                    <label className="head">Documento do titular<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onDocumentCardChange}
+                                        value={this.state.DocumentCard} type="text" placeholder="CPF/CNPJ" required="" />
+                                </div>
+                                <div className="w3l-num">
+                                    <label className="head">Cód. Segurança<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onCVVCardChange}
+                                        value={this.state.CVVCard} type="text" placeholder="CVV" required="" />
+                                </div>
+                                <div className="w3l-sym">
+                                    <label className="head">Data de validade<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onDateValidationCardChange}
+                                        value={this.state.DateValidationCard} type="text" placeholder="mês/ano" required="" />
+                                </div>
+                                <div className="clear"></div>
+                                <div className="botaoaceite" >
+                                    <input type="checkbox" id="human" name="human" checked={this.state.sameAddress} onChange={this.onSaveCard}
+                                        value={this.state.terms} />
+                                </div>
+                                <label htmlFor="human">Salvar esse cartão para compras futuras</label>
+                                <div className="clear"></div>
+                                <div>
+                                    {this.state.error && <p>{this.state.error}</p>}
+                                </div>
+                                <div className="btn">
+                                    <input type="submit" name="enviar" value="Pagar" />
+                                </div>
+                                <div className="clear"></div>
                             </div>
-                            <div className="w3l-sym">
-                                <label className="head">Documento<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onDocumentCardChange}
-                                    value={this.state.DocumentCard} type="text" placeholder="CPF/CNPJ" required="" />
-                            </div>
-                            <div className="w3l-num">
-                                <label className="head">Cód. Segurança<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onCVVCardChange}
-                                    value={this.state.CVVCard} type="text" placeholder="CVV" required="" />
-                            </div>
-                            <div className="w3l-sym">
-                                <label className="head">Data de validade<span className="w3l-star"> * </span></label>
-                                <input onChange={this.onDateValidationCardChange}
-                                    value={this.state.DateValidationCard} type="text" placeholder="mês/ano" required="" />
-                            </div>
-                            <div className="clear"></div>
-                            <div className="botaoaceite" >
-                                <input type="checkbox" id="human" name="human" checked={this.state.sameAddress} onChange={this.onBillingAddress}
-                                    value={this.state.terms} />
-                            </div>
-                            <label htmlFor="human">Salvar esse cartão para compras futuras</label>
-                            <div className="clear"></div>
-                            <div className="btn">
-                                <input type="submit" name="enviar" value="Enviar" />
-                            </div>
-                            <div className="clear"></div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         )
     }
