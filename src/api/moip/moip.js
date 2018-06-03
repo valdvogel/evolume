@@ -14,11 +14,11 @@ var instance = axios.create({
     }
 });
 
-
 export function getAllCustomer() {
     return instance.get(`https://sandbox.moip.com.br/v2/customers/`)
         .then(function (response) {
-            return response;
+            //console.log(response.data.customers);
+            return response.data.customers;
         })
         .catch(function (error) {
             console.log(error);

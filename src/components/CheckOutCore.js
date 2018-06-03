@@ -3,9 +3,19 @@ import moment from 'moment';
 import { startEditUser } from '../actions/user';
 import { startAddOrder } from '../actions/order';
 import { Encrypt, Decrypt } from './Cryptografy';
-import { createCustomer } from '../api/moip/moip';
+import { createCustomer, getAllCustomer } from '../api/moip/moip';
 
+export function getCustomersMoip() {
+    const allCustomerMoip = getAllCustomer();
+    var db = [];
+    allCustomerMoip.then((snap) => {
+        snap.forEach((user) => {
+            db.push(user);
+        });
+    });
 
+    return db;
+}
 
 export function getCustomer() {
     const data = [];
@@ -44,8 +54,23 @@ export function getInfo(data) {
     return customer;
 
 };
+export function customerMoipExist(data, email) {
+
+    var email = email;
+    var customer = '';
+    data.forEach((user) => {
+        if (user.email.toUpperCase() === email.toUpperCase()) {
+            customer = user;
+        }
+    });
+
+    return customer;
+
+};
 
 export function makePayment(data) {
+
+    
 
     const customer = getInfo(data);
 
@@ -66,11 +91,13 @@ export function makePayment(data) {
     var user = {
         uid: customer.uid,
         id: customer._id,
+        idMoip: '',
         firstName: data.user_firstName,
-        lastName: data.user_firstName,
+        lastName: data.user_lastName,
         rg: data.user_rg,
         cpf: data.user_cpf,
         email: data.user_email,
+        birthday: data.user_birthday,
         address: {
             street: data.user_address_street,
             city: data.user_address_city,
@@ -89,7 +116,35 @@ export function makePayment(data) {
 
     };
 
-    //ATUALIZA BASE DE DADOS
+
+
+    const customerMoip = customerMoipExist(data.moip, user.email);
+
+    console.log(customerMoip);
+
+    if(customerMoip && (customerMoip.ownId === user.uid)){
+        user.idMoip = customerMoip.id
+    }
+    else{
+        const info = {
+            'ownId': user.uid,
+            'fullname': user.firstName + ' ' + user.lastName,
+            'email': user.email,
+            'birthDate': user.birthday,
+            'taxDocument': {
+                'type': 'CPF',
+                'number': user.cpf
+            }
+        };
+        
+        const customerMoipId = createCustomer(info);
+        //console.log(customerMoipId.id);
+        user.idMoip = customerMoipId.id;
+
+    }
+
+
+    //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIP
     startEditUser(user);
 
     var order = {
@@ -110,24 +165,16 @@ export function makePayment(data) {
 
 
     //GRAVA PEDIDO NA BASE DE DADO
-    var orderId = startAddOrder(user, order);
-    order.id = orderId;
+    // var orderId = startAddOrder(user, order);
+    // order.id = orderId;
 
-    const info = {
-        'ownId': user.uid,
-        'fullname': user.firstName + ' ' + user.lastName,
-        'email': user.email,
-        'birthDate': '1984-11-14',
-        'taxDocument': {
-            'type': 'CPF',
-            'number': user.cpf
-        }
-    };
 
-    console.log(info);
-    const customerMoipId = createCustomer(info);
 
-    console.log(customerMoipId.id);
+
+    //BUSCAR TODOS OS CLIENTE NO MOIP, POIS O FILTRO DELES NAO FUNCIONA
+
+
+
 
 
 

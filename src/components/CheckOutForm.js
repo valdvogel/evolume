@@ -7,7 +7,7 @@ import numeral from 'numeral';
 import moment from 'moment';
 import { Encrypt } from './Cryptografy';
 import appbaseRef from '../elasticsearch/elasticsearch';
-import {getCustomer, makePayment } from './CheckOutCore';
+import {getCustomer, makePayment,getCustomersMoip } from './CheckOutCore';
 
 
 class CheckOutForm extends React.Component {
@@ -40,6 +40,7 @@ class CheckOutForm extends React.Component {
             user_cpf: '',
             user_email: '',
             user_password: '',
+            user_birthday: '',
             user_address_street: '',
             user_address_city: '',
             user_address_state: '',
@@ -58,6 +59,7 @@ class CheckOutForm extends React.Component {
             card_cvv: '',
             card_expirationDate: '',
             data: [],
+            moip:[],
             error: ''
         }
     };
@@ -108,6 +110,12 @@ class CheckOutForm extends React.Component {
         this.setState({ user_address_obs: value });
 
     };
+    onBirthdayChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_birthday: value });
+    };
+
+    
     /*ENDERECO COBRANCA*/
     onLogradouroFaturamentoChange = (e) => {
         const value = e.target.value;
@@ -231,6 +239,10 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo CEP!" }));
             return false;
         }
+        else if (!this.state.user_birthday) {
+            this.setState(() => ({ error: "Por favor, informar o campo Data de Nascimento!" }));
+            return false;
+        }
         else if (!this.state.billingAddress_street) {
             this.setState(() => ({ error: "Por favor, informar o campo logradouro dos dados de cobrança!" }));
             return false;
@@ -307,6 +319,7 @@ class CheckOutForm extends React.Component {
             //todo
         }
         var fire = getCustomer();
+        var moip = getCustomersMoip();
 
 
         appbaseRef.get(data).on('data', response => {
@@ -343,6 +356,7 @@ class CheckOutForm extends React.Component {
                     user_cpf: '33671487844',
                     user_email: email != '' ? email : '',
                     user_password: '',
+                    user_birthday: '14/11/1984',
                     user_address_street: 'RUA IDA,80',
                     user_address_city: 'SAO PAULO',
                     user_address_state: 'SP',
@@ -354,14 +368,15 @@ class CheckOutForm extends React.Component {
                     billingAddress_zip: '',
                     billingAddress_obs: '',
                     billingAddress_same: false,
-                    card_name: '',
-                    card_number: '',
-                    card_birthdayDate: '',
-                    card_document: '',
-                    card_cvv: '',
-                    card_expirationDate: '',
+                    card_name: '111',
+                    card_number: '222',
+                    card_birthdayDate: '3333',
+                    card_document: '4444',
+                    card_cvv: '555',
+                    card_expirationDate: '666',
                     card_saveCard: false,
                     data: fire,
+                    moip: moip,
                     error: ''
                 });
             }
@@ -419,9 +434,9 @@ class CheckOutForm extends React.Component {
                                         value={this.state.user_cpf} type="text" placeholder="CPF" required="" />
                                 </div>
                                 <div className="w3l-mail">
-                                    <label className="head">Logradouro<span className="w3l-star"> * </span></label>
+                                    <label className="head">Endereço Completo<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onLogradouroChange}
-                                        value={this.state.user_address_street} type="text" placeholder="Logradouro" required="" />
+                                        value={this.state.user_address_street} type="text" placeholder="Endereço" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Cidade<span className="w3l-star"> * </span></label>
@@ -436,12 +451,17 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">CEP<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCEPChange}
-                                        value={this.state.user_address_zip} type="number" placeholder="CEP" required="" />
+                                        value={this.state.user_address_zip} type="text" placeholder="CEP" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Complemento<span className="w3l-star"> </span></label>
                                     <input onChange={this.onComplementoChange}
                                         value={this.state.user_address_obs} type="text" placeholder="Complemento" />
+                                </div>
+                                <div className="w3l-mail">
+                                    <label className="head">Data de Nascimento<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onBirthdayChange}
+                                        value={this.state.user_birthday} type="text" placeholder="dia/mês/ano" required="" />
                                 </div>
                                 <div className="clear"></div>
                             </div>
@@ -457,9 +477,9 @@ class CheckOutForm extends React.Component {
                         <div className="w3l-main">
                             <div className="w3l-from">
                                 <div className="w3l-mail">
-                                    <label className="head">Logradouro<span className="w3l-star"> * </span></label>
+                                    <label className="head">Endereço Completo<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onLogradouroFaturamentoChange}
-                                        value={this.state.billingAddress_street} type="text" placeholder="Logradouro" required="" />
+                                        value={this.state.billingAddress_street} type="text" placeholder="Endereço" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Cidade<span className="w3l-star"> * </span></label>
