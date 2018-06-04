@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 //process.env.NODE_ENV  = 'test';
@@ -61,16 +62,7 @@ module.exports = (env) => {
                 query: {
                     // Inline images smaller than 10kb as data URIs        limit: 10000
                 }
-            },
-            {
-                test: /\.es6$/,
-                exclude: /node_modules/,
-                loader: 'babel',
-                query: {
-                  presets: ['es2015']
-                }
-              }
-        ]
+            }]
         },
         plugins: [
             CSSExtract,
@@ -81,7 +73,8 @@ module.exports = (env) => {
                 'process.env.FIREBASE_PROJECTID': JSON.stringify(process.env.FIREBASE_PROJECTID),
                 'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
                 'process.env.FIREBASE_MESSASING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSASING_SENDER_ID)
-            })
+            }),
+            new UglifyJsPlugin()
         ],
         devtool: isProduction ? 'source-map' : 'inline-source-map',
         devServer: {
