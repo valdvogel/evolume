@@ -1,9 +1,10 @@
 import database from '../firebase/firebase';
 import moment from 'moment';
+import { history } from '../routes/AppRouter'
 import { startEditUser } from '../actions/user';
-import { startAddOrder } from '../actions/order';
+import { startAddOrder, startEditOrder } from '../actions/order';
 import { Encrypt, Decrypt } from './Cryptografy';
-import { createCustomer, getAllCustomer } from '../api/moip/moip';
+import { createCustomer, getAllCustomer, addCreditCard, createOrder, createPayment } from '../api/moip/moip';
 
 export function getCustomersMoip() {
     const allCustomerMoip = getAllCustomer();
@@ -70,7 +71,8 @@ export function customerMoipExist(data, email) {
 
 export function makePayment(data) {
 
-    
+    //console.log(data);
+
 
     const customer = getInfo(data);
 
@@ -78,15 +80,19 @@ export function makePayment(data) {
         name: data.card_name,
         number: data.card_number,
         birthdayDate: data.card_birthdayDate,
-        cpf: data.card_cpf,
+        document: data.card_document,
         cvv: data.card_cvv,
         expirationDate: data.card_expirationDate,
-        saveCard: data.card_saveCard
+        saveCard: data.card_saveCard,
+        idMoip: ''
     };
 
+    // console.log(card);
 
 
-    var dataEncrypt = data.card_saveCard ? Encrypt(JSON.stringify(card)) : '';
+
+    var dataEncrypt = data.card_saveCard ? card : '';
+    //var dataEncrypt = data.card_saveCard ? Encrypt(JSON.stringify(card)) : '';
 
     var user = {
         uid: customer.uid,
@@ -120,12 +126,12 @@ export function makePayment(data) {
 
     const customerMoip = customerMoipExist(data.moip, user.email);
 
-    console.log(customerMoip);
+    //console.log(customerMoip);
 
-    if(customerMoip && (customerMoip.ownId === user.uid)){
+    if (customerMoip && (customerMoip.ownId === user.uid)) {
         user.idMoip = customerMoip.id
     }
-    else{
+    else {
         const info = {
             'ownId': user.uid,
             'fullname': user.firstName + ' ' + user.lastName,
@@ -133,22 +139,49 @@ export function makePayment(data) {
             'birthDate': user.birthday,
             'taxDocument': {
                 'type': 'CPF',
-                'number': user.cpf
+                'number': user.document
             }
         };
-        
+
         const customerMoipId = createCustomer(info);
         //console.log(customerMoipId.id);
         user.idMoip = customerMoipId.id;
 
-    }
+    };
+
+    const bithFormatted = `${card.birthdayDate.substring(4, 8)}-${card.birthdayDate.substring(2, 4)}-${card.birthdayDate.substring(0, 2)}`;
+    const dataCard = {
+        'method': 'CREDIT_CARD',
+        'creditCard': {
+            'expirationMonth': card.expirationDate.substring(0, 2),
+            'expirationYear': card.expirationDate.substring(2, 4),
+            'number': card.number,
+            'cvc': card.cvv,
+            'holder': {
+                'fullname': card.name,
+                'birthdate': bithFormatted,
+                'taxDocument': {
+                    'type': 'CPF',
+                    'number': card.document
+                }
+            }
+        }
+    };
+
+    //console.log(dataCard);
+
+    addCreditCard(user.idMoip, dataCard).then(function (id) {
 
 
-    //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIP
-    startEditUser(user);
+        //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIPID
+        card.idMoip = id;
+        startEditUser(user);
+    });
 
     var order = {
         id: '',
+        idOrderMoip: '',
+        idPaymentMoip: '',
         id_product: data.order_id,
         id_locador: user.uid,
         id_locatario: data.order_contact,
@@ -160,25 +193,105 @@ export function makePayment(data) {
         priceTotal: (data.order_price * data.order_days),
         card: dataEncrypt,
         status: 'EM PROCESSO DE PAGAMENTO',
-        createdAt: moment().format('YYYY/MM/DD HH:mm:ss.ms')
+        createdAt: moment().format('YYYY/MM/DD HH:mm:ss.ms'),
+
     }
 
 
     //GRAVA PEDIDO NA BASE DE DADO
-    // var orderId = startAddOrder(user, order);
-    // order.id = orderId;
+    var orderId = startAddOrder(user, order);
+    order.id = orderId;
 
+    const orderMoip = {
+        "ownId": order.id,
+        "amount": {
+            "currency": "BRL",
+            "subtotals": {
+                "shipping": 0
+            }
+        },
+        "items": [
+            {
+                "product": order.category,
+                "category": "OTHER_CATEGORIES",
+                "quantity": 1,
+                "detail": `ALUGUEL DO EQUIPAMENTO ${order.category} DE ${order.startDate} ATÉ ${order.endDate} NO VALOR TOTAL DE ${order.priceTotal}`,
+                "price": order.priceTotal
+            }
+        ],
+        "customer": {
+            "id": user.idMoip
+        },
+        "receivers": [
+            {
+                "type": "PRIMARY",
+                "feePayor": false,
+                "moipAccount": {
+                    "id": "MPA-3C5358FF2296" //TODO
+                },
+                "amount": {
+                    "percentual": 20
+                }
+            },
+            {
+                "type": "SECONDARY",
+                "feePayor": true,
+                "moipAccount": {
+                    "id": "MPA-E3C8493A06AE" //TODO
+                },
+                "amount": {
+                    "percentual": 80
+                }
+            }
+        ]
+    };
 
+    //console.log(JSON.stringify(orderMoip));
 
+    createOrder(orderMoip).then(function (data) {
+        order.idOrderMoip = data.id;
+        startEditOrder(user.uid, order);
 
-    //BUSCAR TODOS OS CLIENTE NO MOIP, POIS O FILTRO DELES NAO FUNCIONA
+        if (order.idOrderMoip) {
+            var payment = {
+                "installmentCount": 1,
+                "statementDescriptor": "eVolume - Aluguel de acessórios para carros",
+                "fundingInstrument": {
+                    "method": "CREDIT_CARD",
+                    "creditCard": {
+                        "id": card.idOrderMoip,
+                        "store": false,
+                        "holder": {
+                            'fullname': card.name,
+                            'birthdate': bithFormatted,
+                            'taxDocument': {
+                                'type': 'CPF',
+                                'number': card.document
+                            }
+                        }
+                    }
+                }
+            };
+            // createPayment(order.idMoip, payment).then(function (pay) {
+            //     order.idPaymentMoip = pay.id;
+            //     order.status = pay.status;
+            //     startEditOrder(user.uid, order);
+            // });
 
+            //MOCK
+            var resp = createPayment(order.idMoip, payment);
+            order.idPaymentMoip = resp.id;
+            order.status = resp.status;
+            startEditOrder(user.uid, order);
+            console.log()
 
+            history.push(`/contrato/${order.idOrderMoip}`);
 
+        }
 
+        
 
-
-
+    });
 
 
 

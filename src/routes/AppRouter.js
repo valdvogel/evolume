@@ -48,7 +48,7 @@ const AppRouter = () => (
                 <Route path="/rent/:id" component={RentPage} />
                 <Route path="/payment" component={PaymentPage} />
                 <Route path="/checkout/:id" component={CheckOutPage} />
-                <Route path="/contract" component={ContractPage} />
+                <Route path="/contrato/:id" component={ContractPage} />
                 <Route path="/help" component={HelpPage} />
                 <Route path="/sucess" component={SucessPage} />
                 <Route path="/error" component={ErrorPage} />

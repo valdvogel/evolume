@@ -10,3 +10,11 @@ export const startAddOrder = (user, order) => {
             
     return id;
 };
+
+export const startEditOrder = (uid,order) => {
+    
+     database.ref(`users/${uid}/order/${order.id}`).update(order)
+        .then(() => {
+            //editUser(id, updates);
+        });
+};

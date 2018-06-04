@@ -35,7 +35,7 @@ class Header extends React.Component {
                 <header id="header">
                     <div className="inner">
                         <NavLink to="/" className="logo">
-                            <img src="../images/logo_cut_white.png" width="100px" height="57px" />
+                            <img src="https://s3.us-east-2.amazonaws.com/evolumewebappimages/logo_cut_white.png" width="100px" height="57px" />
                         </NavLink>
                         <nav id="nav">
                             <NavLink to="/sobrenos" activeClassName="is-active">Sobre Nós</NavLink>
@@ -53,7 +53,7 @@ class Header extends React.Component {
                 <header id="header">
                     <div className="inner">
                         <NavLink to="/" className="logo">
-                            <img src="../images/logo_cut_white.png" width="100px" height="57px" />
+                            <img src="https://s3.us-east-2.amazonaws.com/evolumewebappimages/logo_cut_white.png" width="100px" height="57px" />
                         </NavLink>
                         <NavLink to="/locador" activeClassName="is-active">Sou Locador</NavLink>
                         <NavLink to="/locatario" activeClassName="is-active" exact={true}>Locatario</NavLink>

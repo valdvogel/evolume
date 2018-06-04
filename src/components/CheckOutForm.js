@@ -288,14 +288,9 @@ class CheckOutForm extends React.Component {
         //LOCALIZAR DADOS NO BANCO
         // ATUALIZAR DADOS NO BANCO
         // REALIZAR INTEGRAÇAO COM MOIP
-        makePayment(this.state);
-        
+        const orderId = makePayment(this.state);
 
-
-
-
-
-
+    
     };
 
 
@@ -368,12 +363,12 @@ class CheckOutForm extends React.Component {
                     billingAddress_zip: '',
                     billingAddress_obs: '',
                     billingAddress_same: false,
-                    card_name: '111',
-                    card_number: '222',
-                    card_birthdayDate: '3333',
-                    card_document: '4444',
-                    card_cvv: '555',
-                    card_expirationDate: '666',
+                    card_name: 'JOSE V ALMEIDA JR',
+                    card_number: '4012001037141112',
+                    card_birthdayDate: '14111984',
+                    card_document: '33671487844',
+                    card_cvv: '123',
+                    card_expirationDate: '0522',
                     card_saveCard: false,
                     data: fire,
                     moip: moip,
