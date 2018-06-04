@@ -17,12 +17,15 @@ module.exports = (env) => {
     const isProduction = env === 'production';
     const CSSExtract = new ExtractTextPlugin('styles.css');
 
-    if(env === 'test')
+    if (env === 'test')
         require('dotenv').config({ path: '.env.test' });
-    
+
 
     return {
         entry: './src/app.js',
+        node: {
+            fs: 'empty'
+        },
         output: {
             path: path.join(__dirname, 'public', 'dist'),
             filename: 'bundle.js'
@@ -56,8 +59,8 @@ module.exports = (env) => {
                 test: /\.(?:png|jpg|svg|jpeg)$/,
                 loader: 'url-loader',
                 query: {
-                // Inline images smaller than 10kb as data URIs        limit: 10000
-              }
+                    // Inline images smaller than 10kb as data URIs        limit: 10000
+                }
             }]
         },
         plugins: [

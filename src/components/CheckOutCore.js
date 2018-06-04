@@ -4,7 +4,7 @@ import { history } from '../routes/AppRouter'
 import { startEditUser } from '../actions/user';
 import { startAddOrder, startEditOrder } from '../actions/order';
 import { Encrypt, Decrypt } from './Cryptografy';
-import { createCustomer, getAllCustomer, addCreditCard, createOrder, createPayment } from '../api/moip/moip';
+import { createCustomer, getAllCustomer, addCreditCard, createOrder, createPayment,cryptCard } from '../api/moip/moip';
 
 export function getCustomersMoip() {
     const allCustomerMoip = getAllCustomer();
@@ -84,12 +84,16 @@ export function makePayment(data) {
         cvv: data.card_cvv,
         expirationDate: data.card_expirationDate,
         saveCard: data.card_saveCard,
-        idMoip: ''
+        idMoip: '',
+        hash: ''
     };
 
-    // console.log(card);
+    
+    cryptCard(card).then(function(hash){
+        card.hash = hash;
+    });
 
-
+    
 
     var dataEncrypt = data.card_saveCard ? card : '';
     //var dataEncrypt = data.card_saveCard ? Encrypt(JSON.stringify(card)) : '';
@@ -129,7 +133,7 @@ export function makePayment(data) {
 
     const customerMoip = customerMoipExist(data.moip, user.email);
 
-    console.log(customerMoip);
+    //console.log(customerMoip);
 
     if (customerMoip && (customerMoip.ownId === user.uid)) {
         user.idMoip = customerMoip.id
@@ -147,7 +151,6 @@ export function makePayment(data) {
         };
         
         createCustomer(info).then(function (userMoip) {
-            console.log('1',userMoip);
             user.idMoip = userMoip.data.id;
         });
 
@@ -155,7 +158,7 @@ export function makePayment(data) {
 
     };
 
-    console.log('USER CRIADO NO MOIP');
+    //console.log('USER CRIADO NO MOIP');
 
     const bithFormatted = `${card.birthdayDate.substring(4, 8)}-${card.birthdayDate.substring(2, 4)}-${card.birthdayDate.substring(0, 2)}`;
     const dataCard = {
@@ -176,7 +179,7 @@ export function makePayment(data) {
         }
     };
 
-    console.log(JSON.stringify(dataCard));
+    //console.log(JSON.stringify(dataCard));
 
     addCreditCard(user.idMoip, dataCard).then(function (id) {
         //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIPID
@@ -289,7 +292,7 @@ export function makePayment(data) {
             order.idPaymentMoip = resp.id;
             order.status = resp.status;
             startEditOrder(user.uid, order);
-            console.log()
+            
 
             history.push(`/contrato/${order.idOrderMoip}`);
 
