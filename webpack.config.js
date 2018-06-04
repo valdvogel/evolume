@@ -61,7 +61,16 @@ module.exports = (env) => {
                 query: {
                     // Inline images smaller than 10kb as data URIs        limit: 10000
                 }
-            }]
+            },
+            {
+                test: /\.es6$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: {
+                  presets: ['es2015']
+                }
+              }
+        ]
         },
         plugins: [
             CSSExtract,
