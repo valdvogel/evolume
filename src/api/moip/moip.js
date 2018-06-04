@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { MoipCreditCard } from 'moip-sdk-js'
-import JSEncrypt from 'node-jsencrypt'
+//import { MoipCreditCard } from 'moip-sdk-js'
+//import JSEncrypt from 'node-jsencrypt'
 
 
 const URL_ROOT = 'https://sandbox.moip.com.br/v2';
@@ -12,32 +12,33 @@ const URL_CHANNEL = URL_ROOT + '/channels';
 
 export function cryptCard(data) {
 
-    const pubKey = `-----BEGIN PUBLIC KEY-----
-                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnvXokRh87onqV/XtG6xy
-                    YyYLB4ukBH5///QQn8x4xgoCjKi4Z4yT8iGVRp+hKWzm0ToYA4qc7u33MPxzs4C4
-                    XJ7ClQjVTmZj4Pkx+/1DSZLz3wyHJ5ANc0ewdVBEhYGRzKyWi51GvGVBXvojtxKJ
-                    AlVuYlNTD4IvnxUDFu102f1U38sfa8018Ok8XJ7hPg3bCDJChDUfCZaE9ySz4h2S
-                    LbN4SlL7/C2d1FtPuVZrEEK4g3pvFNoSB+fbCOt+RGYFC4YNuKhKocT+7DQ3hjDj
-                    b8Vs0t5hk43SonXVBx0OC5ik/qU3Ax3s3y0YpI4dKuMr5kiU2+57PWWbxieaxhRM
-                    QQIDAQAB
-                    -----END PUBLIC KEY-----
-                    `;
+    // const pubKey = `-----BEGIN PUBLIC KEY-----
+    //                 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnvXokRh87onqV/XtG6xy
+    //                 YyYLB4ukBH5///QQn8x4xgoCjKi4Z4yT8iGVRp+hKWzm0ToYA4qc7u33MPxzs4C4
+    //                 XJ7ClQjVTmZj4Pkx+/1DSZLz3wyHJ5ANc0ewdVBEhYGRzKyWi51GvGVBXvojtxKJ
+    //                 AlVuYlNTD4IvnxUDFu102f1U38sfa8018Ok8XJ7hPg3bCDJChDUfCZaE9ySz4h2S
+    //                 LbN4SlL7/C2d1FtPuVZrEEK4g3pvFNoSB+fbCOt+RGYFC4YNuKhKocT+7DQ3hjDj
+    //                 b8Vs0t5hk43SonXVBx0OC5ik/qU3Ax3s3y0YpI4dKuMr5kiU2+57PWWbxieaxhRM
+    //                 QQIDAQAB
+    //                 -----END PUBLIC KEY-----
+    //                 `;
 
-    return MoipCreditCard
-        .setEncrypter(JSEncrypt, 'node')
-        .setPubKey(pubKey)
-        .setCreditCard({
-            number: data.number,
-            cvc: data.cvv,
-            expirationMonth: data.expirationDate.substring(0, 2),
-            expirationYear: data.expirationDate.substring(2, 4),
-        })
-        .hash()
-        .then(function(hash) { 
-            return hash;
-        });
+    // return MoipCreditCard
+    //     .setEncrypter(JSEncrypt, 'node')
+    //     .setPubKey(pubKey)
+    //     .setCreditCard({
+    //         number: data.number,
+    //         cvc: data.cvv,
+    //         expirationMonth: data.expirationDate.substring(0, 2),
+    //         expirationYear: data.expirationDate.substring(2, 4),
+    //     })
+    //     .hash()
+    //     .then(function (hash) {
+    //         return hash;
+    //     });
+    return 'fake';
 
-    
+
 }
 var instance = axios.create({
     auth: {

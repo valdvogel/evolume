@@ -89,9 +89,9 @@ export function makePayment(data) {
     };
 
     
-    cryptCard(card).then(function(hash){
-        card.hash = hash;
-    });
+    // cryptCard(card).then(function(hash){
+    //     card.hash = hash;
+    // });
 
     
 

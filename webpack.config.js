@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 //process.env.NODE_ENV  = 'test';
@@ -73,8 +72,7 @@ module.exports = (env) => {
                 'process.env.FIREBASE_PROJECTID': JSON.stringify(process.env.FIREBASE_PROJECTID),
                 'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
                 'process.env.FIREBASE_MESSASING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSASING_SENDER_ID)
-            }),
-            new UglifyJsPlugin()
+            })
         ],
         devtool: isProduction ? 'source-map' : 'inline-source-map',
         devServer: {
