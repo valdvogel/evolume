@@ -283,7 +283,7 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo Data de Validade!" }));
             return false;
         }
-        console.log('validado');
+        //console.log('validado');
 
         //LOCALIZAR DADOS NO BANCO
         // ATUALIZAR DADOS NO BANCO
@@ -351,7 +351,7 @@ class CheckOutForm extends React.Component {
                     user_cpf: '33671487844',
                     user_email: email != '' ? email : '',
                     user_password: '',
-                    user_birthday: '14/11/1984',
+                    user_birthday: '14111984',
                     user_address_street: 'RUA IDA,80',
                     user_address_city: 'SAO PAULO',
                     user_address_state: 'SP',

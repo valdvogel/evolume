@@ -123,10 +123,13 @@ export function makePayment(data) {
     };
 
 
+    //console.log(user.email);
+    //console.log(data.moip);
+
 
     const customerMoip = customerMoipExist(data.moip, user.email);
 
-    //console.log(customerMoip);
+    console.log(customerMoip);
 
     if (customerMoip && (customerMoip.ownId === user.uid)) {
         user.idMoip = customerMoip.id
@@ -136,18 +139,23 @@ export function makePayment(data) {
             'ownId': user.uid,
             'fullname': user.firstName + ' ' + user.lastName,
             'email': user.email,
-            'birthDate': user.birthday,
+            'birthDate': `${user.birthday.substring(4, 8)}-${user.birthday.substring(2, 4)}-${user.birthday.substring(0, 2)}`,
             'taxDocument': {
                 'type': 'CPF',
                 'number': user.document
             }
         };
+        
+        createCustomer(info).then(function (userMoip) {
+            console.log('1',userMoip);
+            user.idMoip = userMoip.data.id;
+        });
 
-        const customerMoipId = createCustomer(info);
-        //console.log(customerMoipId.id);
-        user.idMoip = customerMoipId.id;
+    
 
     };
+
+    console.log('USER CRIADO NO MOIP');
 
     const bithFormatted = `${card.birthdayDate.substring(4, 8)}-${card.birthdayDate.substring(2, 4)}-${card.birthdayDate.substring(0, 2)}`;
     const dataCard = {
@@ -168,11 +176,9 @@ export function makePayment(data) {
         }
     };
 
-    //console.log(dataCard);
+    console.log(JSON.stringify(dataCard));
 
     addCreditCard(user.idMoip, dataCard).then(function (id) {
-
-
         //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIPID
         card.idMoip = id;
         startEditUser(user);

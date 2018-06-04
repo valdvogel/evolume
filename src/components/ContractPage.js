@@ -22,7 +22,7 @@ class ContractPage extends React.Component {
         <section id="main" className="cadastro-wrapper">
             <div className="inner">
                 <header className="align-center">
-                    <h2>Obrigado!</h2>
+                    <h2><strong>Obrigado!</strong></h2>
                 </header>
                 <header className="align-center">
                     <h3>O seu equipamento está reservado, por favor verifique seu email para maiores informações.</h3>
