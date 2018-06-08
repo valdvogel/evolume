@@ -8,6 +8,8 @@ import moment from 'moment';
 import { Encrypt } from './Cryptografy';
 import appbaseRef from '../elasticsearch/elasticsearch';
 import {getCustomer, makePayment,getCustomersMoip } from './CheckOutCore';
+import {send} from '../api/mail/mail';
+
 
 
 class CheckOutForm extends React.Component {
@@ -288,7 +290,9 @@ class CheckOutForm extends React.Component {
         //LOCALIZAR DADOS NO BANCO
         // ATUALIZAR DADOS NO BANCO
         // REALIZAR INTEGRAÇAO COM MOIP
-        const orderId = makePayment(this.state);
+        //makePayment(this.state);
+        send('jose@evolume.com.br','ALUGUEL DE RACK','contrato');
+        
 
     
     };

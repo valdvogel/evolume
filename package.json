@@ -16,6 +16,7 @@
   "dependencies": {
     "@appbaseio/reactivesearch": "^2.6.2",
     "appbase-js": "^3.0.0",
+    "aws-sdk": "^2.253.1",
     "axios": "^0.18.0",
     "babel": "^6.23.0",
     "babel-cli": "6.24.1",
