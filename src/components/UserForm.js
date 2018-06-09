@@ -4,6 +4,7 @@ import { history } from '../routes/AppRouter'
 import database from '../firebase/firebase';
 import { startAddUser } from '../actions/user';
 import { Encrypt } from './Cryptografy';
+import {send} from '../api/mail/mail';
 
 class UserForm extends React.Component {
     constructor(props) {
@@ -94,7 +95,10 @@ class UserForm extends React.Component {
             }, 'evolume.com.br'
             ));
 
-            history.push('/sucess');
+            const id = Encrypt(this.state.email);
+
+            send(this.state.firstName,this.state.email,id,'cadastro');
+            history.push('/sucesso');
         }
 
 

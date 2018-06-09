@@ -1,14 +1,14 @@
 import uuid from 'uuid';
 import moment from 'moment';
 import database from '../firebase/firebase';
-import {LogInfo} from './audit';
+import { LogInfo } from './audit';
 
 
 //ADD REDUCER
 export const addUser = (user) => (
     {
-    type: 'ADD_USER',
-    user
+        type: 'ADD_USER',
+        user
     }
 );
 
@@ -55,8 +55,8 @@ export const startAddUser = (userData = {}, origin) => {
                     ...user
                 }));
             });
-        
-        LogInfo(uid,origin);
+
+        LogInfo(uid, origin);
     };
 };
 
@@ -81,7 +81,7 @@ export const startRemoveExpense = ({ id } = {}) => {
 
 
 //EDIT REDUCER
-export const editUser = (id,updates) => ({
+export const editUser = (id, updates) => ({
     type: 'EDIT_USER',
     id,
     updates
@@ -89,13 +89,46 @@ export const editUser = (id,updates) => ({
 });
 
 export const startEditUser = (updates) => {
-        const uid = updates.uid;
-        const id = updates.id;
-        
-         database.ref(`users/${uid}/data/${id}`).update(updates)
-            .then(() => {
-                editUser(id, updates);
+    const uid = updates.uid;
+    const id = updates.id;
+
+    database.ref(`users/${uid}/data/${id}`).update(updates)
+        .then(() => {
+            editUser(id, updates);
+        });
+};
+
+
+export const setEmailConfirmation = (email) => {
+    const data = [];
+    database.ref(`users`)
+        .once('value')
+        .then((snapshot) => {
+            snapshot.forEach((child) => {
+                database.ref(`users/${child.key}/data`)
+                    .once('value')
+                    .then((snap) => {
+                        snap.forEach((user) => {
+                            data.push({
+                                _id: user.key,
+                                ...user.val()
+                            });
+                        });
+                        data.forEach((cli) => {
+                            if (cli.email.toUpperCase() === email.toUpperCase()) {
+                                var update = {
+                                    active: true
+                                };
+                                database.ref(`users/${cli.id}/data/${cli._id}`).update(update)
+                                    .then(() => {
+                                        return true;
+                                    });
+                            }
+                        });
+                    });
             });
+        });
+
 };
 
 
@@ -129,7 +162,7 @@ export const startSetUser = (origin) => {
                 }
 
                 // // add auditory
-                LogInfo(uid,origin);
+                LogInfo(uid, origin);
 
             }).catch((e) => {
                 console.log(e);

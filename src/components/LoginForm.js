@@ -29,32 +29,35 @@ class LoginForm extends React.Component {
         const p = password;
 
         const data = this.state.data;
-        let bln = false;
+        var bln = false;
+        var error = '';
 
         data.forEach((user) => {
             if (user.email.toUpperCase() === email.toUpperCase()) {
                 if ((Decrypt(user.password) === password)) {
+                    if (user.active) {
 
-                    bln = true;
-                    this.props.dispatch(login(user));
+                        bln = true;
+                        this.props.dispatch(login(user));
 
-                    const json = JSON.stringify(user);
-                    localStorage.setItem('user', json);
+                        const json = JSON.stringify(user);
+                        localStorage.setItem('user', json);
 
-                    history.push('/locatario');
-                    window.location.reload();
+                        history.push('/locatario');
+                        window.location.reload();
+                    } else {
+                        error = "A conta não está autorizada!";
+                    }
                 }
                 else {
-                    this.setState(() => ({ error: "A senha informada está incorreta!" }));
+                    error = "A senha informada está incorreta!";
                 }
-            }
-            else {
-                this.setState(() => ({ error: "O login informado não foi encontrado!" }));
             }
         });
 
         if (!bln) {
-            this.setState(() => ({ error: "Não foram encontradas informações com email e senhas fornecidos." }));
+
+            this.setState(() => ({ error: error === '' ? "Não foram encontradas informações com email e senhas fornecidos." : error }));
             this.setState(() => ({ password: '' }));
         }
 
@@ -67,7 +70,7 @@ class LoginForm extends React.Component {
             return false;
         }
         else if (!this.state.password) {
-            this.setState(() => ({ error: "Por favor, informar o campo password!" }));
+            this.setState(() => ({ error: "Por favor, informar o campo senha!" }));
             return false;
         };
         const email = this.state.email;
@@ -106,12 +109,12 @@ class LoginForm extends React.Component {
                 <div className="alert alert-warning">
                     {this.state.error && <p>{this.state.error}</p>}
                 </div>
-                
+
                 <form onSubmit={this.onSubmitForm}>
                     <div className="w3l-mail">
                         <label className="head">Email<span className="w3l-star"> * </span></label>
                         <input onChange={this.onEmailChange}
-                        value={this.state.email} type="email" placeholder="Email"  required="" autoFocus />
+                            value={this.state.email} type="email" placeholder="Email" required="" autoFocus />
                     </div>
                     <div className="w3l-user">
                         <label className="head">Senha<span className="w3l-star"> * </span></label>

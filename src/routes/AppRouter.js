@@ -26,6 +26,7 @@ import ErrorPage from '../components/ErrorPage';
 import MainSearch from '../components/MainSearch';
 import ProductPage from '../components/ProductPage';
 import CheckOutPage from '../components/CheckOutPage';
+import UserConfirmPage from '../components/UserConfirmPage';
 
 
 
@@ -38,6 +39,7 @@ const AppRouter = () => (
             <Switch>
                 <Route path="/" component={MainPage} exact={true}  />
                 <Route path="/cadastro" component={UserPage} />
+                <Route path="/confirmacao" component={UserConfirmPage} />
                 <Route path="/sobrenos" component={AboutUsPage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/autenticado" component={AuthPage} />
@@ -50,7 +52,7 @@ const AppRouter = () => (
                 <Route path="/checkout/:id" component={CheckOutPage} />
                 <Route path="/contrato/:id" component={ContractPage} />
                 <Route path="/help" component={HelpPage} />
-                <Route path="/sucess" component={SucessPage} />
+                <Route path="/sucesso" component={SucessPage} />
                 <Route path="/error" component={ErrorPage} />
                 <Route component={NotFoundPage} />
             </Switch>

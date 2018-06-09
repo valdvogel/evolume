@@ -233,20 +233,10 @@ export function makePayment(data) {
         },
         "receivers": [
             {
-                "type": "PRIMARY",
-                "feePayor": false,
-                "moipAccount": {
-                    "id": "MPA-3C5358FF2296" //TODO
-                },
-                "amount": {
-                    "percentual": 20
-                }
-            },
-            {
                 "type": "SECONDARY",
                 "feePayor": true,
                 "moipAccount": {
-                    "id": "MPA-E3C8493A06AE" //TODO
+                    "id": "MPA-E3C8493A06AE"
                 },
                 "amount": {
                     "percentual": 80
