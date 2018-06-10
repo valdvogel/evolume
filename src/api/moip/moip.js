@@ -47,21 +47,22 @@ var instance = axios.create({
     }
 });
 
-export function createPayment(orderId, data) {
-    const payload = {
-        id: '123',
-        status: 'AUTHORIZED'
+var instanceOAuth = axios.create({
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'OAuth a80ae6bbcdc544a2bff53e5c8b16d384_v2'
+    }
+});
 
-    };
-    return payload;
-    // return instance.post(`https://sandbox.moip.com.br/v2/orders/${orderId}/payments`, data)
-    //     .then(function (response) {
-    //         return response.data
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //         throw new Error(error.message);
-    //     });
+export function createPayment(orderId, data) {
+    return instanceOAuth.post(`https://sandbox.moip.com.br/v2/orders/${orderId}/payments`, data)
+        .then(function (response) {
+            return response.data
+        })
+        .catch(function (error) {
+            console.log(error);
+            throw new Error(error.message);
+        });
 }
 export function createOrder(data) {
     return instance.post(`https://sandbox.moip.com.br/v2/orders`, data)

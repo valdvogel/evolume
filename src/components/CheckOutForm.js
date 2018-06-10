@@ -1,14 +1,12 @@
 import React from 'react';
-//import { connect } from 'react-redux';
 import { history } from '../routes/AppRouter'
 import database from '../firebase/firebase';
-//import { startAddUser } from '../actions/user';
 import numeral from 'numeral';
 import moment from 'moment';
 import { Encrypt } from './Cryptografy';
 import appbaseRef from '../elasticsearch/elasticsearch';
 import {getCustomer, makePayment,getCustomersMoip } from './CheckOutCore';
-import {send} from '../api/mail/mail';
+
 
 
 
@@ -290,8 +288,8 @@ class CheckOutForm extends React.Component {
         //LOCALIZAR DADOS NO BANCO
         // ATUALIZAR DADOS NO BANCO
         // REALIZAR INTEGRAÇAO COM MOIP
-        //makePayment(this.state);
-        send('jose@evolume.com.br','ALUGUEL DE RACK','contrato');
+        makePayment(this.state);
+        
         
 
     
@@ -308,14 +306,17 @@ class CheckOutForm extends React.Component {
 
         const login = JSON.parse(localStorage.getItem('user'));
 
+        
+
         var email = '';
         var firstName = '';
 
-        if (login.providerData[0].providerId) {
+        if ((!typeof login.providerData === "undefined") && (login.providerData[0].providerId)) {
             email = login.email;
             firstName = login.displayName;
         } else {
-            //todo
+            email = login.email;
+            firstName = login.firstName;
         }
         var fire = getCustomer();
         var moip = getCustomersMoip();
@@ -345,6 +346,7 @@ class CheckOutForm extends React.Component {
                     order_price: response._source.price,
                     order_contact: response._source.contact,
                     order_image: response._source.image,
+                    order_email: response._source.email,
                     order_startDate: params.get('startDate'),
                     order_endDate: params.get('endDate'),
                     order_days: days,
@@ -554,8 +556,8 @@ class CheckOutForm extends React.Component {
                                         value={this.state.card_expirationDate} type="text" placeholder="mês/ano" required="" />
                                 </div>
                                 <div className="clear"></div>
-                                <div className="botaoaceite" >
-                                    <input type="checkbox" id="human" name="human"  onChange={this.onSaveCard}
+                                <div className="botaoaceite2" >
+                                    <input type="checkbox" id="human1" name="human1"  onChange={this.onSaveCard}
                                         value={this.state.card_saveCard} />
                                 </div>
                                 <label htmlFor="human">Salvar esse cartão para compras futuras</label>
