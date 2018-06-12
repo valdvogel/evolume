@@ -7,7 +7,7 @@ import ExpenseForm from './ExpenseForm';
 const EditExpenseDashBoardPage = (props) => {
     return (
         <div>
-            This is my edit component with id {props.match.params.id} 
+            This is my edit component with id {props.match.params.id}
             <ExpenseForm
                 expense={props.expense}
                 onSubmit={(expense) => {
