@@ -228,10 +228,10 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo CPF!" }));
             return false;
         }
-        else if (!this.state.user_cpf.match(/(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/)) {
-            this.setState(() => ({ error: "Por favor, informar o campo CPF corretamente!" }));
-            return false;
-        }
+        // else if (!this.state.user_cpf.match(/(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/)) {
+        //     this.setState(() => ({ error: "Por favor, informar o campo CPF corretamente!" }));
+        //     return false;
+        // }
         else if (!this.state.user_birthday) {
             this.setState(() => ({ error: "Por favor, informar o campo Data de Nascimento!" }));
             return false;
@@ -288,10 +288,10 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo Documento do titular!" }));
             return false;
         }
-        else if (!this.state.card_document.match(/(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/)) {
-            this.setState(() => ({ error: "Por favor, informar o campo CPF corretamente!" }));
-            return false;
-        }
+        // else if (!this.state.card_document.match(/(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/)) {
+        //     this.setState(() => ({ error: "Por favor, informar o campo CPF corretamente!" }));
+        //     return false;
+        // }
         else if (!this.state.card_cvv) {
             this.setState(() => ({ error: "Por favor, informar o campo Cód. Segurança!" }));
             return false;

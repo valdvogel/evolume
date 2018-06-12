@@ -10,14 +10,18 @@ var instance = axios.create({
     }
 });
 
-var instanceOAuth = axios.create({
+var header = {
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': process.env.MOIP_AUTH
+        'Authorization': 'OAuth ' + process.env.MOIP_AUTH
     }
-});
+};
+
+
+var instanceOAuth = axios.create(header);
 
 export function createPayment(orderId, data) {
+    console.log(JSON.stringify(data));
     return instanceOAuth.post(`${URL_ROOT}/orders/${orderId}/payments`, data)
         .then(function (response) {
             return response.data
