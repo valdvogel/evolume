@@ -56,9 +56,9 @@ class MainSearch extends React.Component {
                         <div className="busca0">
                             <div className="busca1">
                                 <ReactiveBase
-                                    app="evolumebr"
-                                    credentials="xYM80w0w7:bb421d67-1ea4-43de-b213-91c81bc24514"
-                                    type="equipment"
+                                    app={process.env.ELK_APP}
+                                    credentials={process.env.ELK_CREDENTIALS}
+                                    type={process.env.ELK_TYPE}
                                 >
                                     <DataSearch
                                         componentId="search"

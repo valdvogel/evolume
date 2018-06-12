@@ -6,7 +6,7 @@ import { startEditUser } from '../actions/user';
 import { startAddOrder, startEditOrder } from '../actions/order';
 import { Encrypt, Decrypt } from './Cryptografy';
 import { createCustomer, getAllCustomer, addCreditCard, createOrder, createPayment, cryptCard } from '../api/moip/moip';
-import {send} from '../api/mail/mail';
+import { send } from '../api/mail/mail';
 
 export function getCustomersMoip() {
     const allCustomerMoip = getAllCustomer();
@@ -57,12 +57,13 @@ export function getInfo(data, email) {
     return customer;
 
 };
-export function customerMoipExist(data, email) {
+export function customerMoipExist(data, email, id) {
 
     var email = email;
     var customer = '';
     data.forEach((user) => {
-        if (user.email.toUpperCase() === email.toUpperCase()) {
+        if (user.email.toUpperCase() === email.toUpperCase()
+            && user.ownId === id) {
             customer = user;
         }
     });
@@ -71,129 +72,15 @@ export function customerMoipExist(data, email) {
 
 };
 
-export function makePayment(data) {
 
-    
-    const customer = getInfo(data, data.user_email);
-    const locador = getInfo(data, data.order_email);
+export function startOrder(data, card, user, locador) {
 
-    console.log(customer);
-    console.log(locador);
-
-    var card = {
-        name: data.card_name,
-        number: data.card_number,
-        birthdayDate: data.card_birthdayDate,
-        document: data.card_document,
-        cvv: data.card_cvv,
-        expirationDate: data.card_expirationDate,
-        saveCard: data.card_saveCard,
-        idMoip: '',
-        hash: ''
-    };
-
-
-    // cryptCard(card).then(function(hash){
-    //     card.hash = hash;
-    // });
-
-
-
-    var dataEncrypt = data.card_saveCard ? card : '';
-    //var dataEncrypt = data.card_saveCard ? Encrypt(JSON.stringify(card)) : '';
-
-    var user = {
-        uid: customer.uid || customer.id,
-        id: customer._id,
-        idMoip: '',
-        idMerchant: customer.idMerchant || '',
-        firstName: data.user_firstName,
-        lastName: data.user_lastName,
-        rg: data.user_rg,
-        cpf: data.user_cpf,
-        email: data.user_email,
-        birthday: data.user_birthday,
-        address: {
-            street: data.user_address_street,
-            city: data.user_address_city,
-            state: data.user_address_state,
-            zip: data.user_address_zip,
-            obs: data.user_address_obs
-        },
-        billingAddress: {
-            street: data.billingAddress_street,
-            city: data.billingAddress_city,
-            state: data.billingAddress_state,
-            zip: data.billingAddress_zip,
-            obs: data.billingAddress_obs
-        },
-        card: dataEncrypt
-
-    };
-
-
-    const customerMoip = customerMoipExist(data.moip, user.email);
-
-    const bithFormatted = `${card.birthdayDate.substring(4, 8)}-${card.birthdayDate.substring(2, 4)}-${card.birthdayDate.substring(0, 2)}`;
-    const dataCard = {
-        'method': 'CREDIT_CARD',
-        'creditCard': {
-            'expirationMonth': card.expirationDate.substring(0, 2),
-            'expirationYear': card.expirationDate.substring(2, 4),
-            'number': card.number,
-            'cvc': card.cvv,
-            'holder': {
-                'fullname': card.name,
-                'birthdate': bithFormatted,
-                'taxDocument': {
-                    'type': 'CPF',
-                    'number': card.document
-                }
-            }
-        }
-    };
-
-    if (customerMoip && (customerMoip.ownId === user.uid)) {
-        user.idMoip = customerMoip.id
-        addCreditCard(user.idMoip, dataCard).then(function (id) {
-            //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIPID
-            card.idMoip = id;
-            startEditUser(user);
-        });
-    }
-    else {
-        const info = {
-            'ownId': user.uid,
-            'fullname': user.firstName + ' ' + user.lastName,
-            'email': user.email,
-            'birthDate': `${user.birthday.substring(4, 8)}-${user.birthday.substring(2, 4)}-${user.birthday.substring(0, 2)}`,
-            'taxDocument': {
-                'type': 'CPF',
-                'number': user.document
-            }
-        };
-
-        createCustomer(info).then(function (userMoip) {
-            user.idMoip = userMoip.data.id;
-
-            addCreditCard(user.idMoip, dataCard).then(function (id) {
-                //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIPID
-                card.idMoip = id;
-                startEditUser(user);
-            });
-        });
-
-
-
-    };
-
-    
     var order = {
         id: '',
         idOrderMoip: '',
         idPaymentMoip: '',
         idProduct: data.order_id,
-        idLocador: locador.id,
+        idLocador: locador.uid || locador.id,
         idLocatario: user.uid,
         category: data.order_category,
         startDate: data.order_startDate,
@@ -202,7 +89,7 @@ export function makePayment(data) {
         image: data.order_image,
         days: data.order_days,
         priceTotal: numeral(data.order_price * data.order_days).format('0.00').replace('.', ''),
-        card: dataEncrypt,
+        card: user.card,
         status: 'EM PROCESSO DE PAGAMENTO',
         createdAt: moment().format('YYYY/MM/DD HH:mm:ss.ms'),
 
@@ -250,7 +137,8 @@ export function makePayment(data) {
     };
 
 
-    console.log(orderMoip);
+    const bithFormatted = `${card.birthdayDate.substring(4, 8)}-${card.birthdayDate.substring(2, 4)}-${card.birthdayDate.substring(0, 2)}`;
+
     createOrder(orderMoip).then(function (data) {
         order.idOrderMoip = data.id;
         startEditOrder(user.uid, order);
@@ -302,10 +190,10 @@ export function makePayment(data) {
                     image: order.image,
                     valorUnidade: numeral(order.price).format('0.00'),
                     valorTotal: numeral(order.price * order.days).format('0.00'),
-                    locadorNome: locador.firstName +" "+ locador.lastName,
+                    locadorNome: locador.firstName + " " + locador.lastName,
                     locadorEmail: locador.email,
                     locadorTelefone: '',
-                    locatarioNome: user.firstName + user.lastName,
+                    locatarioNome: user.firstName + " " + user.lastName,
                     locatarioEmail: user.email,
                     locatarioTelefone: ''
                 };
@@ -321,6 +209,130 @@ export function makePayment(data) {
 
 
     });
+
+
+
+}
+
+export function makePayment(data) {
+
+
+    const customer = getInfo(data, data.user_email);
+    const locador = getInfo(data, data.order_email);
+
+    //console.log(customer);
+    //console.log(locador);
+
+    var card = {
+        name: data.card_name,
+        number: data.card_number,
+        birthdayDate: data.card_birthdayDate,
+        document: data.card_document,
+        cvv: data.card_cvv,
+        expirationDate: data.card_expirationDate,
+        saveCard: data.card_saveCard,
+        idMoip: '',
+        hash: ''
+    };
+
+
+    // cryptCard(card).then(function(hash){
+    //     card.hash = hash;
+    // });
+
+
+
+    //var dataEncrypt = data.card_saveCard ? card : '';
+    var dataEncrypt = data.card_saveCard ? Encrypt(JSON.stringify(card)) : '';
+
+    var user = {
+        uid: customer.uid || customer.id,
+        id: customer._id,
+        idMoip: '',
+        idMerchant: customer.idMerchant || '',
+        firstName: data.user_firstName,
+        lastName: data.user_lastName,
+        rg: data.user_rg,
+        cpf: data.user_cpf,
+        telefone: data.user_telefone,
+        email: data.user_email,
+        birthday: data.user_birthday,
+        address: {
+            street: data.user_address_street,
+            city: data.user_address_city,
+            state: data.user_address_state,
+            zip: data.user_address_zip,
+            obs: data.user_address_obs
+        },
+        billingAddress: {
+            street: data.billingAddress_street,
+            city: data.billingAddress_city,
+            state: data.billingAddress_state,
+            zip: data.billingAddress_zip,
+            obs: data.billingAddress_obs
+        },
+        card: dataEncrypt
+
+    };
+
+
+    const customerMoip = customerMoipExist(data.moip, user.email, user.uid);
+
+    const bithFormatted = `${card.birthdayDate.substring(4, 8)}-${card.birthdayDate.substring(2, 4)}-${card.birthdayDate.substring(0, 2)}`;
+    const dataCard = {
+        'method': 'CREDIT_CARD',
+        'creditCard': {
+            'expirationMonth': card.expirationDate.substring(0, 2),
+            'expirationYear': card.expirationDate.substring(2, 4),
+            'number': card.number,
+            'cvc': card.cvv,
+            'holder': {
+                'fullname': card.name,
+                'birthdate': bithFormatted,
+                'taxDocument': {
+                    'type': 'CPF',
+                    'number': card.document
+                }
+            }
+        }
+    };
+
+
+    if (customerMoip && (customerMoip.ownId === user.uid)) {
+        user.idMoip = customerMoip.id
+        addCreditCard(user.idMoip, dataCard).then(function (id) {
+            //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIPID
+            card.idMoip = id;
+            startEditUser(user);
+            startOrder(data, card, user, locador);
+        });
+    }
+    else {
+        const info = {
+            'ownId': user.uid,
+            'fullname': user.firstName + ' ' + user.lastName,
+            'email': user.email,
+            'birthDate': `${user.birthday.substring(4, 8)}-${user.birthday.substring(2, 4)}-${user.birthday.substring(0, 2)}`,
+            'taxDocument': {
+                'type': 'CPF',
+                'number': user.cpf
+            }
+        };
+
+        createCustomer(info).then(function (userMoip) {
+            user.idMoip = userMoip.data.id;
+            addCreditCard(user.idMoip, dataCard).then(function (id) {
+                //ATUALIZA BASE DE DADOS COM TODOS OS DADOS DO CLIENTE, INCLUSIVE MOIPID
+                card.idMoip = id;
+                startEditUser(user);
+                startOrder(data, card, user, locador);
+            });
+        });
+
+
+
+    };
+
 
 
 

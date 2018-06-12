@@ -116,7 +116,7 @@ class ProductPage extends React.Component {
                         <div className="row align-center">
                             <div className="small-12 medium-4 columns">
                                 <div className="img-big-wrap">
-                                    <img src={this.state.image} />
+                                    <img src={this.state.image} width="298px" height="298px"/>
                                 </div>
                                 <div className="column small-12 large-6">
                                     <h2>Rating do produto</h2>

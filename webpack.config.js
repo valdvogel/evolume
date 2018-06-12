@@ -68,7 +68,17 @@ module.exports = (env) => {
                 'process.env.FIREBASE_DATABASE_DOMAIN': JSON.stringify(process.env.FIREBASE_DATABASE_DOMAIN),
                 'process.env.FIREBASE_PROJECTID': JSON.stringify(process.env.FIREBASE_PROJECTID),
                 'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
-                'process.env.FIREBASE_MESSASING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSASING_SENDER_ID)
+                'process.env.FIREBASE_MESSASING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSASING_SENDER_ID),
+                'process.env.AWS_ACCESSKEYID': JSON.stringify(process.env.AWS_ACCESSKEYID),
+                'process.env.AWS_SECRETACCESSKEY': JSON.stringify(process.env.AWS_SECRETACCESSKEY),
+                'process.env.AWS_REGION': JSON.stringify(process.env.AWS_REGION),
+                'process.env.ELK_APP': JSON.stringify(process.env.ELK_APP),
+                'process.env.ELK_CREDENTIALS': JSON.stringify(process.env.ELK_CREDENTIALS),
+                'process.env.ELK_TYPE': JSON.stringify(process.env.ELK_TYPE),
+                'process.env.MOIP_URL_ROOT': JSON.stringify(process.env.MOIP_URL_ROOT),
+                'process.env.MOIP_USERNAME': JSON.stringify(process.env.MOIP_USERNAME),
+                'process.env.MOIP_PASSWORD': JSON.stringify(process.env.MOIP_PASSWORD),
+                'process.env.MOIP_AUTH': JSON.stringify(process.env.MOIP_AUTH)
             })
         ],
         devtool: isProduction ? 'source-map' : 'inline-source-map',

@@ -114,6 +114,10 @@ class CheckOutForm extends React.Component {
         const value = e.target.value;
         this.setState({ user_birthday: value });
     };
+    onTelefoneChange = (e) => {
+        const value = e.target.value;
+        this.setState({ user_telefone: value });
+    };
 
     
     /*ENDERECO COBRANCA*/
@@ -224,6 +228,18 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo CPF!" }));
             return false;
         }
+        else if (!this.state.user_cpf.match(/(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/)) {
+            this.setState(() => ({ error: "Por favor, informar o campo CPF corretamente!" }));
+            return false;
+        }
+        else if (!this.state.user_birthday) {
+            this.setState(() => ({ error: "Por favor, informar o campo Data de Nascimento!" }));
+            return false;
+        }
+        else if (!this.state.user_telefone) {
+            this.setState(() => ({ error: "Por favor, informar o campo Telefone!" }));
+            return false;
+        }
         else if (!this.state.user_address_street) {
             this.setState(() => ({ error: "Por favor, informar o campo logradouro!" }));
             return false;
@@ -239,10 +255,7 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo CEP!" }));
             return false;
         }
-        else if (!this.state.user_birthday) {
-            this.setState(() => ({ error: "Por favor, informar o campo Data de Nascimento!" }));
-            return false;
-        }
+        
         else if (!this.state.billingAddress_street) {
             this.setState(() => ({ error: "Por favor, informar o campo logradouro dos dados de cobrança!" }));
             return false;
@@ -275,6 +288,10 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo Documento do titular!" }));
             return false;
         }
+        else if (!this.state.card_document.match(/(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/)) {
+            this.setState(() => ({ error: "Por favor, informar o campo CPF corretamente!" }));
+            return false;
+        }
         else if (!this.state.card_cvv) {
             this.setState(() => ({ error: "Por favor, informar o campo Cód. Segurança!" }));
             return false;
@@ -285,9 +302,9 @@ class CheckOutForm extends React.Component {
         }
         //console.log('validado');
 
-        //LOCALIZAR DADOS NO BANCO
-        // ATUALIZAR DADOS NO BANCO
-        // REALIZAR INTEGRAÇAO COM MOIP
+        //console.log(this.state);
+
+        
         makePayment(this.state);
         
         
@@ -306,12 +323,10 @@ class CheckOutForm extends React.Component {
 
         const login = JSON.parse(localStorage.getItem('user'));
 
-        
-
         var email = '';
         var firstName = '';
 
-        if ((!typeof login.providerData === "undefined") && (login.providerData[0].providerId)) {
+        if ((typeof login.providerData !== "undefined") && (login.providerData[0].providerId)) {
             email = login.email;
             firstName = login.displayName;
         } else {
@@ -352,29 +367,30 @@ class CheckOutForm extends React.Component {
                     order_days: days,
                     user_id: '',
                     user_firstName: firstName != '' ? firstName : '',
-                    user_lastName: 'ALMEIDA',
-                    user_rg: '348141257',
-                    user_cpf: '33671487844',
+                    user_lastName: '',
+                    user_rg: '',
+                    user_cpf: '',
                     user_email: email != '' ? email : '',
+                    user_telefone: '',
                     user_password: '',
-                    user_birthday: '14111984',
-                    user_address_street: 'RUA IDA,80',
-                    user_address_city: 'SAO PAULO',
-                    user_address_state: 'SP',
-                    user_address_zip: '01541070',
-                    user_address_obs: 'CASA LARANJA',
+                    user_birthday: '',
+                    user_address_street: '',
+                    user_address_city: '',
+                    user_address_state: '',
+                    user_address_zip: '',
+                    user_address_obs: '',
                     billingAddress_street: '',
                     billingAddress_city: '',
                     billingAddress_state: '',
                     billingAddress_zip: '',
                     billingAddress_obs: '',
                     billingAddress_same: false,
-                    card_name: 'JOSE V ALMEIDA JR',
-                    card_number: '4012001037141112',
-                    card_birthdayDate: '14111984',
-                    card_document: '33671487844',
-                    card_cvv: '123',
-                    card_expirationDate: '0522',
+                    card_name: '',
+                    card_number: '',
+                    card_birthdayDate: '',
+                    card_document: '',
+                    card_cvv: '',
+                    card_expirationDate: '',
                     card_saveCard: false,
                     data: fire,
                     moip: moip,
@@ -434,6 +450,16 @@ class CheckOutForm extends React.Component {
                                     <input onChange={this.onCPFChange}
                                         value={this.state.user_cpf} type="text" placeholder="CPF" required="" />
                                 </div>
+                                <div className="w3l-num">
+                                    <label className="head">Data de Nascimento<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onBirthdayChange}
+                                        value={this.state.user_birthday} type="text" placeholder="dia/mês/ano" required="" />
+                                </div>
+                                <div className="w3l-sym">
+                                    <label className="head">Telefone<span className="w3l-star"> * </span></label>
+                                    <input onChange={this.onTelefoneChange}
+                                        value={this.state.user_telefone} type="text" placeholder="Telefone" required="" />
+                                </div>
                                 <div className="w3l-mail">
                                     <label className="head">Endereço Completo<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onLogradouroChange}
@@ -459,11 +485,7 @@ class CheckOutForm extends React.Component {
                                     <input onChange={this.onComplementoChange}
                                         value={this.state.user_address_obs} type="text" placeholder="Complemento" />
                                 </div>
-                                <div className="w3l-mail">
-                                    <label className="head">Data de Nascimento<span className="w3l-star"> * </span></label>
-                                    <input onChange={this.onBirthdayChange}
-                                        value={this.state.user_birthday} type="text" placeholder="dia/mês/ano" required="" />
-                                </div>
+                                
                                 <div className="clear"></div>
                             </div>
                         </div>
@@ -543,7 +565,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-sym">
                                     <label className="head">Documento do titular<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onDocumentCardChange}
-                                        value={this.state.card_document} type="text" placeholder="CPF/CNPJ" required="" />
+                                        value={this.state.card_document} type="text" placeholder="CPF" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Cód. Segurança<span className="w3l-star"> * </span></label>

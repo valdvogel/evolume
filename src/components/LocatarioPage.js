@@ -22,9 +22,9 @@ class LocatarioPage extends React.Component {
         return (
             <div className="container">
                 <ReactiveBase
-                    app="evolumebr"
-                    credentials="xYM80w0w7:bb421d67-1ea4-43de-b213-91c81bc24514"
-                    type="equipment"
+                    app={process.env.ELK_APP}
+                    credentials={process.env.ELK_CREDENTIALS}
+                    type={process.env.ELK_TYPE}
                 >
                     <div className="left-col">
                         <DataSearch
@@ -37,19 +37,6 @@ class LocatarioPage extends React.Component {
                             className="search"
                             highlight={true}
                             defaultSelected= {this.state.search}
-                        />
-                        <DateRange
-                            dataField="date_from"
-                            componentId="DateRangeSensor"
-                            title="Quando :"
-                            numberOfMonths={2}
-                            queryFormat="basic_date"
-                            initialMonth={new Date(moment().format('MM-DD-YYYY'))}
-                            placeholder={{
-                                start: 'Data Inicial',
-                                end: 'Data Final'
-                            }}
-                            
                         />
                         <RangeSlider
                             componentId="PriceSensor"
@@ -93,7 +80,7 @@ class LocatarioPage extends React.Component {
                             ),
                             url: '/produto/'+data._id
                         })}
-                        target
+                        target = "_self"
                         pagination
                         react={{
                             and: ['SearchSensor', 'GuestSensor', 'PriceSensor', 'DateRangeSensor', 'search'],

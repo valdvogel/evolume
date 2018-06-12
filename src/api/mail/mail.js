@@ -2,17 +2,13 @@ import aws from 'aws-sdk';
 import moment from 'moment';
 
 
-aws.config.accessKeyId = "AKIAJD7CZ72RX3BKPJ3Q";
-aws.config.secretAccessKey = "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";
-aws.config.region = "us-west-2";
-
+aws.config.accessKeyId = process.env.AWS_ACCESSKEYID;
+aws.config.secretAccessKey = process.env.AWS_SECRETACCESSKEY;
+aws.config.region = process.env.AWS_REGION;
 
 var fromMail = "jose@evolume.com.br";
 
 var ses = new aws.SES();
-
-
-
 
 var params = '';
 
@@ -20,7 +16,7 @@ export function send(name, to, info, type) {
 
     switch (type) {
         case 'contratoLocador':
-            var ses_mail = "From: 'EVOLUME' <" + fromMail + ">\n";
+            var ses_mail = "From: EVOLUME <" + fromMail + ">\n";
             ses_mail = ses_mail + "To: " + to + "\n";
             ses_mail = ses_mail + "Subject: Reserva de Equipamento\n";
             ses_mail = ses_mail + "MIME-Version: 1.0\n";
@@ -58,15 +54,16 @@ export function send(name, to, info, type) {
             ses_mail = ses_mail + "</tr>";
             ses_mail = ses_mail + "</table> ";
             ses_mail = ses_mail + "<br/>";
+            //ses_mail = ses_mail + "<br/>";
+            // ses_mail = ses_mail + "<table cellspacing='0' cellpadding='0' border='0' width='500'>"
+            // ses_mail = ses_mail + "<tr><td>Dados do locatário</td><td></td></tr>";
+            // ses_mail = ses_mail + "<tr><td>Nome :</td><td align='right'>" + info.locatarioNome + "</td></tr>";
+            // ses_mail = ses_mail + "<tr><td>Email :</td><td align='right'>" + info.locatarioEmail + "</td></tr>";
+            // ses_mail = ses_mail + "<tr><td>Telefone :</td><td align='right'>" + info.locatarioTelefone + "</td></tr>";
+            // ses_mail = ses_mail + "</table>";
             ses_mail = ses_mail + "<br/>";
-            ses_mail = ses_mail + "<table cellspacing='0' cellpadding='0' border='0' width='500'>"
-            ses_mail = ses_mail + "<tr><td>Dados do locatário</td><td></td></tr>";
-            ses_mail = ses_mail + "<tr><td>Nome :</td><td align='right'>" + info.locatarioNome + "</td></tr>";
-            ses_mail = ses_mail + "<tr><td>Email :</td><td align='right'>" + info.locatarioEmail + "</td></tr>";
-            ses_mail = ses_mail + "<tr><td>Telefone :</td><td align='right'>" + info.locatarioTelefone + "</td></tr>";
-            ses_mail = ses_mail + "</table>";
-            ses_mail = ses_mail + "<br/>";
-            ses_mail = ses_mail + "Por favor, entre em contato com o locatário para verificar a melhor hora para busca do equipamento.";
+            //ses_mail = ses_mail + "A equipe eVolume irá entrar em contato com você para passar maiores informações.";
+            ses_mail = ses_mail + "A equipe eVolume irá entrar em contato com você para passar maiores informações.";
             ses_mail = ses_mail + "<br/>";
             ses_mail = ses_mail + "<br/> Atenciosamente,";
             ses_mail = ses_mail + "<br/>";
@@ -82,7 +79,7 @@ export function send(name, to, info, type) {
             };
             break;
         case 'contratoLocatario':
-            var ses_mail = "From: 'EVOLUME' <" + fromMail + ">\n";
+            var ses_mail = "From: EVOLUME <" + fromMail + ">\n";
             ses_mail = ses_mail + "To: " + to + "\n";
             ses_mail = ses_mail + "Subject: Reserva de Equipamento\n";
             ses_mail = ses_mail + "MIME-Version: 1.0\n";
@@ -120,15 +117,16 @@ export function send(name, to, info, type) {
             ses_mail = ses_mail + "</tr>";
             ses_mail = ses_mail + "</table> ";
             ses_mail = ses_mail + "<br/>";
+            // ses_mail = ses_mail + "<br/>";
+            // ses_mail = ses_mail + "<table cellspacing='0' cellpadding='0' border='0' width='500'>"
+            // ses_mail = ses_mail + "<tr><td>Dados do locador</td><td></td></tr>";
+            // ses_mail = ses_mail + "<tr><td>Nome :</td><td align='right'>" + info.locadorNome + "</td></tr>";
+            // ses_mail = ses_mail + "<tr><td>Email :</td><td align='right'>" + info.locadorEmail + "</td></tr>";
+            // ses_mail = ses_mail + "<tr><td>Telefone :</td><td align='right'>" + info.locadorTelefone + "</td></tr>";
+            // ses_mail = ses_mail + "</table> ";
             ses_mail = ses_mail + "<br/>";
-            ses_mail = ses_mail + "<table cellspacing='0' cellpadding='0' border='0' width='500'>"
-            ses_mail = ses_mail + "<tr><td>Dados do locador</td><td></td></tr>";
-            ses_mail = ses_mail + "<tr><td>Nome :</td><td align='right'>" + info.locadorNome + "</td></tr>";
-            ses_mail = ses_mail + "<tr><td>Email :</td><td align='right'>" + info.locadorEmail + "</td></tr>";
-            ses_mail = ses_mail + "<tr><td>Telefone :</td><td align='right'>" + info.locadorTelefone + "</td></tr>";
-            ses_mail = ses_mail + "</table> ";
-            ses_mail = ses_mail + "<br/>";
-            ses_mail = ses_mail + "Por favor, entre em contato com o locador para verificar a melhor hora de buscar o equipamento.";
+            ses_mail = ses_mail + "A equipe eVolume irá entrar em contato com você para passar maiores informações.";
+            //ses_mail = ses_mail + "Por favor, entre em contato com o locador para verificar a melhor hora de buscar o equipamento.";
             ses_mail = ses_mail + "<br/>";
             ses_mail = ses_mail + "<br/> Atenciosamente,";
             ses_mail = ses_mail + "<br/>";
@@ -144,7 +142,7 @@ export function send(name, to, info, type) {
             };
             break;
         case 'cadastro':
-            var ses_mail = "From: 'EVOLUME' <" + fromMail + ">\n";
+            var ses_mail = "From: EVOLUME <" + fromMail + ">\n";
             ses_mail = ses_mail + "To: " + to + "\n";
             ses_mail = ses_mail + "Subject: Confirmação de cadastro eVolume \n";
             ses_mail = ses_mail + "MIME-Version: 1.0\n";
@@ -181,12 +179,13 @@ export function send(name, to, info, type) {
         default:
             console.log('Parametro inválido!')
     }
+    console.log(params);
     ses.sendRawEmail(params, function (err, data) {
         if (err) {
             console.log(err);
         }
         else {
-            //console.log(data);
+           // console.log(data);
         }
     });
 
