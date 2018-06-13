@@ -21,7 +21,6 @@ var header = {
 var instanceOAuth = axios.create(header);
 
 export function createPayment(orderId, data) {
-    console.log(JSON.stringify(data));
     return instanceOAuth.post(`${URL_ROOT}/orders/${orderId}/payments`, data)
         .then(function (response) {
             return response.data

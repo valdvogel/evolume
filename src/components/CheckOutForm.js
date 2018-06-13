@@ -77,12 +77,14 @@ class CheckOutForm extends React.Component {
     };
     onRGChange = (e) => {
         const value = e.target.value;
-        this.setState({ user_rg: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ user_rg: value });
 
     };
     onCPFChange = (e) => {
         const value = e.target.value;
-        this.setState({ user_cpf: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ user_cpf: value });
 
     };
     onLogradouroChange = (e) => {
@@ -102,7 +104,8 @@ class CheckOutForm extends React.Component {
     };
     onCEPChange = (e) => {
         const value = e.target.value;
-        this.setState({ user_address_zip: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ user_address_zip: value });
 
     };
     onComplementoChange = (e) => {
@@ -112,11 +115,13 @@ class CheckOutForm extends React.Component {
     };
     onBirthdayChange = (e) => {
         const value = e.target.value;
-        this.setState({ user_birthday: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ user_birthday: value });
     };
     onTelefoneChange = (e) => {
         const value = e.target.value;
-        this.setState({ user_telefone: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ user_telefone: value });
     };
 
     
@@ -138,7 +143,8 @@ class CheckOutForm extends React.Component {
     };
     onCEPFaturamentoChange = (e) => {
         const value = e.target.value;
-        this.setState({ billingAddress_zip: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ billingAddress_zip: value });
 
     };
     onComplementoFaturamentoChange = (e) => {
@@ -178,27 +184,33 @@ class CheckOutForm extends React.Component {
     };
     onNumberCardChange = (e) => {
         const value = e.target.value;
-        this.setState({ card_number: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ card_number: value });
 
     };
     onBirthdayCardChange = (e) => {
         const value = e.target.value;
-        this.setState({ card_birthdayDate: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ card_birthdayDate: value });
 
     };
     onDocumentCardChange = (e) => {
         const value = e.target.value;
-        this.setState({ card_document: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ card_document: value });
 
     };
     onCVVCardChange = (e) => {
         const value = e.target.value;
+        if (!value || value.match(/^[0-9\b]+$/))
         this.setState({ card_cvv: value });
+
 
     };
     onDateValidationCardChange = (e) => {
         const value = e.target.value;
-        this.setState({ card_expirationDate: value });
+        if (!value || value.match(/^[0-9\b]+$/))
+            this.setState({ card_expirationDate: value });
 
     };
     onSaveCard = (e) => {
@@ -453,7 +465,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">Data de Nascimento<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onBirthdayChange}
-                                        value={this.state.user_birthday} type="text" placeholder="dia/mês/ano" required="" />
+                                        value={this.state.user_birthday} type="text" placeholder="dia mês ano" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Telefone<span className="w3l-star"> * </span></label>
@@ -560,7 +572,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-num">
                                     <label className="head">Data Nascimento<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onBirthdayCardChange}
-                                        value={this.state.card_birthdayDate} type="text" placeholder="dia/mês/ano" required="" />
+                                        value={this.state.card_birthdayDate} type="text" placeholder="dia mês ano" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Documento do titular<span className="w3l-star"> * </span></label>
@@ -575,7 +587,7 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-sym">
                                     <label className="head">Data de validade<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onDateValidationCardChange}
-                                        value={this.state.card_expirationDate} type="text" placeholder="mês/ano" required="" />
+                                        value={this.state.card_expirationDate} type="text" placeholder="mês ano" required="" />
                                 </div>
                                 <div className="clear"></div>
                                 <div className="botaoaceite2" >
