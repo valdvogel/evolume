@@ -7,6 +7,7 @@ import { startAddOrder, startEditOrder } from '../actions/order';
 import { Encrypt, Decrypt } from './Cryptografy';
 import { createCustomer, getAllCustomer, addCreditCard, createOrder, createPayment, cryptCard } from '../api/moip/moip';
 import { send } from '../api/mail/mail';
+import MoipValidator from '../api/moip/validator';
 
 export function getCustomersMoip() {
     const allCustomerMoip = getAllCustomer();
@@ -219,9 +220,6 @@ export function makePayment(data) {
 
     const customer = getInfo(data, data.user_email);
     const locador = getInfo(data, data.order_email);
-
-    //console.log(customer);
-    //console.log(locador);
 
     var card = {
         name: data.card_name,

@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Encrypt } from './Cryptografy';
 import appbaseRef from '../elasticsearch/elasticsearch';
 import {getCustomer, makePayment,getCustomersMoip } from './CheckOutCore';
+import MoipValidator from '../api/moip/validator';
 
 
 
@@ -292,6 +293,10 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo Número Do Cartão De Crédito!" }));
             return false;
         }
+        else if (!MoipValidator.isValidNumber(this.state.card_number)) {
+            this.setState(() => ({ error: "Por favor, informar o campo Número Do Cartão De Crédito com um valor válido!" }));
+            return false;
+        }
         else if (!this.state.card_birthdayDate) {
             this.setState(() => ({ error: "Por favor, informar o campo Data de Nascimento!" }));
             return false;
@@ -308,14 +313,19 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo Cód. Segurança!" }));
             return false;
         }
+        else if (!MoipValidator.isSecurityCodeValid(this.state.card_number,this.state.card_cvv)) {
+            this.setState(() => ({ error: "Por favor, informar o campo Cód. Segurança com um valor válido!" }));
+            return false;
+        }
         else if (!this.state.card_expirationDate) {
             this.setState(() => ({ error: "Por favor, informar o campo Data de Validade!" }));
             return false;
         }
-        //console.log('validado');
-
-        //console.log(this.state);
-
+        else if (!MoipValidator.isExpiryDateValid(this.state.card_expirationDate.substring(0,2),this.state.card_expirationDate.substring(2,4))) {
+            this.setState(() => ({ error: "Por favor, informar o campo  Data de Validade com um valor válido!" }));
+            return false;
+        }
+        
         
         makePayment(this.state);
         
