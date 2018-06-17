@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import { history } from '../routes/AppRouter'
 import database from '../firebase/firebase';
 import { login } from '../actions/auth';
@@ -121,7 +122,7 @@ class LoginForm extends React.Component {
                         <input onChange={this.onPasswordChange} value={this.state.password} type="password" placeholder="Senha" required="" />
                     </div>
                     <div className="w3l-user">
-                        <a href='#'>Esqueci minha senha!</a>
+                        <Link to='/reset'>Esqueci minha senha!</Link>
                     </div>
                     <div className="clear"></div>
                     <div className="btn">

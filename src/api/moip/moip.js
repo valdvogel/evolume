@@ -21,6 +21,7 @@ var header = {
 var instanceOAuth = axios.create(header);
 
 export function createPayment(orderId, data) {
+    console.log('pay ', JSON.stringify(data));
     return instanceOAuth.post(`${URL_ROOT}/orders/${orderId}/payments`, data)
         .then(function (response) {
             return response.data
@@ -31,6 +32,7 @@ export function createPayment(orderId, data) {
         });
 }
 export function createOrder(data) {
+    console.log('order ', JSON.stringify(data));
     return instance.post(`${URL_ROOT}/orders`, data)
         .then(function (response) {
             return response.data
@@ -74,6 +76,7 @@ export function deleteCreditCard(creditcard_id) {
 }
 
 export function addCreditCard(customerId, data) {
+    console.log('cartao ', JSON.stringify(data));
     return instance.post(`${URL_ROOT}/customers/${customerId}/fundinginstruments`, data)
         .then(function (response) {
             return response.data.creditCard.id;

@@ -326,7 +326,7 @@ class CheckOutForm extends React.Component {
             return false;
         }
         
-        
+        console.log(this.state);
         makePayment(this.state);
         
         
@@ -416,7 +416,7 @@ class CheckOutForm extends React.Component {
                     card_saveCard: false,
                     data: fire,
                     moip: moip,
-                    error: ''
+                    error: ''   
                 });
             }
         }).on('error', error => {
@@ -470,17 +470,17 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-sym">
                                     <label className="head">CPF<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCPFChange}
-                                        value={this.state.user_cpf} type="text" placeholder="CPF" required="" />
+                                        value={this.state.user_cpf} type="text" maxLength="11" placeholder="CPF" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Data de Nascimento<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onBirthdayChange}
-                                        value={this.state.user_birthday} type="text" placeholder="dia mês ano" required="" />
+                                        value={this.state.user_birthday} type="text" maxLength="8" placeholder="dia mês ano" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Telefone<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onTelefoneChange}
-                                        value={this.state.user_telefone} type="text" placeholder="Telefone" required="" />
+                                        value={this.state.user_telefone} type="text" maxLength="11" placeholder="Telefone" required="" />
                                 </div>
                                 <div className="w3l-mail">
                                     <label className="head">Endereço Completo<span className="w3l-star"> * </span></label>
@@ -495,12 +495,12 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-sym">
                                     <label className="head">Estado<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onEstadoChange}
-                                        value={this.state.user_address_state} type="text" placeholder="Estado" required="" />
+                                        value={this.state.user_address_state} type="text" maxLength="2" placeholder="Estado" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">CEP<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCEPChange}
-                                        value={this.state.user_address_zip} type="text" placeholder="CEP" required="" />
+                                        value={this.state.user_address_zip} type="text" maxLength="8" placeholder="CEP" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Complemento<span className="w3l-star"> </span></label>
@@ -534,12 +534,12 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-sym">
                                     <label className="head">Estado<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onEstadoFaturamentoChange}
-                                        value={this.state.billingAddress_state} type="text" placeholder="Estado" required="" />
+                                        value={this.state.billingAddress_state} type="text" maxLength="2" placeholder="Estado" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">CEP<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCEPFaturamentoChange}
-                                        value={this.state.billingAddress_zip} type="text" placeholder="CEP" required="" />
+                                        value={this.state.billingAddress_zip} type="text" maxLength="8" placeholder="CEP" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Complemento<span className="w3l-star"> </span></label>
@@ -577,27 +577,27 @@ class CheckOutForm extends React.Component {
                                 <div className="w3l-mail">
                                     <label className="head">Número do cartão de crédito<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onNumberCardChange}
-                                        value={this.state.card_number} type="text" placeholder="0000 0000 0000 0000" required="" />
+                                        value={this.state.card_number} type="text" maxLength="16" placeholder="0000 0000 0000 0000" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Data Nascimento<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onBirthdayCardChange}
-                                        value={this.state.card_birthdayDate} type="text" placeholder="dia mês ano" required="" />
+                                        value={this.state.card_birthdayDate} type="text" maxLength="8" placeholder="dia mês ano" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Documento do titular<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onDocumentCardChange}
-                                        value={this.state.card_document} type="text" placeholder="CPF" required="" />
+                                        value={this.state.card_document} type="text" maxLength="11" placeholder="CPF" required="" />
                                 </div>
                                 <div className="w3l-num">
                                     <label className="head">Cód. Segurança<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onCVVCardChange}
-                                        value={this.state.card_cvv} type="text" placeholder="CVV" required="" />
+                                        value={this.state.card_cvv} type="text" maxLength="3" placeholder="CVV" required="" />
                                 </div>
                                 <div className="w3l-sym">
                                     <label className="head">Data de validade<span className="w3l-star"> * </span></label>
                                     <input onChange={this.onDateValidationCardChange}
-                                        value={this.state.card_expirationDate} type="text" placeholder="mês ano" required="" />
+                                        value={this.state.card_expirationDate} type="text" maxLength="6" placeholder="mês ano" required="" />
                                 </div>
                                 <div className="clear"></div>
                                 <div className="botaoaceite2" >

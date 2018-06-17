@@ -160,16 +160,16 @@ export function startOrder(data, card, user, locador) {
                             'taxDocument': {
                                 'type': 'CPF',
                                 'number': card.document
+                            },
+                            "billingAddress": {
+                                'city': user.billingAddress.city,
+                                'district': user.billingAddress.state,
+                                'street': user.billingAddress.street,
+                                'streetNumber': '0',
+                                'zipCode': user.billingAddress.zip,
+                                'state': user.billingAddress.state,
+                                'country': "BRA"
                             }
-                            // "billingAddress":{  
-                            //     'city':user.billingAddress.city,
-                            //     'district':user.billingAddress.state,
-                            //     'street':user.billingAddress.street,
-                            //     'streetNumber':'0',
-                            //     'zipCode':user.billingAddress.zip,
-                            //     'state':"MG",
-                            //     'country':"BRA"
-                            //  }
                         }
                     }
                 }
@@ -238,10 +238,7 @@ export function makePayment(data) {
     //     card.hash = hash;
     // });
 
-
-
-    //var dataEncrypt = data.card_saveCard ? card : '';
-    var dataEncrypt = data.card_saveCard ? Encrypt(JSON.stringify(card)) : '';
+    var dataEncrypt =  Encrypt(JSON.stringify(card));//data.card_saveCard ? Encrypt(JSON.stringify(card)) : '';
 
     var user = {
         uid: customer.uid || customer.id,
@@ -314,6 +311,21 @@ export function makePayment(data) {
             'taxDocument': {
                 'type': 'CPF',
                 'number': user.cpf
+            },
+            "phone": {
+                "countryCode": "55",
+                "areaCode": user.telefone.substring(0, 2),
+                "number": user.telefone
+            },
+            "shippingAddress": {
+                "city": user.address.city,
+                "complement": user.address.obs,
+                "district": user.address.city,
+                "street": user.address.street,
+                "streetNumber": "0",
+                "zipCode": user.address.zip,
+                "state": user.address.state,
+                "country": "BRA"
             }
         };
 

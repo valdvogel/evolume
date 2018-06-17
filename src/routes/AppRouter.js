@@ -27,6 +27,7 @@ import MainSearch from '../components/MainSearch';
 import ProductPage from '../components/ProductPage';
 import CheckOutPage from '../components/CheckOutPage';
 import UserConfirmPage from '../components/UserConfirmPage';
+import ResetPasswordPage from '../components/ResetPasswordPage';
 
 
 
@@ -42,6 +43,7 @@ const AppRouter = () => (
                 <Route path="/confirmacao" component={UserConfirmPage} />
                 <Route path="/sobrenos" component={AboutUsPage} />
                 <Route path="/login" component={LoginPage} />
+                <Route path="/reset" component={ResetPasswordPage} />
                 <Route path="/autenticado" component={AuthPage} />
                 <Route path="/locatario" component={LocatarioPage} />
                 <Route path="/locatario/equipamento/:id" component={LocatarioPage} />
