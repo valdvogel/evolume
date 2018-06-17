@@ -326,7 +326,7 @@ class CheckOutForm extends React.Component {
             return false;
         }
         
-        console.log(this.state);
+        //console.log(this.state);
         makePayment(this.state);
         
         
