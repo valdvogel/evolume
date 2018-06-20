@@ -1,5 +1,7 @@
 import React from 'react';
-import { history } from '../routes/AppRouter'
+import { Encrypt } from './Cryptografy';
+
+import {send} from '../api/mail/mail';
 
 class ResetPasswordPage extends React.Component {
     constructor(props) {
@@ -27,6 +29,10 @@ class ResetPasswordPage extends React.Component {
             return false;
         };
         this.setState(() => ({ error: "E-mail enviado com sucesso! Por favor, verifique seu e-mail." }));
+
+        const id = Encrypt(this.state.email);
+
+        send('',this.state.email,id,'reset');
 
     };
 

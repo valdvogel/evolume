@@ -98,6 +98,16 @@ export const startEditUser = (updates) => {
         });
 };
 
+export const setNewPassword = (updates,password) => {
+    const uid = updates.uid;
+    const id = updates.id;
+
+    database.ref(`users/${uid}/data/${id}`).update({password: password})
+        .then(() => {
+            return true;
+        });
+};
+
 
 export const setEmailConfirmation = (email) => {
     const data = [];

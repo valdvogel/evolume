@@ -2,9 +2,6 @@
 import React from 'react';
 import { Router, Route, Switch, Link, NavLink } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
-import ExpenseDashBoardPage from '../components/ExpenseDashBoardPage';
-import AddExpenseDashBoardPage from '../components/AddExpenseDashBoardPage';
-import EditExpenseDashBoardPage from '../components/EditExpenseDashBoardPage';
 import HelpPage from '../components/HelpPage';
 import NotFoundPage from '../components/NotFoundPage';
 import LoginPage from '../components/LoginPage';
@@ -28,6 +25,7 @@ import ProductPage from '../components/ProductPage';
 import CheckOutPage from '../components/CheckOutPage';
 import UserConfirmPage from '../components/UserConfirmPage';
 import ResetPasswordPage from '../components/ResetPasswordPage';
+import ResetPasswordConfirmPage from '../components/ResetPasswordConfirmPage';
 
 
 
@@ -44,6 +42,7 @@ const AppRouter = () => (
                 <Route path="/sobrenos" component={AboutUsPage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/reset" component={ResetPasswordPage} />
+                <Route path="/novasenha" component={ResetPasswordConfirmPage} />
                 <Route path="/autenticado" component={AuthPage} />
                 <Route path="/locatario" component={LocatarioPage} />
                 <Route path="/locatario/equipamento/:id" component={LocatarioPage} />

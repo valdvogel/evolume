@@ -154,7 +154,7 @@ class UserForm extends React.Component {
                     <div className="w3l-user">
                         <label className="head">Senha<span className="w3l-star"> * </span></label>
                         <input onChange={this.onPasswordChange}
-                            value={this.state.Email} type="password" placeholder="Senha" required="" />
+                            value={this.state.password} type="password" placeholder="Senha" required="" />
                     </div>
                     <div className="aceite">
                         <div className="botaoaceite" >
