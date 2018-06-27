@@ -1,23 +1,24 @@
-import React, { Component } from 'react';
-import { history } from '../routes/AppRouter'
-import ProcessMain from './ProcessMain';
-import { ReactiveBase, DataSearch, NumberBox, DateRange, RangeSlider, ResultCard } from '@appbaseio/reactivesearch';
-import moment from 'moment';
+import React from 'react';
+import { ReactiveBase, DataSearch, RangeSlider, ResultCard } from '@appbaseio/reactivesearch';
+
 
 
 class LocatarioPage extends React.Component {
-    componentDidMount=()=>{
-        
+    componentDidMount = () => {
+
     };
+    
     constructor(props) {
         super(props);
-        const param = this.props.location.pathname.substring(this.props.location.pathname.lastIndexOf('/')+1);
-        const value = param == 'locatario'? '' : param;
+        
+        const param = this.props.location.pathname.substring(this.props.location.pathname.lastIndexOf('/') + 1);
+        const value = param == 'locatario' ? '' : param;
         this.state = {
             search: value,
             error: ''
         }
     };
+
     render() {
         return (
             <div className="container">
@@ -36,7 +37,7 @@ class LocatarioPage extends React.Component {
                             iconPosition="left"
                             className="search"
                             highlight={true}
-                            defaultSelected= {this.state.search}
+                            defaultSelected={this.state.search}
                         />
                         <RangeSlider
                             componentId="PriceSensor"
@@ -66,7 +67,7 @@ class LocatarioPage extends React.Component {
                         className="right-col"
                         componentId="SearchResult"
                         dataField="category"
-                        onNoResults = "Nenhum resultado encontrado!"
+                        onNoResults="Nenhum resultado encontrado!"
                         size={12}
                         onData={data => ({
                             image: data.image,
@@ -78,9 +79,9 @@ class LocatarioPage extends React.Component {
                                     <p className="info">Estrela : {data.rate} estrelas</p>
                                 </div>
                             ),
-                            url: '/produto/'+data._id
+                            url: '/produto/' + data._id
                         })}
-                        target = "_self"
+                        target="_self"
                         pagination
                         react={{
                             and: ['SearchSensor', 'GuestSensor', 'PriceSensor', 'DateRangeSensor', 'search'],
@@ -93,6 +94,8 @@ class LocatarioPage extends React.Component {
                         }}
                     />
                 </ReactiveBase>
+                
+
             </div>
 
         )

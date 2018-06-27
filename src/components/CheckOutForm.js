@@ -1,12 +1,10 @@
 import React from 'react';
-import { history } from '../routes/AppRouter'
-import database from '../firebase/firebase';
 import numeral from 'numeral';
 import moment from 'moment';
-import { Encrypt } from './Cryptografy';
 import appbaseRef from '../elasticsearch/elasticsearch';
-import {getCustomer, makePayment,getCustomersMoip } from './CheckOutCore';
+import { getCustomer, makePayment, getCustomersMoip } from './CheckOutCore';
 import MoipValidator from '../api/moip/validator';
+import ModalPage from './ModalPage';
 
 
 
@@ -14,6 +12,7 @@ import MoipValidator from '../api/moip/validator';
 class CheckOutForm extends React.Component {
     constructor(props) {
         super(props);
+        this.handleSelectedOption = this.handleSelectedOption.bind(this);
         this.state = {
             order_id: '',
             order_category: '',
@@ -60,7 +59,7 @@ class CheckOutForm extends React.Component {
             card_cvv: '',
             card_expirationDate: '',
             data: [],
-            moip:[],
+            moip: [],
             error: ''
         }
     };
@@ -125,7 +124,7 @@ class CheckOutForm extends React.Component {
             this.setState({ user_telefone: value });
     };
 
-    
+
     /*ENDERECO COBRANCA*/
     onLogradouroFaturamentoChange = (e) => {
         const value = e.target.value;
@@ -204,7 +203,7 @@ class CheckOutForm extends React.Component {
     onCVVCardChange = (e) => {
         const value = e.target.value;
         if (!value || value.match(/^[0-9\b]+$/))
-        this.setState({ card_cvv: value });
+            this.setState({ card_cvv: value });
 
 
     };
@@ -268,7 +267,7 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo CEP!" }));
             return false;
         }
-        
+
         else if (!this.state.billingAddress_street) {
             this.setState(() => ({ error: "Por favor, informar o campo logradouro dos dados de cobrança!" }));
             return false;
@@ -313,7 +312,7 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo Cód. Segurança!" }));
             return false;
         }
-        else if (!MoipValidator.isSecurityCodeValid(this.state.card_number,this.state.card_cvv)) {
+        else if (!MoipValidator.isSecurityCodeValid(this.state.card_number, this.state.card_cvv)) {
             this.setState(() => ({ error: "Por favor, informar o campo Cód. Segurança com um valor válido!" }));
             return false;
         }
@@ -321,17 +320,22 @@ class CheckOutForm extends React.Component {
             this.setState(() => ({ error: "Por favor, informar o campo Data de Validade!" }));
             return false;
         }
-        else if (!MoipValidator.isExpiryDateValid(this.state.card_expirationDate.substring(0,2),this.state.card_expirationDate.substring(2,4))) {
+        else if (!MoipValidator.isExpiryDateValid(this.state.card_expirationDate.substring(0, 2), this.state.card_expirationDate.substring(2, 4))) {
             this.setState(() => ({ error: "Por favor, informar o campo  Data de Validade com um valor válido!" }));
             return false;
         }
-        
+
         //console.log(this.state);
         makePayment(this.state);
-        
-        
 
-    
+
+
+
+    };
+    handleSelectedOption(){
+        this.setState(()=>({
+            error: undefined
+        }) ) 
     };
 
 
@@ -416,14 +420,14 @@ class CheckOutForm extends React.Component {
                     card_saveCard: false,
                     data: fire,
                     moip: moip,
-                    error: ''   
+                    error: ''
                 });
             }
         }).on('error', error => {
             console.log("@get error:", error);
         });
 
-       // console.log(this.state);
+        // console.log(this.state);
 
     };
     render() {
@@ -507,7 +511,7 @@ class CheckOutForm extends React.Component {
                                     <input onChange={this.onComplementoChange}
                                         value={this.state.user_address_obs} type="text" placeholder="Complemento" />
                                 </div>
-                                
+
                                 <div className="clear"></div>
                             </div>
                         </div>
@@ -601,20 +605,21 @@ class CheckOutForm extends React.Component {
                                 </div>
                                 <div className="clear"></div>
                                 <div className="botaoaceite2" >
-                                    <input type="checkbox" id="human1" name="human1"  onChange={this.onSaveCard}
+                                    <input type="checkbox" id="human1" name="human1" onChange={this.onSaveCard}
                                         value={this.state.card_saveCard} />
                                 </div>
                                 <label htmlFor="human">Salvar esse cartão para compras futuras</label>
                                 <div className="clear"></div>
-                                <div>
-                                    {this.state.error && <p>{this.state.error}</p>}
-                                </div>
                                 <div className="btn">
                                     <input type="submit" name="enviar" value="Pagar" />
                                 </div>
                                 <div className="clear"></div>
                             </div>
                         </div>
+                        <ModalPage
+                            selectedOption={this.state.error}
+                            handleSelectedOption={this.handleSelectedOption}
+                        />
                     </div>
                 </form>
             </div>

@@ -1,5 +1,52 @@
 @charset "UTF-8";
 
+/*aboutus*/
+
+
+
+/*Modal*/
+.ReactModalPortal > div{
+    opacity: 0;
+
+}
+
+.ReactModalPortal .ReactModal__Overlay{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    transition: opacity 200ms ease-in-out;
+}
+.ReactModalPortal .ReactModal__Overlay--after-open{
+    
+    opacity: 1;
+}
+.ReactModalPortal .ReactModal__Overlay--before-close{
+    
+    opacity: 0;
+}
+
+.modal{
+    //background: #464b5e;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid #ccc;
+    color: black;
+    max-width: 30rem;
+    outline: none;
+    padding: 3.2rem;
+    text-align: center;
+}
+
+.moda__title{
+    margin: 0 0 3.2rem 0;
+}
+.modal__body{
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 0 0 3.2rem 0;
+    word-break: break-all;
+}
+
+
 
 /*checkout*/
 .headerCheckout {

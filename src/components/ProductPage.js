@@ -7,12 +7,14 @@ import { DateRangePicker } from 'react-dates';
 import numeral from 'numeral';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
+import ModalPage from './ModalPage';
 
 
 
 class ProductPage extends React.Component {
     constructor(props) {
         super(props);
+        this.handleSelectedOption = this.handleSelectedOption.bind(this);
         this.state =
             {
                 category: '',
@@ -37,6 +39,11 @@ class ProductPage extends React.Component {
                 error: ''
             }
     }
+    handleSelectedOption(){
+        this.setState(()=>({
+            error: undefined
+        }) ) 
+    };
     onDatesChange = ({ startDate, endDate }) => {
         this.setState({ startDate, endDate });
         if (startDate != null && endDate != null) {
@@ -162,9 +169,6 @@ class ProductPage extends React.Component {
                                     <div className="buttonRent">
                                         <input type="submit" name="enviar" onClick={this.onCLick} value="Reservar agora" alt="Reservar agora" />
                                     </div>
-                                    <div>
-                                        {this.state.error && <p>{this.state.error}</p>}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -174,6 +178,10 @@ class ProductPage extends React.Component {
                         </div>
                     </div>
                 </div>
+                <ModalPage
+                    selectedOption={this.state.error}
+                    handleSelectedOption={this.handleSelectedOption}
+                />
             </div>
         )
 
